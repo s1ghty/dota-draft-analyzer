@@ -1,0 +1,2048 @@
+{
+  "1": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/antimage.png?",
+    "id": 1,
+    "img": "/apps/dota2/images/dota_react/heroes/antimage.png?",
+    "localized_name": "Anti-Mage",
+    "name": "npc_dota_hero_antimage",
+    "tags": [
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "late-game-scaler",
+      "split-pusher"
+    ]
+  },
+  "10": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/morphling.png?",
+    "id": 10,
+    "img": "/apps/dota2/images/dota_react/heroes/morphling.png?",
+    "localized_name": "Morphling",
+    "name": "npc_dota_hero_morphling",
+    "tags": [
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "late-game-scaler"
+    ]
+  },
+  "100": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/tusk.png?",
+    "id": 100,
+    "img": "/apps/dota2/images/dota_react/heroes/tusk.png?",
+    "localized_name": "Tusk",
+    "name": "npc_dota_hero_tusk",
+    "tags": [
+      "disable-heavy",
+      "lockdown-combo",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "101": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/skywrath_mage.png?",
+    "id": 101,
+    "img": "/apps/dota2/images/dota_react/heroes/skywrath_mage.png?",
+    "localized_name": "Skywrath Mage",
+    "name": "npc_dota_hero_skywrath_mage",
+    "tags": [
+      "magic-burst",
+      "disable-heavy",
+      "silence"
+    ],
+    "threat_profile": [
+      "ganker",
+      "teamfight-nuker"
+    ]
+  },
+  "102": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/abaddon.png?",
+    "id": 102,
+    "img": "/apps/dota2/images/dota_react/heroes/abaddon.png?",
+    "localized_name": "Abaddon",
+    "name": "npc_dota_hero_abaddon",
+    "tags": [
+      "healing-heavy",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "teamfight-nuker"
+    ]
+  },
+  "103": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/elder_titan.png?",
+    "id": 103,
+    "img": "/apps/dota2/images/dota_react/heroes/elder_titan.png?",
+    "localized_name": "Elder Titan",
+    "name": "npc_dota_hero_elder_titan",
+    "tags": [
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "ganker",
+      "teamfight-nuker"
+    ]
+  },
+  "104": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/legion_commander.png?",
+    "id": 104,
+    "img": "/apps/dota2/images/dota_react/heroes/legion_commander.png?",
+    "localized_name": "Legion Commander",
+    "name": "npc_dota_hero_legion_commander",
+    "tags": [
+      "disable-heavy",
+      "physical-burst",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "ganker"
+    ]
+  },
+  "105": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/techies.png?",
+    "id": 105,
+    "img": "/apps/dota2/images/dota_react/heroes/techies.png?",
+    "localized_name": "Techies",
+    "name": "npc_dota_hero_techies",
+    "tags": [
+      "magic-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "split-pusher",
+      "pick-off"
+    ]
+  },
+  "106": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/ember_spirit.png?",
+    "id": 106,
+    "img": "/apps/dota2/images/dota_react/heroes/ember_spirit.png?",
+    "localized_name": "Ember Spirit",
+    "name": "npc_dota_hero_ember_spirit",
+    "tags": [
+      "high-mobility",
+      "physical-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "107": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/earth_spirit.png?",
+    "id": 107,
+    "img": "/apps/dota2/images/dota_react/heroes/earth_spirit.png?",
+    "localized_name": "Earth Spirit",
+    "name": "npc_dota_hero_earth_spirit",
+    "tags": [
+      "disable-heavy",
+      "lockdown-combo",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "108": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/abyssal_underlord.png?",
+    "id": 108,
+    "img": "/apps/dota2/images/dota_react/heroes/abyssal_underlord.png?",
+    "localized_name": "Underlord",
+    "name": "npc_dota_hero_abyssal_underlord",
+    "tags": [
+      "disable-heavy",
+      "summons",
+      "global"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "lane-bully"
+    ]
+  },
+  "109": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/terrorblade.png?",
+    "id": 109,
+    "img": "/apps/dota2/images/dota_react/heroes/terrorblade.png?",
+    "localized_name": "Terrorblade",
+    "name": "npc_dota_hero_terrorblade",
+    "tags": [
+      "illusion-based",
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "late-game-scaler",
+      "split-pusher"
+    ]
+  },
+  "11": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/nevermore.png?",
+    "id": 11,
+    "img": "/apps/dota2/images/dota_react/heroes/nevermore.png?",
+    "localized_name": "Shadow Fiend",
+    "name": "npc_dota_hero_nevermore",
+    "tags": [
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "ganker",
+      "teamfight-nuker"
+    ]
+  },
+  "110": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/phoenix.png?",
+    "id": 110,
+    "img": "/apps/dota2/images/dota_react/heroes/phoenix.png?",
+    "localized_name": "Phoenix",
+    "name": "npc_dota_hero_phoenix",
+    "tags": [
+      "disable-heavy",
+      "channeled-ultimate",
+      "healing-heavy"
+    ],
+    "threat_profile": [
+      "teamfight-nuker"
+    ]
+  },
+  "111": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/oracle.png?",
+    "id": 111,
+    "img": "/apps/dota2/images/dota_react/heroes/oracle.png?",
+    "localized_name": "Oracle",
+    "name": "npc_dota_hero_oracle",
+    "tags": [
+      "healing-heavy",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "lane-bully"
+    ]
+  },
+  "112": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/winter_wyvern.png?",
+    "id": 112,
+    "img": "/apps/dota2/images/dota_react/heroes/winter_wyvern.png?",
+    "localized_name": "Winter Wyvern",
+    "name": "npc_dota_hero_winter_wyvern",
+    "tags": [
+      "disable-heavy",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "pick-off"
+    ]
+  },
+  "113": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/arc_warden.png?",
+    "id": 113,
+    "img": "/apps/dota2/images/dota_react/heroes/arc_warden.png?",
+    "localized_name": "Arc Warden",
+    "name": "npc_dota_hero_arc_warden",
+    "tags": [
+      "illusion-based",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "late-game-scaler",
+      "split-pusher"
+    ]
+  },
+  "114": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/monkey_king.png?",
+    "id": 114,
+    "img": "/apps/dota2/images/dota_react/heroes/monkey_king.png?",
+    "localized_name": "Monkey King",
+    "name": "npc_dota_hero_monkey_king",
+    "tags": [
+      "physical-burst",
+      "high-mobility",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "ganker",
+      "lane-bully"
+    ]
+  },
+  "119": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/dark_willow.png?",
+    "id": 119,
+    "img": "/apps/dota2/images/dota_react/heroes/dark_willow.png?",
+    "localized_name": "Dark Willow",
+    "name": "npc_dota_hero_dark_willow",
+    "tags": [
+      "disable-heavy",
+      "magic-burst",
+      "invisibility"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "ganker"
+    ]
+  },
+  "12": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/phantom_lancer.png?",
+    "id": 12,
+    "img": "/apps/dota2/images/dota_react/heroes/phantom_lancer.png?",
+    "localized_name": "Phantom Lancer",
+    "name": "npc_dota_hero_phantom_lancer",
+    "tags": [
+      "illusion-based",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "split-pusher",
+      "late-game-scaler"
+    ]
+  },
+  "120": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/pangolier.png?",
+    "id": 120,
+    "img": "/apps/dota2/images/dota_react/heroes/pangolier.png?",
+    "localized_name": "Pangolier",
+    "name": "npc_dota_hero_pangolier",
+    "tags": [
+      "disable-heavy",
+      "physical-burst",
+      "high-mobility",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "ganker",
+      "teamfight-nuker"
+    ]
+  },
+  "121": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/grimstroke.png?",
+    "id": 121,
+    "img": "/apps/dota2/images/dota_react/heroes/grimstroke.png?",
+    "localized_name": "Grimstroke",
+    "name": "npc_dota_hero_grimstroke",
+    "tags": [
+      "disable-heavy",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "pick-off"
+    ]
+  },
+  "123": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/hoodwink.png?",
+    "id": 123,
+    "img": "/apps/dota2/images/dota_react/heroes/hoodwink.png?",
+    "localized_name": "Hoodwink",
+    "name": "npc_dota_hero_hoodwink",
+    "tags": [
+      "disable-heavy",
+      "physical-burst",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "126": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/void_spirit.png?",
+    "id": 126,
+    "img": "/apps/dota2/images/dota_react/heroes/void_spirit.png?",
+    "localized_name": "Void Spirit",
+    "name": "npc_dota_hero_void_spirit",
+    "tags": [
+      "high-mobility",
+      "magic-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "128": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/snapfire.png?",
+    "id": 128,
+    "img": "/apps/dota2/images/dota_react/heroes/snapfire.png?",
+    "localized_name": "Snapfire",
+    "name": "npc_dota_hero_snapfire",
+    "tags": [
+      "disable-heavy",
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "129": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/mars.png?",
+    "id": 129,
+    "img": "/apps/dota2/images/dota_react/heroes/mars.png?",
+    "localized_name": "Mars",
+    "name": "npc_dota_hero_mars",
+    "tags": [
+      "disable-heavy",
+      "physical-burst",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "13": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/puck.png?",
+    "id": 13,
+    "img": "/apps/dota2/images/dota_react/heroes/puck.png?",
+    "localized_name": "Puck",
+    "name": "npc_dota_hero_puck",
+    "tags": [
+      "high-mobility",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "131": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/ringmaster.png?",
+    "id": 131,
+    "img": "/apps/dota2/images/dota_react/heroes/ringmaster.png?",
+    "localized_name": "Ring Master",
+    "name": "npc_dota_hero_ringmaster",
+    "tags": [
+      "disable-heavy",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "ganker",
+      "teamfight-nuker"
+    ]
+  },
+  "135": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/dawnbreaker.png?",
+    "id": 135,
+    "img": "/apps/dota2/images/dota_react/heroes/dawnbreaker.png?",
+    "localized_name": "Dawnbreaker",
+    "name": "npc_dota_hero_dawnbreaker",
+    "tags": [
+      "physical-burst",
+      "healing-heavy",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "136": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/marci.png?",
+    "id": 136,
+    "img": "/apps/dota2/images/dota_react/heroes/marci.png?",
+    "localized_name": "Marci",
+    "name": "npc_dota_hero_marci",
+    "tags": [
+      "physical-burst",
+      "disable-heavy",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "137": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/primal_beast.png?",
+    "id": 137,
+    "img": "/apps/dota2/images/dota_react/heroes/primal_beast.png?",
+    "localized_name": "Primal Beast",
+    "name": "npc_dota_hero_primal_beast",
+    "tags": [
+      "disable-heavy",
+      "physical-burst",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "138": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/muerta.png?",
+    "id": 138,
+    "img": "/apps/dota2/images/dota_react/heroes/muerta.png?",
+    "localized_name": "Muerta",
+    "name": "npc_dota_hero_muerta",
+    "tags": [
+      "physical-burst",
+      "magic-burst",
+      "disable-heavy",
+      "silence"
+    ],
+    "threat_profile": [
+      "late-game-scaler",
+      "teamfight-nuker"
+    ]
+  },
+  "14": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/pudge.png?",
+    "id": 14,
+    "img": "/apps/dota2/images/dota_react/heroes/pudge.png?",
+    "localized_name": "Pudge",
+    "name": "npc_dota_hero_pudge",
+    "tags": [
+      "disable-heavy",
+      "physical-burst",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "145": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/kez.png?",
+    "id": 145,
+    "img": "/apps/dota2/images/dota_react/heroes/kez.png?",
+    "localized_name": "Kez",
+    "name": "npc_dota_hero_kez",
+    "tags": [
+      "physical-burst",
+      "high-mobility",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "ganker",
+      "late-game-scaler"
+    ]
+  },
+  "15": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/razor.png?",
+    "id": 15,
+    "img": "/apps/dota2/images/dota_react/heroes/razor.png?",
+    "localized_name": "Razor",
+    "name": "npc_dota_hero_razor",
+    "tags": [
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "155": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/largo.png?",
+    "id": 155,
+    "img": "/apps/dota2/images/dota_react/heroes/largo.png?",
+    "localized_name": "Largo",
+    "name": "npc_dota_hero_largo",
+    "tags": [
+      "disable-heavy",
+      "magic-burst",
+      "healing-heavy"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "16": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/sand_king.png?",
+    "id": 16,
+    "img": "/apps/dota2/images/dota_react/heroes/sand_king.png?",
+    "localized_name": "Sand King",
+    "name": "npc_dota_hero_sand_king",
+    "tags": [
+      "disable-heavy",
+      "magic-burst",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "ganker",
+      "teamfight-nuker"
+    ]
+  },
+  "17": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/storm_spirit.png?",
+    "id": 17,
+    "img": "/apps/dota2/images/dota_react/heroes/storm_spirit.png?",
+    "localized_name": "Storm Spirit",
+    "name": "npc_dota_hero_storm_spirit",
+    "tags": [
+      "high-mobility",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "18": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/sven.png?",
+    "id": 18,
+    "img": "/apps/dota2/images/dota_react/heroes/sven.png?",
+    "localized_name": "Sven",
+    "name": "npc_dota_hero_sven",
+    "tags": [
+      "physical-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "19": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/tiny.png?",
+    "id": 19,
+    "img": "/apps/dota2/images/dota_react/heroes/tiny.png?",
+    "localized_name": "Tiny",
+    "name": "npc_dota_hero_tiny",
+    "tags": [
+      "physical-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "ganker",
+      "teamfight-nuker"
+    ]
+  },
+  "2": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/axe.png?",
+    "id": 2,
+    "img": "/apps/dota2/images/dota_react/heroes/axe.png?",
+    "localized_name": "Axe",
+    "name": "npc_dota_hero_axe",
+    "tags": [
+      "disable-heavy",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "ganker"
+    ]
+  },
+  "20": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/vengefulspirit.png?",
+    "id": 20,
+    "img": "/apps/dota2/images/dota_react/heroes/vengefulspirit.png?",
+    "localized_name": "Vengeful Spirit",
+    "name": "npc_dota_hero_vengefulspirit",
+    "tags": [
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "pick-off"
+    ]
+  },
+  "21": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/windrunner.png?",
+    "id": 21,
+    "img": "/apps/dota2/images/dota_react/heroes/windrunner.png?",
+    "localized_name": "Windranger",
+    "name": "npc_dota_hero_windrunner",
+    "tags": [
+      "disable-heavy",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "ganker",
+      "lane-bully"
+    ]
+  },
+  "22": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/zuus.png?",
+    "id": 22,
+    "img": "/apps/dota2/images/dota_react/heroes/zuus.png?",
+    "localized_name": "Zeus",
+    "name": "npc_dota_hero_zuus",
+    "tags": [
+      "magic-burst",
+      "global"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "ganker"
+    ]
+  },
+  "23": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/kunkka.png?",
+    "id": 23,
+    "img": "/apps/dota2/images/dota_react/heroes/kunkka.png?",
+    "localized_name": "Kunkka",
+    "name": "npc_dota_hero_kunkka",
+    "tags": [
+      "physical-burst",
+      "disable-heavy",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "lane-bully"
+    ]
+  },
+  "25": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/lina.png?",
+    "id": 25,
+    "img": "/apps/dota2/images/dota_react/heroes/lina.png?",
+    "localized_name": "Lina",
+    "name": "npc_dota_hero_lina",
+    "tags": [
+      "magic-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "ganker",
+      "teamfight-nuker"
+    ]
+  },
+  "26": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/lion.png?",
+    "id": 26,
+    "img": "/apps/dota2/images/dota_react/heroes/lion.png?",
+    "localized_name": "Lion",
+    "name": "npc_dota_hero_lion",
+    "tags": [
+      "disable-heavy",
+      "magic-burst",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "ganker"
+    ]
+  },
+  "27": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/shadow_shaman.png?",
+    "id": 27,
+    "img": "/apps/dota2/images/dota_react/heroes/shadow_shaman.png?",
+    "localized_name": "Shadow Shaman",
+    "name": "npc_dota_hero_shadow_shaman",
+    "tags": [
+      "disable-heavy",
+      "summons",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "teamfight-nuker"
+    ]
+  },
+  "28": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/slardar.png?",
+    "id": 28,
+    "img": "/apps/dota2/images/dota_react/heroes/slardar.png?",
+    "localized_name": "Slardar",
+    "name": "npc_dota_hero_slardar",
+    "tags": [
+      "physical-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "ganker"
+    ]
+  },
+  "29": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/tidehunter.png?",
+    "id": 29,
+    "img": "/apps/dota2/images/dota_react/heroes/tidehunter.png?",
+    "localized_name": "Tidehunter",
+    "name": "npc_dota_hero_tidehunter",
+    "tags": [
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "teamfight-nuker"
+    ]
+  },
+  "3": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/bane.png?",
+    "id": 3,
+    "img": "/apps/dota2/images/dota_react/heroes/bane.png?",
+    "localized_name": "Bane",
+    "name": "npc_dota_hero_bane",
+    "tags": [
+      "disable-heavy",
+      "channeled-ultimate",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "teamfight-nuker"
+    ]
+  },
+  "30": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/witch_doctor.png?",
+    "id": 30,
+    "img": "/apps/dota2/images/dota_react/heroes/witch_doctor.png?",
+    "localized_name": "Witch Doctor",
+    "name": "npc_dota_hero_witch_doctor",
+    "tags": [
+      "disable-heavy",
+      "channeled-ultimate",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "pick-off"
+    ]
+  },
+  "31": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/lich.png?",
+    "id": 31,
+    "img": "/apps/dota2/images/dota_react/heroes/lich.png?",
+    "localized_name": "Lich",
+    "name": "npc_dota_hero_lich",
+    "tags": [
+      "magic-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "32": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/riki.png?",
+    "id": 32,
+    "img": "/apps/dota2/images/dota_react/heroes/riki.png?",
+    "localized_name": "Riki",
+    "name": "npc_dota_hero_riki",
+    "tags": [
+      "invisibility",
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "ganker"
+    ]
+  },
+  "33": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/enigma.png?",
+    "id": 33,
+    "img": "/apps/dota2/images/dota_react/heroes/enigma.png?",
+    "localized_name": "Enigma",
+    "name": "npc_dota_hero_enigma",
+    "tags": [
+      "disable-heavy",
+      "channeled-ultimate",
+      "summons",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "ganker"
+    ]
+  },
+  "34": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/tinker.png?",
+    "id": 34,
+    "img": "/apps/dota2/images/dota_react/heroes/tinker.png?",
+    "localized_name": "Tinker",
+    "name": "npc_dota_hero_tinker",
+    "tags": [
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "split-pusher",
+      "pusher"
+    ]
+  },
+  "35": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/sniper.png?",
+    "id": 35,
+    "img": "/apps/dota2/images/dota_react/heroes/sniper.png?",
+    "localized_name": "Sniper",
+    "name": "npc_dota_hero_sniper",
+    "tags": [
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "late-game-scaler"
+    ]
+  },
+  "36": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/necrolyte.png?",
+    "id": 36,
+    "img": "/apps/dota2/images/dota_react/heroes/necrolyte.png?",
+    "localized_name": "Necrophos",
+    "name": "npc_dota_hero_necrolyte",
+    "tags": [
+      "magic-burst",
+      "healing-heavy"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "late-game-scaler"
+    ]
+  },
+  "37": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/warlock.png?",
+    "id": 37,
+    "img": "/apps/dota2/images/dota_react/heroes/warlock.png?",
+    "localized_name": "Warlock",
+    "name": "npc_dota_hero_warlock",
+    "tags": [
+      "summons",
+      "disable-heavy",
+      "channeled-ultimate"
+    ],
+    "threat_profile": [
+      "teamfight-nuker"
+    ]
+  },
+  "38": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/beastmaster.png?",
+    "id": 38,
+    "img": "/apps/dota2/images/dota_react/heroes/beastmaster.png?",
+    "localized_name": "Beastmaster",
+    "name": "npc_dota_hero_beastmaster",
+    "tags": [
+      "disable-heavy",
+      "summons",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "ganker",
+      "lane-bully"
+    ]
+  },
+  "39": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/queenofpain.png?",
+    "id": 39,
+    "img": "/apps/dota2/images/dota_react/heroes/queenofpain.png?",
+    "localized_name": "Queen of Pain",
+    "name": "npc_dota_hero_queenofpain",
+    "tags": [
+      "high-mobility",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "4": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/bloodseeker.png?",
+    "id": 4,
+    "img": "/apps/dota2/images/dota_react/heroes/bloodseeker.png?",
+    "localized_name": "Bloodseeker",
+    "name": "npc_dota_hero_bloodseeker",
+    "tags": [
+      "physical-burst",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "ganker"
+    ]
+  },
+  "40": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/venomancer.png?",
+    "id": 40,
+    "img": "/apps/dota2/images/dota_react/heroes/venomancer.png?",
+    "localized_name": "Venomancer",
+    "name": "npc_dota_hero_venomancer",
+    "tags": [
+      "disable-heavy",
+      "summons"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "41": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/faceless_void.png?",
+    "id": 41,
+    "img": "/apps/dota2/images/dota_react/heroes/faceless_void.png?",
+    "localized_name": "Faceless Void",
+    "name": "npc_dota_hero_faceless_void",
+    "tags": [
+      "disable-heavy",
+      "channeled-ultimate",
+      "physical-burst",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "late-game-scaler",
+      "teamfight-nuker"
+    ]
+  },
+  "42": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/skeleton_king.png?",
+    "id": 42,
+    "img": "/apps/dota2/images/dota_react/heroes/skeleton_king.png?",
+    "localized_name": "Wraith King",
+    "name": "npc_dota_hero_skeleton_king",
+    "tags": [
+      "physical-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "late-game-scaler",
+      "teamfight-nuker"
+    ]
+  },
+  "43": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/death_prophet.png?",
+    "id": 43,
+    "img": "/apps/dota2/images/dota_react/heroes/death_prophet.png?",
+    "localized_name": "Death Prophet",
+    "name": "npc_dota_hero_death_prophet",
+    "tags": [
+      "magic-burst",
+      "summons",
+      "silence"
+    ],
+    "threat_profile": [
+      "split-pusher",
+      "teamfight-nuker"
+    ]
+  },
+  "44": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/phantom_assassin.png?",
+    "id": 44,
+    "img": "/apps/dota2/images/dota_react/heroes/phantom_assassin.png?",
+    "localized_name": "Phantom Assassin",
+    "name": "npc_dota_hero_phantom_assassin",
+    "tags": [
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "late-game-scaler",
+      "pick-off"
+    ]
+  },
+  "45": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/pugna.png?",
+    "id": 45,
+    "img": "/apps/dota2/images/dota_react/heroes/pugna.png?",
+    "localized_name": "Pugna",
+    "name": "npc_dota_hero_pugna",
+    "tags": [
+      "magic-burst",
+      "healing-heavy"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "split-pusher"
+    ]
+  },
+  "46": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/templar_assassin.png?",
+    "id": 46,
+    "img": "/apps/dota2/images/dota_react/heroes/templar_assassin.png?",
+    "localized_name": "Templar Assassin",
+    "name": "npc_dota_hero_templar_assassin",
+    "tags": [
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "late-game-scaler"
+    ]
+  },
+  "47": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/viper.png?",
+    "id": 47,
+    "img": "/apps/dota2/images/dota_react/heroes/viper.png?",
+    "localized_name": "Viper",
+    "name": "npc_dota_hero_viper",
+    "tags": [
+      "physical-burst",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "late-game-scaler"
+    ]
+  },
+  "48": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/luna.png?",
+    "id": 48,
+    "img": "/apps/dota2/images/dota_react/heroes/luna.png?",
+    "localized_name": "Luna",
+    "name": "npc_dota_hero_luna",
+    "tags": [
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "late-game-scaler",
+      "teamfight-nuker"
+    ]
+  },
+  "49": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/dragon_knight.png?",
+    "id": 49,
+    "img": "/apps/dota2/images/dota_react/heroes/dragon_knight.png?",
+    "localized_name": "Dragon Knight",
+    "name": "npc_dota_hero_dragon_knight",
+    "tags": [
+      "physical-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "late-game-scaler"
+    ]
+  },
+  "5": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/crystal_maiden.png?",
+    "id": 5,
+    "img": "/apps/dota2/images/dota_react/heroes/crystal_maiden.png?",
+    "localized_name": "Crystal Maiden",
+    "name": "npc_dota_hero_crystal_maiden",
+    "tags": [
+      "disable-heavy",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "lane-bully"
+    ]
+  },
+  "50": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/dazzle.png?",
+    "id": 50,
+    "img": "/apps/dota2/images/dota_react/heroes/dazzle.png?",
+    "localized_name": "Dazzle",
+    "name": "npc_dota_hero_dazzle",
+    "tags": [
+      "healing-heavy",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "51": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/rattletrap.png?",
+    "id": 51,
+    "img": "/apps/dota2/images/dota_react/heroes/rattletrap.png?",
+    "localized_name": "Clockwerk",
+    "name": "npc_dota_hero_rattletrap",
+    "tags": [
+      "disable-heavy",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "52": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/leshrac.png?",
+    "id": 52,
+    "img": "/apps/dota2/images/dota_react/heroes/leshrac.png?",
+    "localized_name": "Leshrac",
+    "name": "npc_dota_hero_leshrac",
+    "tags": [
+      "magic-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "lane-bully"
+    ]
+  },
+  "53": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/furion.png?",
+    "id": 53,
+    "img": "/apps/dota2/images/dota_react/heroes/furion.png?",
+    "localized_name": "Nature's Prophet",
+    "name": "npc_dota_hero_furion",
+    "tags": [
+      "summons",
+      "global"
+    ],
+    "threat_profile": [
+      "split-pusher",
+      "pusher"
+    ]
+  },
+  "54": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/life_stealer.png?",
+    "id": 54,
+    "img": "/apps/dota2/images/dota_react/heroes/life_stealer.png?",
+    "localized_name": "Lifestealer",
+    "name": "npc_dota_hero_life_stealer",
+    "tags": [
+      "physical-burst",
+      "healing-heavy"
+    ],
+    "threat_profile": [
+      "late-game-scaler"
+    ]
+  },
+  "55": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/dark_seer.png?",
+    "id": 55,
+    "img": "/apps/dota2/images/dota_react/heroes/dark_seer.png?",
+    "localized_name": "Dark Seer",
+    "name": "npc_dota_hero_dark_seer",
+    "tags": [
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "lane-bully"
+    ]
+  },
+  "56": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/clinkz.png?",
+    "id": 56,
+    "img": "/apps/dota2/images/dota_react/heroes/clinkz.png?",
+    "localized_name": "Clinkz",
+    "name": "npc_dota_hero_clinkz",
+    "tags": [
+      "invisibility",
+      "physical-burst",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "split-pusher"
+    ]
+  },
+  "57": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/omniknight.png?",
+    "id": 57,
+    "img": "/apps/dota2/images/dota_react/heroes/omniknight.png?",
+    "localized_name": "Omniknight",
+    "name": "npc_dota_hero_omniknight",
+    "tags": [
+      "healing-heavy",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "teamfight-nuker"
+    ]
+  },
+  "58": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/enchantress.png?",
+    "id": 58,
+    "img": "/apps/dota2/images/dota_react/heroes/enchantress.png?",
+    "localized_name": "Enchantress",
+    "name": "npc_dota_hero_enchantress",
+    "tags": [
+      "healing-heavy",
+      "summons"
+    ],
+    "threat_profile": [
+      "split-pusher",
+      "pusher"
+    ]
+  },
+  "59": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/huskar.png?",
+    "id": 59,
+    "img": "/apps/dota2/images/dota_react/heroes/huskar.png?",
+    "localized_name": "Huskar",
+    "name": "npc_dota_hero_huskar",
+    "tags": [
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "late-game-scaler"
+    ]
+  },
+  "6": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/drow_ranger.png?",
+    "id": 6,
+    "img": "/apps/dota2/images/dota_react/heroes/drow_ranger.png?",
+    "localized_name": "Drow Ranger",
+    "name": "npc_dota_hero_drow_ranger",
+    "tags": [
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "late-game-scaler"
+    ]
+  },
+  "60": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/night_stalker.png?",
+    "id": 60,
+    "img": "/apps/dota2/images/dota_react/heroes/night_stalker.png?",
+    "localized_name": "Night Stalker",
+    "name": "npc_dota_hero_night_stalker",
+    "tags": [
+      "disable-heavy",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "61": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/broodmother.png?",
+    "id": 61,
+    "img": "/apps/dota2/images/dota_react/heroes/broodmother.png?",
+    "localized_name": "Broodmother",
+    "name": "npc_dota_hero_broodmother",
+    "tags": [
+      "summons",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "split-pusher",
+      "ganker"
+    ]
+  },
+  "62": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/bounty_hunter.png?",
+    "id": 62,
+    "img": "/apps/dota2/images/dota_react/heroes/bounty_hunter.png?",
+    "localized_name": "Bounty Hunter",
+    "name": "npc_dota_hero_bounty_hunter",
+    "tags": [
+      "invisibility",
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "ganker"
+    ]
+  },
+  "63": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/weaver.png?",
+    "id": 63,
+    "img": "/apps/dota2/images/dota_react/heroes/weaver.png?",
+    "localized_name": "Weaver",
+    "name": "npc_dota_hero_weaver",
+    "tags": [
+      "high-mobility",
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "late-game-scaler"
+    ]
+  },
+  "64": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/jakiro.png?",
+    "id": 64,
+    "img": "/apps/dota2/images/dota_react/heroes/jakiro.png?",
+    "localized_name": "Jakiro",
+    "name": "npc_dota_hero_jakiro",
+    "tags": [
+      "magic-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "65": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/batrider.png?",
+    "id": 65,
+    "img": "/apps/dota2/images/dota_react/heroes/batrider.png?",
+    "localized_name": "Batrider",
+    "name": "npc_dota_hero_batrider",
+    "tags": [
+      "disable-heavy",
+      "lockdown-combo",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "66": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/chen.png?",
+    "id": 66,
+    "img": "/apps/dota2/images/dota_react/heroes/chen.png?",
+    "localized_name": "Chen",
+    "name": "npc_dota_hero_chen",
+    "tags": [
+      "summons",
+      "healing-heavy"
+    ],
+    "threat_profile": [
+      "ganker"
+    ]
+  },
+  "67": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/spectre.png?",
+    "id": 67,
+    "img": "/apps/dota2/images/dota_react/heroes/spectre.png?",
+    "localized_name": "Spectre",
+    "name": "npc_dota_hero_spectre",
+    "tags": [
+      "illusion-based",
+      "physical-burst",
+      "global"
+    ],
+    "threat_profile": [
+      "late-game-scaler",
+      "teamfight-nuker"
+    ]
+  },
+  "68": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/ancient_apparition.png?",
+    "id": 68,
+    "img": "/apps/dota2/images/dota_react/heroes/ancient_apparition.png?",
+    "localized_name": "Ancient Apparition",
+    "name": "npc_dota_hero_ancient_apparition",
+    "tags": [
+      "magic-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "pick-off"
+    ]
+  },
+  "69": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/doom_bringer.png?",
+    "id": 69,
+    "img": "/apps/dota2/images/dota_react/heroes/doom_bringer.png?",
+    "localized_name": "Doom",
+    "name": "npc_dota_hero_doom_bringer",
+    "tags": [
+      "disable-heavy",
+      "channeled-ultimate",
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "7": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/earthshaker.png?",
+    "id": 7,
+    "img": "/apps/dota2/images/dota_react/heroes/earthshaker.png?",
+    "localized_name": "Earthshaker",
+    "name": "npc_dota_hero_earthshaker",
+    "tags": [
+      "disable-heavy",
+      "magic-burst",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "ganker"
+    ]
+  },
+  "70": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/ursa.png?",
+    "id": 70,
+    "img": "/apps/dota2/images/dota_react/heroes/ursa.png?",
+    "localized_name": "Ursa",
+    "name": "npc_dota_hero_ursa",
+    "tags": [
+      "physical-burst",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "lane-bully"
+    ]
+  },
+  "71": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/spirit_breaker.png?",
+    "id": 71,
+    "img": "/apps/dota2/images/dota_react/heroes/spirit_breaker.png?",
+    "localized_name": "Spirit Breaker",
+    "name": "npc_dota_hero_spirit_breaker",
+    "tags": [
+      "disable-heavy",
+      "high-mobility",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "72": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/gyrocopter.png?",
+    "id": 72,
+    "img": "/apps/dota2/images/dota_react/heroes/gyrocopter.png?",
+    "localized_name": "Gyrocopter",
+    "name": "npc_dota_hero_gyrocopter",
+    "tags": [
+      "physical-burst",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "late-game-scaler"
+    ]
+  },
+  "73": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/alchemist.png?",
+    "id": 73,
+    "img": "/apps/dota2/images/dota_react/heroes/alchemist.png?",
+    "localized_name": "Alchemist",
+    "name": "npc_dota_hero_alchemist",
+    "tags": [
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "late-game-scaler"
+    ]
+  },
+  "74": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/invoker.png?",
+    "id": 74,
+    "img": "/apps/dota2/images/dota_react/heroes/invoker.png?",
+    "localized_name": "Invoker",
+    "name": "npc_dota_hero_invoker",
+    "tags": [
+      "magic-burst",
+      "disable-heavy",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "ganker",
+      "teamfight-nuker"
+    ]
+  },
+  "75": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/silencer.png?",
+    "id": 75,
+    "img": "/apps/dota2/images/dota_react/heroes/silencer.png?",
+    "localized_name": "Silencer",
+    "name": "npc_dota_hero_silencer",
+    "tags": [
+      "silence",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "76": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/obsidian_destroyer.png?",
+    "id": 76,
+    "img": "/apps/dota2/images/dota_react/heroes/obsidian_destroyer.png?",
+    "localized_name": "Outworld Devourer",
+    "name": "npc_dota_hero_obsidian_destroyer",
+    "tags": [
+      "magic-burst",
+      "silence"
+    ],
+    "threat_profile": [
+      "ganker",
+      "late-game-scaler"
+    ]
+  },
+  "77": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/lycan.png?",
+    "id": 77,
+    "img": "/apps/dota2/images/dota_react/heroes/lycan.png?",
+    "localized_name": "Lycan",
+    "name": "npc_dota_hero_lycan",
+    "tags": [
+      "summons",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "split-pusher",
+      "late-game-scaler"
+    ]
+  },
+  "78": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/brewmaster.png?",
+    "id": 78,
+    "img": "/apps/dota2/images/dota_react/heroes/brewmaster.png?",
+    "localized_name": "Brewmaster",
+    "name": "npc_dota_hero_brewmaster",
+    "tags": [
+      "disable-heavy",
+      "channeled-ultimate",
+      "summons"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "ganker"
+    ]
+  },
+  "79": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/shadow_demon.png?",
+    "id": 79,
+    "img": "/apps/dota2/images/dota_react/heroes/shadow_demon.png?",
+    "localized_name": "Shadow Demon",
+    "name": "npc_dota_hero_shadow_demon",
+    "tags": [
+      "disable-heavy",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "teamfight-nuker"
+    ]
+  },
+  "8": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/juggernaut.png?",
+    "id": 8,
+    "img": "/apps/dota2/images/dota_react/heroes/juggernaut.png?",
+    "localized_name": "Juggernaut",
+    "name": "npc_dota_hero_juggernaut",
+    "tags": [
+      "physical-burst",
+      "healing-heavy"
+    ],
+    "threat_profile": [
+      "late-game-scaler",
+      "split-pusher"
+    ]
+  },
+  "80": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/lone_druid.png?",
+    "id": 80,
+    "img": "/apps/dota2/images/dota_react/heroes/lone_druid.png?",
+    "localized_name": "Lone Druid",
+    "name": "npc_dota_hero_lone_druid",
+    "tags": [
+      "summons",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "split-pusher",
+      "late-game-scaler"
+    ]
+  },
+  "81": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/chaos_knight.png?",
+    "id": 81,
+    "img": "/apps/dota2/images/dota_react/heroes/chaos_knight.png?",
+    "localized_name": "Chaos Knight",
+    "name": "npc_dota_hero_chaos_knight",
+    "tags": [
+      "illusion-based",
+      "disable-heavy",
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "late-game-scaler",
+      "teamfight-nuker"
+    ]
+  },
+  "82": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/meepo.png?",
+    "id": 82,
+    "img": "/apps/dota2/images/dota_react/heroes/meepo.png?",
+    "localized_name": "Meepo",
+    "name": "npc_dota_hero_meepo",
+    "tags": [
+      "summons",
+      "physical-burst",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "late-game-scaler",
+      "split-pusher"
+    ]
+  },
+  "83": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/treant.png?",
+    "id": 83,
+    "img": "/apps/dota2/images/dota_react/heroes/treant.png?",
+    "localized_name": "Treant Protector",
+    "name": "npc_dota_hero_treant",
+    "tags": [
+      "healing-heavy",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "lane-bully"
+    ]
+  },
+  "84": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/ogre_magi.png?",
+    "id": 84,
+    "img": "/apps/dota2/images/dota_react/heroes/ogre_magi.png?",
+    "localized_name": "Ogre Magi",
+    "name": "npc_dota_hero_ogre_magi",
+    "tags": [
+      "disable-heavy",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "85": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/undying.png?",
+    "id": 85,
+    "img": "/apps/dota2/images/dota_react/heroes/undying.png?",
+    "localized_name": "Undying",
+    "name": "npc_dota_hero_undying",
+    "tags": [
+      "disable-heavy",
+      "summons"
+    ],
+    "threat_profile": [
+      "lane-bully"
+    ]
+  },
+  "86": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/rubick.png?",
+    "id": 86,
+    "img": "/apps/dota2/images/dota_react/heroes/rubick.png?",
+    "localized_name": "Rubick",
+    "name": "npc_dota_hero_rubick",
+    "tags": [
+      "disable-heavy",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "pick-off"
+    ]
+  },
+  "87": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/disruptor.png?",
+    "id": 87,
+    "img": "/apps/dota2/images/dota_react/heroes/disruptor.png?",
+    "localized_name": "Disruptor",
+    "name": "npc_dota_hero_disruptor",
+    "tags": [
+      "disable-heavy",
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "lane-bully"
+    ]
+  },
+  "88": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/nyx_assassin.png?",
+    "id": 88,
+    "img": "/apps/dota2/images/dota_react/heroes/nyx_assassin.png?",
+    "localized_name": "Nyx Assassin",
+    "name": "npc_dota_hero_nyx_assassin",
+    "tags": [
+      "disable-heavy",
+      "invisibility",
+      "lockdown-combo"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "ganker"
+    ]
+  },
+  "89": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/naga_siren.png?",
+    "id": 89,
+    "img": "/apps/dota2/images/dota_react/heroes/naga_siren.png?",
+    "localized_name": "Naga Siren",
+    "name": "npc_dota_hero_naga_siren",
+    "tags": [
+      "illusion-based",
+      "channeled-ultimate"
+    ],
+    "threat_profile": [
+      "split-pusher",
+      "late-game-scaler"
+    ]
+  },
+  "9": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/mirana.png?",
+    "id": 9,
+    "img": "/apps/dota2/images/dota_react/heroes/mirana.png?",
+    "localized_name": "Mirana",
+    "name": "npc_dota_hero_mirana",
+    "tags": [
+      "physical-burst",
+      "disable-heavy",
+      "invisibility"
+    ],
+    "threat_profile": [
+      "ganker",
+      "pick-off"
+    ]
+  },
+  "90": {
+    "attribute": "int",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/keeper_of_the_light.png?",
+    "id": 90,
+    "img": "/apps/dota2/images/dota_react/heroes/keeper_of_the_light.png?",
+    "localized_name": "Keeper of the Light",
+    "name": "npc_dota_hero_keeper_of_the_light",
+    "tags": [
+      "magic-burst"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "lane-bully"
+    ]
+  },
+  "91": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/wisp.png?",
+    "id": 91,
+    "img": "/apps/dota2/images/dota_react/heroes/wisp.png?",
+    "localized_name": "Io",
+    "name": "npc_dota_hero_wisp",
+    "tags": [
+      "healing-heavy",
+      "high-mobility"
+    ],
+    "threat_profile": [
+      "late-game-scaler"
+    ]
+  },
+  "92": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/visage.png?",
+    "id": 92,
+    "img": "/apps/dota2/images/dota_react/heroes/visage.png?",
+    "localized_name": "Visage",
+    "name": "npc_dota_hero_visage",
+    "tags": [
+      "summons",
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "ganker",
+      "teamfight-nuker"
+    ]
+  },
+  "93": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/slark.png?",
+    "id": 93,
+    "img": "/apps/dota2/images/dota_react/heroes/slark.png?",
+    "localized_name": "Slark",
+    "name": "npc_dota_hero_slark",
+    "tags": [
+      "high-mobility",
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "pick-off",
+      "late-game-scaler"
+    ]
+  },
+  "94": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/medusa.png?",
+    "id": 94,
+    "img": "/apps/dota2/images/dota_react/heroes/medusa.png?",
+    "localized_name": "Medusa",
+    "name": "npc_dota_hero_medusa",
+    "tags": [
+      "physical-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "late-game-scaler",
+      "teamfight-nuker"
+    ]
+  },
+  "95": {
+    "attribute": "agi",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/troll_warlord.png?",
+    "id": 95,
+    "img": "/apps/dota2/images/dota_react/heroes/troll_warlord.png?",
+    "localized_name": "Troll Warlord",
+    "name": "npc_dota_hero_troll_warlord",
+    "tags": [
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "late-game-scaler",
+      "lane-bully"
+    ]
+  },
+  "96": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/centaur.png?",
+    "id": 96,
+    "img": "/apps/dota2/images/dota_react/heroes/centaur.png?",
+    "localized_name": "Centaur Warrunner",
+    "name": "npc_dota_hero_centaur",
+    "tags": [
+      "disable-heavy",
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "97": {
+    "attribute": "all",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/magnataur.png?",
+    "id": 97,
+    "img": "/apps/dota2/images/dota_react/heroes/magnataur.png?",
+    "localized_name": "Magnus",
+    "name": "npc_dota_hero_magnataur",
+    "tags": [
+      "disable-heavy",
+      "lockdown-combo",
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "teamfight-nuker",
+      "ganker"
+    ]
+  },
+  "98": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/shredder.png?",
+    "id": 98,
+    "img": "/apps/dota2/images/dota_react/heroes/shredder.png?",
+    "localized_name": "Timbersaw",
+    "name": "npc_dota_hero_shredder",
+    "tags": [
+      "physical-burst",
+      "disable-heavy"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  },
+  "99": {
+    "attribute": "str",
+    "icon": "/apps/dota2/images/dota_react/heroes/icons/bristleback.png?",
+    "id": 99,
+    "img": "/apps/dota2/images/dota_react/heroes/bristleback.png?",
+    "localized_name": "Bristleback",
+    "name": "npc_dota_hero_bristleback",
+    "tags": [
+      "physical-burst"
+    ],
+    "threat_profile": [
+      "lane-bully",
+      "teamfight-nuker"
+    ]
+  }
+}

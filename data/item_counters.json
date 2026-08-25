@@ -1,0 +1,42 @@
+{
+  "disable-heavy": [
+    {"item": "Black King Bar", "tier": "mid"},
+    {"item": "Lotus Orb", "tier": "mid"},
+    {"item": "Force Staff", "tier": "cheap"},
+    {"item": "Glimmer Cape", "tier": "cheap"}
+  ],
+  "silence": [
+    {"item": "Black King Bar", "tier": "mid"}
+  ],
+  "illusion-based": [
+    {"item": "Manta Style", "tier": "mid"}
+  ],
+  "physical-burst": [
+    {"item": "Aeon Disk", "tier": "luxury"},
+    {"item": "Ghost Scepter", "tier": "cheap"},
+    {"item": "Armor items (Vanguard/Solar Crest)", "tier": "cheap"}
+  ],
+  "magic-burst": [
+    {"item": "Black King Bar", "tier": "mid"},
+    {"item": "Aeon Disk", "tier": "luxury"},
+    {"item": "Pipe of Insight", "tier": "mid"}
+  ],
+  "invisibility": [
+    {"item": "Sentry Wards", "tier": "cheap"},
+    {"item": "Gem of True Sight", "tier": "cheap"},
+    {"item": "Dust of Appearance", "tier": "cheap"}
+  ],
+  "summons": [
+    {"item": "AoE/splash damage items", "tier": "mid"}
+  ],
+  "healing-heavy": [
+    {"item": "Nullifier", "tier": "mid"}
+  ],
+  "channeled-ultimate": [
+    {"item": "Silver Edge", "tier": "mid"},
+    {"item": "Nullifier", "tier": "mid"}
+  ],
+  "global": [
+    {"item": "Aeon Disk", "tier": "luxury"}
+  ]
+}

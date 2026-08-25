@@ -1,0 +1,25 @@
+{
+  "final_score": {
+    "counter_score": 0.35,
+    "synergy_score": 0.25,
+    "role_fit": 0.20,
+    "hero_baseline": 0.10,
+    "countered_by_enemy_penalty": 0.10
+  },
+  "base_threat": {
+    "hero_baseline": 0.4,
+    "synergy_with_their_team": 0.3,
+    "countered_by_your_team": 0.2,
+    "pick_order_priority": 0.1
+  },
+  "role_relevance_table": {
+    "ganker":           {"1": 0.8, "2": 1.0, "3": 0.9, "4": 1.2, "5": 1.2},
+    "lane-bully":       {"1": 1.0, "2": 1.2, "3": 1.0, "4": 0.7, "5": 0.7},
+    "split-pusher":     {"1": 1.3, "2": 0.8, "3": 0.9, "4": 0.9, "5": 1.1},
+    "teamfight-nuker":  {"1": 1.0, "2": 1.0, "3": 1.0, "4": 1.1, "5": 1.1},
+    "late-game-scaler": {"1": 1.3, "2": 0.9, "3": 0.8, "4": 0.8, "5": 0.9},
+    "pick-off":         {"1": 0.8, "2": 0.9, "3": 0.9, "4": 1.2, "5": 1.3},
+    "pusher":           {"1": 1.0, "2": 1.0, "3": 1.0, "4": 1.0, "5": 1.0}
+  },
+  "role_fit_pickrate_floor": 0.01
+}

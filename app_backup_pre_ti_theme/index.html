@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Dota Draft Analyzer</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="top-bar">
+    <div id="role-selector" role="radiogroup" aria-label="Your role">
+      <span class="label">Role:</span>
+      <button class="role-btn" data-role="1">1</button>
+      <button class="role-btn" data-role="2">2</button>
+      <button class="role-btn" data-role="3">3</button>
+      <button class="role-btn" data-role="4">4</button>
+      <button class="role-btn" data-role="5">5</button>
+    </div>
+    <div id="add-mode" role="radiogroup" aria-label="Clicking a hero adds to">
+      <span class="label">Add to:</span>
+      <button class="mode-btn" data-mode="yours">Your Team</button>
+      <button class="mode-btn" data-mode="enemy">Enemy Team</button>
+      <button class="mode-btn" data-mode="banned">Ban</button>
+    </div>
+    <input id="search" type="search" placeholder="Search heroes..." autocomplete="off" />
+  </header>
+
+  <main id="layout">
+    <section id="hero-grid" aria-label="Hero grid"></section>
+
+    <aside id="side-panel">
+      <div class="team-box" id="yours-box">
+        <h2>Your Team <span id="yours-count" class="count"></span></h2>
+        <div class="chip-row" id="yours-chips"></div>
+      </div>
+      <div class="team-box" id="enemy-box">
+        <h2>Enemy Team <span id="enemy-count" class="count"></span></h2>
+        <div class="chip-row" id="enemy-chips"></div>
+      </div>
+      <div class="team-box" id="banned-box">
+        <h2>Banned</h2>
+        <div class="chip-row" id="banned-chips"></div>
+      </div>
+    </aside>
+
+    <aside id="results-panel">
+      <div id="build-section">
+        <h2>Suggested Build</h2>
+        <div id="build-content" class="empty">Add your own hero to Your Team to see its build.</div>
+      </div>
+      <div id="threat-section">
+        <h2>Biggest Threat</h2>
+        <div id="threat-content" class="empty">Add enemy heroes to see threats.</div>
+      </div>
+      <div id="candidates-section">
+        <h2>Ranked Candidates</h2>
+        <ol id="candidates-list" class="empty">Pick your role and add heroes to see suggestions.</ol>
+      </div>
+    </aside>
+  </main>
+
+  <script src="scoring.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
