@@ -124,7 +124,14 @@ ITEMS_PER_PHASE = 5
 
 
 def build_item_builds(hero_ids, items_by_id, delay=0.6):
+    # Same reasoning as build_matchup_matrix: start from the existing file so
+    # a timed-out hero keeps its last-known build instead of its row being
+    # deleted outright when save() overwrites the file.
+    existing_path = os.path.join(DATA_DIR, "item_builds.json")
     builds = {}
+    if os.path.exists(existing_path):
+        with open(existing_path) as f:
+            builds = json.load(f)
     total = len(hero_ids)
     failed = []
     for i, hid in enumerate(hero_ids, 1):
@@ -132,7 +139,7 @@ def build_item_builds(hero_ids, items_by_id, delay=0.6):
             data = fetch_json(f"{OPENDOTA}/heroes/{hid}/itemPopularity")
         except (urllib.error.URLError, TimeoutError, OSError) as e:
             failed.append(hid)
-            print(f"\n  hero {hid} FAILED ({e}), skipping")
+            print(f"\n  hero {hid} FAILED ({e}), keeping its existing build, skipping")
             continue
         phases = {}
         for phase in ITEM_BUILD_PHASES:
@@ -144,7 +151,7 @@ def build_item_builds(hero_ids, items_by_id, delay=0.6):
         time.sleep(delay)
     print()
     if failed:
-        print(f"  {len(failed)} heroes failed and were skipped: {failed} -- re-run to fill them in")
+        print(f"  {len(failed)} heroes failed and kept their existing data: {failed} -- re-run to refresh them")
     return builds
 
 
@@ -162,21 +169,40 @@ SHRINKAGE_K = 30
 
 
 def build_matchup_matrix(hero_ids, delay=0.6):
+    # Start from whatever's already on disk so a hero that times out today
+    # keeps its last-known row instead of vanishing outright -- otherwise a
+    # partial run (OpenDota having a bad day, see CLAUDE.md) permanently
+    # deletes that hero's matchup data the moment save() writes this dict,
+    # rather than actually "filling in" on the next re-run like the skip
+    # message below promises. Found 2026-08-26: a run that timed out on 45/127
+    # heroes silently dropped their rows from data/matchup_matrix.json entirely.
+    existing_path = os.path.join(DATA_DIR, "matchup_matrix.json")
     matrix = {}
+    if os.path.exists(existing_path):
+        with open(existing_path) as f:
+            matrix = json.load(f)
     total = len(hero_ids)
+    failed = []
     for i, hid in enumerate(hero_ids, 1):
-        data = fetch_json(f"{OPENDOTA}/heroes/{hid}/matchups")
+        try:
+            data = fetch_json(f"{OPENDOTA}/heroes/{hid}/matchups")
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            failed.append(hid)
+            print(f"\n  hero {hid} FAILED ({e}), keeping its existing row, skipping")
+            continue
         row = {}
         for entry in data:
             games = entry.get("games_played", 0)
             if games > 0:
                 raw_delta = entry["wins"] / games - 0.5
                 shrunk = raw_delta * games / (games + SHRINKAGE_K)
-                row[str(entry["hero_id"])] = round(shrunk, 4)
+                row[str(entry["hero_id"])] = {"delta": round(shrunk, 4), "games": games}
         matrix[str(hid)] = row
         print(f"  matchups {i}/{total} (hero {hid})", end="\r")
         time.sleep(delay)
     print()
+    if failed:
+        print(f"  {len(failed)} heroes failed and kept their existing data: {failed} -- re-run to refresh them")
     return matrix
 
 

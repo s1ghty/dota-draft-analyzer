@@ -64,13 +64,14 @@
       "Boots of Speed",
       "Tranquil Boots",
       "Chainmail",
+      "Phase Boots",
       "Bracer"
     ],
     "late_game_items": [
       "Black King Bar",
       "Eul's Scepter of Divinity",
-      "Aghanim's Scepter",
       "Force Staff",
+      "Aghanim's Scepter",
       "Vladmir's Offering"
     ],
     "mid_game_items": [
@@ -250,8 +251,8 @@
       "Aghanim's Scepter",
       "Shiva's Guard",
       "Black King Bar",
-      "Ultimate Orb",
-      "Sange"
+      "Sange",
+      "Soul Booster"
     ],
     "mid_game_items": [
       "Spirit Vessel",
@@ -311,7 +312,7 @@
       "Shiva's Guard",
       "Soul Booster",
       "Octarine Core",
-      "Mystic Staff"
+      "Lotus Orb"
     ],
     "mid_game_items": [
       "Staff of Wizardry",
@@ -589,8 +590,8 @@
     ],
     "start_game_items": [
       "Iron Branch",
-      "Quelling Blade",
       "Tango",
+      "Quelling Blade",
       "Magic Stick",
       "Circlet"
     ]
@@ -667,7 +668,7 @@
       "Mystic Staff",
       "Force Staff",
       "Eul's Scepter of Divinity",
-      "Scythe of Vyse"
+      "Glimmer Cape"
     ],
     "mid_game_items": [
       "Essence Distiller",
@@ -679,8 +680,8 @@
     "start_game_items": [
       "Iron Branch",
       "Tango",
-      "Observer and Sentry Wards",
       "Blood Grenade",
+      "Observer and Sentry Wards",
       "Faerie Fire"
     ]
   },
@@ -783,9 +784,9 @@
       "Blitz Knuckles"
     ],
     "late_game_items": [
-      "Octarine Core",
       "Parasma",
       "Mystic Staff",
+      "Octarine Core",
       "Soul Booster",
       "Aeon Disk"
     ],
@@ -1051,8 +1052,8 @@
       "Bracer"
     ],
     "late_game_items": [
-      "Black King Bar",
       "Aghanim's Scepter",
+      "Black King Bar",
       "Lotus Orb",
       "Shiva's Guard",
       "Ultimate Orb"
@@ -1175,12 +1176,12 @@
       "Black King Bar",
       "Harpoon",
       "Crystalys",
-      "Silver Edge"
+      "Daedalus"
     ],
     "mid_game_items": [
       "Echo Sabre",
-      "Ogre Axe",
       "Claymore",
+      "Ogre Axe",
       "Blitz Knuckles",
       "Shadow Blade"
     ],
@@ -1211,8 +1212,8 @@
       "Blink Dagger",
       "Ogre Axe",
       "Blade Mail",
-      "Broadsword",
-      "Mithril Hammer"
+      "Mithril Hammer",
+      "Broadsword"
     ],
     "start_game_items": [
       "Gauntlets of Strength",
@@ -1353,7 +1354,7 @@
     "late_game_items": [
       "Demon Edge",
       "Black King Bar",
-      "Reaver",
+      "Yasha and Kaya",
       "Satanic",
       "Yasha"
     ],
@@ -1501,24 +1502,24 @@
       "Tranquil Boots"
     ],
     "late_game_items": [
-      "Blink Dagger",
       "Aghanim's Scepter",
+      "Blink Dagger",
       "Aether Lens",
       "Force Staff",
       "Glimmer Cape"
     ],
     "mid_game_items": [
       "Aether Lens",
-      "Point Booster",
       "Staff of Wizardry",
+      "Point Booster",
       "Ogre Axe",
       "Arcane Boots"
     ],
     "start_game_items": [
       "Iron Branch",
       "Observer and Sentry Wards",
-      "Blood Grenade",
       "Tango",
+      "Blood Grenade",
       "Faerie Fire"
     ]
   },
@@ -2313,8 +2314,8 @@
     ],
     "mid_game_items": [
       "Sacred Relic",
-      "Radiance",
       "Talisman of Evasion",
+      "Radiance",
       "Armlet of Mordiggian",
       "Blade of Alacrity"
     ],
@@ -2525,8 +2526,8 @@
       "Blink Dagger",
       "Ogre Axe",
       "Mithril Hammer",
-      "Echo Sabre",
-      "Aghanim's Shard"
+      "Aghanim's Shard",
+      "Echo Sabre"
     ],
     "start_game_items": [
       "Gauntlets of Strength",
@@ -2578,8 +2579,8 @@
       "Mystic Staff",
       "Force Staff",
       "Scythe of Vyse",
-      "Lotus Orb",
-      "Pipe of Insight"
+      "Eul's Scepter of Divinity",
+      "Lotus Orb"
     ],
     "mid_game_items": [
       "Staff of Wizardry",
@@ -2795,8 +2796,8 @@
       "Ogre Axe",
       "Blink Dagger",
       "Mithril Hammer",
-      "Sacred Relic",
-      "Black King Bar"
+      "Black King Bar",
+      "Sacred Relic"
     ],
     "start_game_items": [
       "Iron Branch",
@@ -3327,22 +3328,22 @@
       "Blink Dagger",
       "Solar Crest",
       "Vladmir's Offering",
-      "Lotus Orb",
-      "Black King Bar"
+      "Black King Bar",
+      "Lotus Orb"
     ],
     "mid_game_items": [
       "Aghanim's Shard",
       "Arcane Boots",
       "Blink Dagger",
-      "Phase Boots",
-      "Pavise"
+      "Pavise",
+      "Phase Boots"
     ],
     "start_game_items": [
       "Iron Branch",
       "Enchanted Mango",
       "Blood Grenade",
-      "Observer and Sentry Wards",
-      "Smoke of Deceit"
+      "Smoke of Deceit",
+      "Observer and Sentry Wards"
     ]
   },
   "86": {
@@ -3482,8 +3483,8 @@
     "mid_game_items": [
       "Staff of Wizardry",
       "Essence Distiller",
-      "Arcane Boots",
       "Eul's Scepter of Divinity",
+      "Arcane Boots",
       "Point Booster"
     ],
     "start_game_items": [
@@ -3685,8 +3686,8 @@
     "late_game_items": [
       "Black King Bar",
       "Aghanim's Scepter",
-      "Shiva's Guard",
       "Reaver",
+      "Shiva's Guard",
       "Heart of Tarrasque"
     ],
     "mid_game_items": [
