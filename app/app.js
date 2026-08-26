@@ -16,6 +16,7 @@ const DATA_FILES = {
   weights: "../data/weights.json",
   aliases: "../data/aliases.json",
   itemBuilds: "../data/item_builds.json",
+  heroCounters: "../data/hero_specific_counters.json",
 };
 
 const BUILD_PHASES = [
@@ -232,6 +233,24 @@ function itemsForThreat(heroId, role) {
   return Scoring.suggestItems(heroId, role, data.heroes, data.itemCounters).slice(0, 5);
 }
 
+// Curated, paraphrased hero-vs-hero wiki notes (data/hero_specific_counters.json)
+// -- supplementary context only, never fed into scoring.js's math. A matchup
+// may be filed under either hero's own list (whichever wiki page covered it),
+// so check both before giving up.
+function findMatchupNote(a, b) {
+  const fromA = (data.heroCounters[a] || []).find((e) => e.vs === b);
+  if (fromA) return fromA;
+  const fromB = (data.heroCounters[b] || []).find((e) => e.vs === a);
+  if (fromB) return fromB;
+  return null;
+}
+
+function matchupNoteHtml(note, opponentId) {
+  if (!note) return "";
+  const itemsSuffix = note.items && note.items.length ? ` (${note.items.join(", ")})` : "";
+  return `<div class="matchup-note"><span class="matchup-note-label">vs ${heroName(opponentId)}:</span> ${note.note}${itemsSuffix}</div>`;
+}
+
 // shared item-pill renderer: icon when items.json has a matching entry,
 // text-only pill otherwise (item_counters.json sometimes names a category
 // like "Armor items (Vanguard/Solar Crest)" rather than a real item).
@@ -262,6 +281,17 @@ function renderThreats(threat) {
       ? items.map((i) => itemPillHtml(i.item, i.tier)).join("")
       : `<span class="empty">no item rules for this hero's tags</span>`;
 
+    // curated note: how this threat matches up against a hero already on
+    // Your Team, if any such wiki-sourced pair exists (first match wins).
+    let noteHtml = "";
+    for (const allyId of state.yourTeam) {
+      const note = findMatchupNote(id, allyId);
+      if (note) {
+        noteHtml = matchupNoteHtml(note, allyId);
+        break;
+      }
+    }
+
     const div = document.createElement("div");
     div.className = "threat-hero";
     div.innerHTML = `
@@ -270,6 +300,7 @@ function renderThreats(threat) {
         <div class="name">${heroName(id)} <span class="threat-pct">(${Math.round(threat.normalized[id] * 100)}% of enemy threat)</span></div>
         <div class="why">${whyText(threat.breakdowns[id])}</div>
         <div class="threat-items">${itemsHtml}</div>
+        ${noteHtml}
       </div>`;
     el.appendChild(div);
   }
@@ -312,7 +343,7 @@ function renderBuild() {
   }
 }
 
-function renderCandidates(candidates) {
+function renderCandidates(candidates, threat) {
   const list = document.getElementById("candidates-list");
   if (state.yourTeam.length === 0 && state.enemyTeam.length === 0) {
     list.className = "empty";
@@ -336,6 +367,12 @@ function renderCandidates(candidates) {
   const minScore = shown.length ? shown[shown.length - 1].finalScore : 0;
   const range = maxScore - minScore;
 
+  // enemy heroes ordered biggest-threat-first, so the note shown next to a
+  // candidate (if any exist) is against the enemy that matters most.
+  const enemiesByThreat = [...state.enemyTeam].sort(
+    (a, b) => (threat.normalized[b] || 0) - (threat.normalized[a] || 0)
+  );
+
   shown.forEach((c, i) => {
     const parts = [];
     if (c.bestCounter && c.bestCounter.value > 0) {
@@ -345,6 +382,17 @@ function renderCandidates(candidates) {
       parts.push(`strong synergy with your ${heroName(c.bestSynergy.heroId)}`);
     }
     const reason = parts.join(", ") || "solid all-round pick for this role";
+
+    // curated note: how this candidate matches up against the biggest
+    // matching enemy threat, if any such wiki-sourced pair exists.
+    let noteHtml = "";
+    for (const enemyId of enemiesByThreat) {
+      const note = findMatchupNote(c.heroId, enemyId);
+      if (note) {
+        noteHtml = matchupNoteHtml(note, enemyId);
+        break;
+      }
+    }
 
     // min bar width 12% so even the last-place shown candidate reads as a bar, not a sliver
     const barPct = range > 0 ? 12 + ((c.finalScore - minScore) / range) * 88 : 100;
@@ -364,6 +412,7 @@ function renderCandidates(candidates) {
         <div class="name">${heroName(c.heroId)}</div>
         <div class="reason">${reason}</div>
         <div class="score-bar"><div class="score-bar-fill" style="width:${barPct}%"></div></div>
+        ${noteHtml}
       </div>`;
     list.appendChild(li);
   });
@@ -380,7 +429,7 @@ function renderAll() {
 
   const { candidates, threat } = Scoring.rankCandidates(ctxForScoring(), data);
   renderThreats(threat);
-  renderCandidates(candidates);
+  renderCandidates(candidates, threat);
 }
 
 function wireControls() {
