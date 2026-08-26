@@ -109,6 +109,20 @@ body {
 #search::placeholder { color: var(--text-dimmer); }
 #search:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
 
+#reset-btn {
+  background: var(--surface-2);
+  color: var(--red);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  cursor: pointer;
+  font-size: 0.88em;
+  font-weight: 600;
+  transition: background 0.15s, border-color 0.15s, transform 0.08s;
+}
+#reset-btn:hover { background: rgba(239,84,100,0.15); border-color: var(--red); }
+#reset-btn:active { transform: scale(0.95); }
+
 /* ---- app shell body: a flex row, each pane manages its own scroll.
    flex (not grid) + min-height:0 on every level is the reliable way to get
    an internally-scrolling column in a fixed-height shell across browsers. ---- */

@@ -145,6 +145,15 @@ function selectMyHero(id) {
   renderAll();
 }
 
+function resetTeams() {
+  state.yourTeam = [];
+  state.enemyTeam = [];
+  state.banned = [];
+  state.pickOrder = [];
+  state.myHeroId = null;
+  renderAll();
+}
+
 // ---- rendering ----
 
 function renderTopBar() {
@@ -169,9 +178,16 @@ function renderGrid() {
     el.className = "hero-icon";
     const status = heroStatus(id);
     if (status) el.classList.add("status-" + status);
+    // every non-matching hero dims during a search, picked or not. A picked
+    // hero that *does* match stays at its plain status brightness rather
+    // than also getting the "matched" glow -- it's already spoken for, so
+    // it doesn't need the extra highlight that free heroes get.
     if (term) {
-      if (heroSearchText(id).includes(term)) el.classList.add("matched");
-      else el.classList.add("dimmed");
+      if (heroSearchText(id).includes(term)) {
+        if (!status) el.classList.add("matched");
+      } else {
+        el.classList.add("dimmed");
+      }
     }
     const badge = { yours: "Y", enemy: "E", banned: "B" }[status];
     el.innerHTML = `
@@ -445,6 +461,7 @@ function wireControls() {
       renderTopBar();
     });
   });
+  document.getElementById("reset-btn").addEventListener("click", resetTeams);
   const searchBox = document.getElementById("search");
 
   // Dota client hero-picker behavior: keystrokes within SEARCH_IDLE_MS of
