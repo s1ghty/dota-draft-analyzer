@@ -178,13 +178,16 @@ function renderGrid() {
     el.className = "hero-icon";
     const status = heroStatus(id);
     if (status) el.classList.add("status-" + status);
-    // every non-matching hero dims during a search, picked or not. A picked
-    // hero that *does* match stays at its plain status brightness rather
-    // than also getting the "matched" glow -- it's already spoken for, so
-    // it doesn't need the extra highlight that free heroes get.
+    // a picked hero always dims during a search, whether or not it matches --
+    // you can't add it again either way, so a search alias match (e.g. Lion's
+    // old "Demon Witch" nickname matching a search for "witch") shouldn't
+    // make it stand out. Only still-pickable heroes get the matched/dimmed
+    // split based on the search term.
     if (term) {
-      if (heroSearchText(id).includes(term)) {
-        if (!status) el.classList.add("matched");
+      if (status) {
+        el.classList.add("dimmed");
+      } else if (heroSearchText(id).includes(term)) {
+        el.classList.add("matched");
       } else {
         el.classList.add("dimmed");
       }
