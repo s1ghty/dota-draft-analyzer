@@ -102,6 +102,16 @@ assert.deepStrictEqual(
 );
 assert.strictEqual(pos1Items.length, 3, "duplicate item across tags should be deduped, not listed twice");
 
+// --- matchup_matrix.json cells can be a bare shrunk-delta number (old
+// pipeline output, still committed) or {delta, games} (new) -- getMatchup
+// must read the delta out of either shape, getMatchupGames only knows the
+// sample size for the new shape.
+const mixedMatrix = { A: { B: 0.12, C: { delta: 0.08, games: 40 } } };
+assert.strictEqual(Scoring.getMatchup(mixedMatrix, "A", "B"), 0.12, "getMatchup should read old bare-number shape");
+assert.strictEqual(Scoring.getMatchup(mixedMatrix, "A", "C"), 0.08, "getMatchup should read new {delta,games} shape");
+assert.strictEqual(Scoring.getMatchupGames(mixedMatrix, "A", "B"), null, "old bare-number shape has no known sample size");
+assert.strictEqual(Scoring.getMatchupGames(mixedMatrix, "A", "C"), 40, "getMatchupGames should read games from new shape");
+
 // --- §3.5 normalization: components must be on a comparable scale before
 // weighting, so a big counter_score edge isn't swamped by a role_fit value
 // that natively swings much closer to +-1 than a shrunk matchup delta does.

@@ -4,7 +4,17 @@
 
 function getMatchup(matchupMatrix, a, b) {
   const row = matchupMatrix[a];
-  return row && row[b] !== undefined ? row[b] : 0;
+  const cell = row && row[b] !== undefined ? row[b] : 0;
+  // matchup_matrix.json entries are either a bare shrunk-delta number (old
+  // pipeline output, still committed) or {delta, games} (new -- games kept
+  // for judging sample-size confidence, not used in scoring math itself).
+  return typeof cell === "object" ? cell.delta : cell;
+}
+
+function getMatchupGames(matchupMatrix, a, b) {
+  const row = matchupMatrix[a];
+  const cell = row && row[b] !== undefined ? row[b] : 0;
+  return typeof cell === "object" ? cell.games : null; // null = old-format data, sample size unknown
 }
 
 function getSynergy(synergyMatrix, a, b) {
@@ -224,7 +234,10 @@ function scoreCandidate(candidateId, ctx, threatWeights, data) {
   // with your Ogre Magi", spec §5) -- the single best contributor of each kind.
   const bestCounter = ctx.enemyTeamIds.reduce((best, e) => {
     const v = getMatchup(data.matchupMatrix, candidateId, e);
-    return !best || v > best.value ? { heroId: e, value: v } : best;
+    if (!best || v > best.value) {
+      return { heroId: e, value: v, games: getMatchupGames(data.matchupMatrix, candidateId, e) };
+    }
+    return best;
   }, null);
   const bestSynergy = ctx.yourTeamIds.reduce((best, t) => {
     const v = getSynergy(data.synergyMatrix, candidateId, t);
@@ -301,6 +314,7 @@ function suggestItems(heroId, role, heroes, itemCounters) {
 
 const api = {
   getMatchup,
+  getMatchupGames,
   getSynergy,
   hasKitCounter,
   counterScore,

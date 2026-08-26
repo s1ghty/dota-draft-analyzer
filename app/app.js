@@ -252,12 +252,45 @@ function itemsForThreat(heroId, role) {
 // Curated, paraphrased hero-vs-hero wiki notes (data/hero_specific_counters.json)
 // -- supplementary context only, never fed into scoring.js's math. A matchup
 // may be filed under either hero's own list (whichever wiki page covered it),
-// so check both before giving up.
+// so check both before giving up. Every entry has a "direction" relative to
+// whichever hero_id it's filed under ("countered_by" = vs counters hero_id,
+// "counters_enemy" = hero_id counters vs) -- see pipeline/tag_hero_counters.py.
+
+// Any note about the (a, b) matchup, either direction -- fine for general
+// context (e.g. "here's what the wiki says about this pairing"), but NEVER
+// use this for candidate suggestions: it doesn't tell you which way the
+// advantage runs, and showing a "countered_by" note next to a pick makes it
+// read as false support for that pick (this was a real bug, fixed
+// 2026-08-26). Use findCounterNote() for that instead.
 function findMatchupNote(a, b) {
   const fromA = (data.heroCounters[a] || []).find((e) => e.vs === b);
   if (fromA) return fromA;
   const fromB = (data.heroCounters[b] || []).find((e) => e.vs === a);
   if (fromB) return fromB;
+  return null;
+}
+
+// A note that specifically supports "candidate counters enemy" -- either
+// filed under candidate's own list as counters_enemy vs enemy, or filed
+// under enemy's own list as countered_by vs candidate (enemy's page saying
+// "candidate counters me" is the same claim from the other side). A
+// countered_by note under candidate's own list (enemy counters candidate)
+// is deliberately never returned here, even though findMatchupNote() would
+// happily surface it -- that's the whole point of this function existing.
+// Same underlying relationship as scoring.js's hasKitCounter() (which also
+// nudges counter_score for exactly this pair, see weights.json's
+// kit_counter_bonus) -- kept as two functions since this one needs the note
+// object for display and that one only needs a boolean, but if the
+// direction logic ever changes, update both.
+function findCounterNote(candidateId, enemyId) {
+  const ownEntry = (data.heroCounters[candidateId] || []).find(
+    (e) => e.vs === enemyId && e.direction === "counters_enemy"
+  );
+  if (ownEntry) return ownEntry;
+  const enemyEntry = (data.heroCounters[enemyId] || []).find(
+    (e) => e.vs === candidateId && e.direction === "countered_by"
+  );
+  if (enemyEntry) return enemyEntry;
   return null;
 }
 
@@ -393,18 +426,21 @@ function renderCandidates(candidates, threat) {
   shown.forEach((c, i) => {
     const parts = [];
     if (c.bestCounter && c.bestCounter.value > 0) {
-      parts.push(`${c.bestCounter.value >= 0 ? "+" : ""}${Math.round(c.bestCounter.value * 100)}% vs their ${heroName(c.bestCounter.heroId)}`);
+      const sampleSuffix = c.bestCounter.games !== null && c.bestCounter.games !== undefined ? ` (n=${c.bestCounter.games})` : "";
+      parts.push(`${c.bestCounter.value >= 0 ? "+" : ""}${Math.round(c.bestCounter.value * 100)}% vs their ${heroName(c.bestCounter.heroId)}${sampleSuffix}`);
     }
     if (c.bestSynergy && c.bestSynergy.value > 0.5) {
       parts.push(`strong synergy with your ${heroName(c.bestSynergy.heroId)}`);
     }
     const reason = parts.join(", ") || "solid all-round pick for this role";
 
-    // curated note: how this candidate matches up against the biggest
-    // matching enemy threat, if any such wiki-sourced pair exists.
+    // curated note: how this candidate counters the biggest matching enemy
+    // threat, if any such wiki-sourced pair exists. Direction-aware -- only
+    // ever shows a note that supports picking this candidate, never one
+    // that says the enemy counters them (see findCounterNote()).
     let noteHtml = "";
     for (const enemyId of enemiesByThreat) {
-      const note = findMatchupNote(c.heroId, enemyId);
+      const note = findCounterNote(c.heroId, enemyId);
       if (note) {
         noteHtml = matchupNoteHtml(note, enemyId);
         break;
