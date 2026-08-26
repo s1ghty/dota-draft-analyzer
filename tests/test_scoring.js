@@ -102,4 +102,24 @@ assert.deepStrictEqual(
 );
 assert.strictEqual(pos1Items.length, 3, "duplicate item across tags should be deduped, not listed twice");
 
+// --- §3.5 normalization: components must be on a comparable scale before
+// weighting, so a big counter_score edge isn't swamped by a role_fit value
+// that natively swings much closer to +-1 than a shrunk matchup delta does.
+// This is the exact Sniper-vs-Puck-at-pos-2-vs-Invoker case that surfaced
+// the bug: Puck has the much stronger matchup into the same enemy but a
+// far weaker role_fit -- after normalization, its counter edge should win.
+assert.strictEqual(Scoring.normalizeFromNeutral(0.25, 0), 0.5, "delta 0.25 from neutral 0 should map to 0.5 on the -1..1 scale");
+assert.strictEqual(Scoring.normalizeFromNeutral(0.75, 0.5), 0.5, "winrate 0.75 vs neutral 0.5 should map to 0.5 on the -1..1 scale");
+assert.strictEqual(Scoring.normalizeFromNeutral(10, 0), 1, "normalization must clamp, not just scale");
+
+const sniperCounterHeavy = Scoring.finalScore(
+  { counterScore: 0.035, synergyScore: 0.5, roleFit: 0.1935, heroBaseline: 0.5034, counteredByEnemy: -0.035 },
+  weights
+);
+const puckCounterHeavy = Scoring.finalScore(
+  { counterScore: 0.0867, synergyScore: 0.5, roleFit: 0.025, heroBaseline: 0.4614, counteredByEnemy: -0.0867 },
+  weights
+);
+assert.ok(puckCounterHeavy > sniperCounterHeavy, "a much stronger counter into the same enemy should win once role_fit is normalized onto a comparable scale");
+
 console.log("all scoring tests passed");

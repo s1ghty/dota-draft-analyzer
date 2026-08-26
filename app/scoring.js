@@ -12,11 +12,39 @@ function getSynergy(synergyMatrix, a, b) {
   return row && row[b] !== undefined ? row[b] : 0.5; // neutral: no data = coinflip
 }
 
-// §3.1
-function counterScore(candidateId, enemyIds, matchupMatrix, threatWeights) {
+// Does a curated, wiki-sourced counters_enemy relationship exist for
+// candidate vs enemy, in either direction it could be filed under
+// (hero_specific_counters.json's third data layer)? Mirrors app.js's
+// findCounterNote() but as a boolean, since counterScore() only needs to
+// know whether to apply the bonus, not the note text.
+function hasKitCounter(heroCounters, candidateId, enemyId) {
+  if (!heroCounters) return false;
+  const ownEntry = (heroCounters[candidateId] || []).some(
+    (e) => e.vs === enemyId && e.direction === "counters_enemy"
+  );
+  if (ownEntry) return true;
+  return (heroCounters[enemyId] || []).some(
+    (e) => e.vs === candidateId && e.direction === "countered_by"
+  );
+}
+
+// §3.1. heroCounters/kitCounterBonus are optional: when given, a known kit
+// counter the raw matchup stats haven't caught up to yet (thin/noisy
+// sample) gets a modest per-enemy nudge on top of the real delta -- not an
+// override, since it's added before the threat-weighting and the final
+// -1..1 normalization, so it can't swing further than a single strong real
+// matchup would. See weights.json's kit_counter_bonus for the magnitude,
+// and CLAUDE.md/this session's Anti-Mage vs Morphling case for why this
+// exists: a real, curated counter interaction the stats currently disagree
+// with (added 2026-08-26).
+function counterScore(candidateId, enemyIds, matchupMatrix, threatWeights, heroCounters, kitCounterBonus) {
   let score = 0;
   for (const e of enemyIds) {
-    score += getMatchup(matchupMatrix, candidateId, e) * (threatWeights[e] || 0);
+    let delta = getMatchup(matchupMatrix, candidateId, e);
+    if (kitCounterBonus && hasKitCounter(heroCounters, candidateId, e)) {
+      delta += kitCounterBonus;
+    }
+    score += delta * (threatWeights[e] || 0);
   }
   return score;
 }
@@ -126,16 +154,34 @@ function roleFit(candidateId, role, roleStatsMap, pickrateFloor, maxPickrateAtRo
   return 0.7 * winrateComponent + 0.3 * pickrateComponent;
 }
 
-// §3.5. counteredByEnemy: how hard the enemy team already counters this
-// candidate (positive = enemy favored against candidate, i.e. bad for us).
+// Every §3.5 component is centered at a neutral value and expressed as "how
+// far from neutral" before it reaches here: counter_score/counteredByEnemy
+// are already win-rate deltas (neutral 0), synergy_score/hero_baseline are
+// raw win rates (neutral 0.5). Map all of them onto the same -1..1 scale
+// with the same *2-from-neutral transform roleFit already uses for its own
+// winrate term, so a 0.35 weight and a 0.20 weight are comparing like
+// quantities instead of a fractional win-rate delta against a term that
+// natively swings close to +-1 -- role_fit was swamping the matchup signal
+// before this normalization (found 2026-08-26: Sniper's much higher
+// unnormalized role_fit outranked Puck despite a much weaker counter into
+// the same enemy).
+function normalizeFromNeutral(value, neutral) {
+  return Math.max(-1, Math.min(1, (value - neutral) * 2));
+}
+
 function finalScore(parts, weights) {
   const w = weights.final_score;
+  const counterNorm = normalizeFromNeutral(parts.counterScore, 0);
+  const synergyNorm = normalizeFromNeutral(parts.synergyScore, 0.5);
+  const roleFitNorm = Math.max(-1, Math.min(1, parts.roleFit)); // already -1..1-shaped
+  const baselineNorm = normalizeFromNeutral(parts.heroBaseline, 0.5);
+  const counteredByNorm = normalizeFromNeutral(parts.counteredByEnemy, 0);
   return (
-    w.counter_score * parts.counterScore +
-    w.synergy_score * parts.synergyScore +
-    w.role_fit * parts.roleFit +
-    w.hero_baseline * parts.heroBaseline +
-    -w.countered_by_enemy_penalty * parts.counteredByEnemy
+    w.counter_score * counterNorm +
+    w.synergy_score * synergyNorm +
+    w.role_fit * roleFitNorm +
+    w.hero_baseline * baselineNorm +
+    -w.countered_by_enemy_penalty * counteredByNorm
   );
 }
 
@@ -151,7 +197,14 @@ function scoreCandidate(candidateId, ctx, threatWeights, data) {
   );
   if (roleFitVal === null) return null; // excluded, not just penalized (§3.4)
 
-  const counterScoreVal = counterScore(candidateId, ctx.enemyTeamIds, data.matchupMatrix, threatWeights);
+  const counterScoreVal = counterScore(
+    candidateId,
+    ctx.enemyTeamIds,
+    data.matchupMatrix,
+    threatWeights,
+    data.heroCounters,
+    data.weights.kit_counter_bonus
+  );
   const synergyScoreVal = synergyScore(candidateId, ctx.yourTeamIds, data.synergyMatrix);
   const heroBaselineVal = data.heroBaseline[candidateId] !== undefined ? data.heroBaseline[candidateId] : 0.5;
   const counteredByEnemyVal = avgMatchupAgainst(data.matchupMatrix, ctx.enemyTeamIds, candidateId);
@@ -249,6 +302,7 @@ function suggestItems(heroId, role, heroes, itemCounters) {
 const api = {
   getMatchup,
   getSynergy,
+  hasKitCounter,
   counterScore,
   synergyScore,
   avgMatchupAgainst,
@@ -258,6 +312,7 @@ const api = {
   roleRelevance,
   computeThreatWeights,
   roleFit,
+  normalizeFromNeutral,
   finalScore,
   scoreCandidate,
   rankCandidates,
