@@ -23,7 +23,98 @@
     </div>
     <input id="search" type="search" placeholder="Search heroes..." autocomplete="off" />
     <button id="reset-btn" title="Clear Your Team, Enemy Team, and Bans">Reset</button>
+    <button id="help-btn" title="Help" aria-haspopup="dialog" aria-controls="help-overlay">?</button>
   </header>
+
+  <div id="help-overlay" class="hidden">
+    <div id="help-panel" role="dialog" aria-modal="true" aria-labelledby="help-title">
+      <div class="help-header">
+        <h2 id="help-title">How this works</h2>
+        <button id="help-close" aria-label="Close help">&times;</button>
+      </div>
+      <div class="help-body">
+
+        <section>
+          <h3>Role (1&ndash;5)</h3>
+          <ul>
+            <li>Sets which position you're drafting for.</li>
+            <li>Changes recommendations two ways: which enemy heroes count as the biggest threat (a support-killing ganker matters more at pos 4/5, a lane bully matters more at pos 1/2/3), and which candidates even show up (a hero almost never played at your role is excluded, not just ranked low).</li>
+            <li>Change it any time &mdash; everything re-scores instantly.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Your Team / Enemy Team / Ban</h3>
+          <ul>
+            <li><b>Add to</b> picks which list a click adds to. Click a mode, then click heroes in the grid.</li>
+            <li><b>Your Team</b> / <b>Enemy Team</b>: up to 5 each.</li>
+            <li><b>Ban</b>: removes a hero from consideration entirely (no side) &mdash; for picks that are gone, not just disliked.</li>
+            <li><b>Reset</b> clears all three at once.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Search</h3>
+          <ul>
+            <li>Type in the search box, or just start typing anywhere (like the in-game hero picker) &mdash; no need to click into the box first.</li>
+            <li>Matches nicknames and aliases too, not just the full hero name.</li>
+            <li>Already-picked/banned heroes always dim while searching, even if they match, since you can't add them again.</li>
+            <li><kbd>Esc</kbd> clears the search.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Ranked Candidates</h3>
+          <ul>
+            <li>The bar length is <b>relative to this list only</b> &mdash; not a win-rate or a percentage. It combines: counter matchup vs. enemies, synergy with your team, role fit at your chosen role, and baseline strength, minus how hard the enemy already counters the pick.</li>
+            <li>The one-line reason under each name calls out its biggest single contributor (e.g. a strong matchup or synergy).</li>
+          </ul>
+          <ul class="help-example help-example-list">
+            <li class="candidate">
+              <span class="rank">#1</span>
+              <img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/puck.png" alt="" />
+              <div class="info">
+                <div class="name">Puck</div>
+                <div class="reason">+9% vs their Invoker, solid all-round pick for this role</div>
+                <div class="score-bar"><div class="score-bar-fill" style="width:80%"></div></div>
+                <div class="matchup-note"><span class="matchup-note-label">vs Invoker:</span> Illusory Orb and Waning Rift win the lane outright, and Phase Shift dodges his combos in a fight.</div>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Items to buy (Biggest Threat panel)</h3>
+          <ul>
+            <li>These items are for <b>you to buy</b>, to deal with that enemy threat &mdash; never what the enemy is buying.</li>
+          </ul>
+          <div class="help-example">
+            <div class="threat-hero">
+              <img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/invoker.png" alt="" />
+              <div class="threat-hero-info">
+                <div class="name">Invoker <span class="threat-pct">(74% of enemy threat)</span></div>
+                <div class="threat-items-label">Items to buy against this threat:</div>
+                <div class="threat-items">
+                  <span class="item-pill item-pill-text">Black King Bar</span>
+                  <span class="item-pill item-pill-text">Pipe of Insight</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="help-note">(The separate <b>Suggested Build</b> panel is different &mdash; that's the full item build for your own picked hero, not a counter list.)</p>
+        </section>
+
+        <section>
+          <h3>Counter note text</h3>
+          <ul>
+            <li>The short quoted line under a candidate or threat (like the Puck/Invoker example above) is a curated, wiki-sourced note about that specific hero-vs-hero matchup &mdash; extra context, not part of the score.</li>
+            <li>Under a <b>candidate</b>, it only ever explains why that candidate counters the enemy &mdash; never the reverse.</li>
+          </ul>
+        </section>
+
+      </div>
+    </div>
+  </div>
 
   <main id="layout">
     <section id="hero-grid" aria-label="Hero grid"></section>

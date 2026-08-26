@@ -123,6 +123,77 @@ body {
 #reset-btn:hover { background: rgba(239,84,100,0.15); border-color: var(--red); }
 #reset-btn:active { transform: scale(0.95); }
 
+#help-btn {
+  background: var(--surface-2);
+  color: var(--accent);
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  width: 34px; height: 34px;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s, transform 0.08s;
+}
+#help-btn:hover { background: rgba(108,142,255,0.15); border-color: var(--accent); }
+#help-btn:active { transform: scale(0.95); }
+
+/* ---- Help panel: dismissible overlay, explains the app to a first-time
+   user mid-draft (SPEC.md-adjacent, not part of the scoring/data model). ---- */
+#help-overlay {
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(5,5,8,0.6); backdrop-filter: blur(2px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+#help-overlay.hidden { display: none; }
+
+#help-panel {
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  width: min(640px, 100%);
+  max-height: min(85vh, 780px);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.help-header {
+  flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--border);
+}
+.help-header h2 { margin: 0; font-size: 1.05em; }
+#help-close {
+  background: none; border: none; color: var(--text-dim); font-size: 1.4em;
+  line-height: 1; cursor: pointer; padding: 0 4px;
+}
+#help-close:hover { color: var(--text); }
+
+.help-body { flex: 1 1 auto; overflow-y: auto; padding: 16px 20px 22px; }
+.help-body section { margin-bottom: 18px; }
+.help-body section:last-child { margin-bottom: 0; }
+.help-body h3 {
+  margin: 0 0 8px; font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--accent); font-weight: 700;
+}
+.help-body ul { margin: 0; padding-left: 20px; }
+.help-body li { margin-bottom: 5px; font-size: 0.88em; color: var(--text); line-height: 1.4; }
+.help-body li:last-child { margin-bottom: 0; }
+.help-note { font-size: 0.82em; color: var(--text-dim); margin: 8px 0 0; }
+kbd {
+  background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: 4px;
+  padding: 1px 6px; font-size: 0.9em; font-family: inherit;
+}
+
+/* live examples inside Help, reusing the real UI's own classes/markup so
+   they always match the actual look instead of drifting like a screenshot would */
+.help-example {
+  margin-top: 10px; padding: 12px; background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+}
+.help-example-list { list-style: none; padding: 0; }
+.help-example .candidate:hover { background: none; }
+
 /* ---- app shell body: a flex row, each pane manages its own scroll.
    flex (not grid) + min-height:0 on every level is the reliable way to get
    an internally-scrolling column in a fixed-height shell across browsers. ---- */
@@ -279,7 +350,8 @@ body {
 .threat-hero .why { font-size: 0.82em; color: var(--text-dim); margin-top: 2px; }
 .threat-hero .name { font-weight: 700; font-size: 0.98em; }
 .threat-pct { color: var(--text-dim); font-weight: 400; font-size: 0.85em; }
-.threat-items { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.threat-items-label { font-size: 0.72em; color: var(--text-dimmer); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 8px; }
+.threat-items { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
 
 .item-pill {
   display: inline-flex; align-items: center; gap: 4px;

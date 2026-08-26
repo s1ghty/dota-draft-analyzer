@@ -315,6 +315,7 @@ function renderThreats(threat) {
       <div class="threat-hero-info">
         <div class="name">${heroName(id)} <span class="threat-pct">(${Math.round(threat.normalized[id] * 100)}% of enemy threat)</span></div>
         <div class="why">${whyText(threat.breakdowns[id])}</div>
+        <div class="threat-items-label">Items to buy against this threat:</div>
         <div class="threat-items">${itemsHtml}</div>
         ${noteHtml}
       </div>`;
@@ -448,7 +449,23 @@ function renderAll() {
   renderCandidates(candidates, threat);
 }
 
+function isHelpOpen() {
+  return !document.getElementById("help-overlay").classList.contains("hidden");
+}
+function openHelp() {
+  document.getElementById("help-overlay").classList.remove("hidden");
+}
+function closeHelp() {
+  document.getElementById("help-overlay").classList.add("hidden");
+}
+
 function wireControls() {
+  document.getElementById("help-btn").addEventListener("click", openHelp);
+  document.getElementById("help-close").addEventListener("click", closeHelp);
+  document.getElementById("help-overlay").addEventListener("click", (e) => {
+    if (e.target.id === "help-overlay") closeHelp(); // click on the backdrop, not the panel itself
+  });
+
   document.querySelectorAll(".role-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       state.role = btn.dataset.role;
@@ -497,6 +514,10 @@ function wireControls() {
   // client's hero picker) -- only when focus isn't already in a text field,
   // so it doesn't fight with normal typing there.
   document.addEventListener("keydown", (e) => {
+    if (isHelpOpen()) {
+      if (e.key === "Escape") closeHelp();
+      return; // don't let type-to-search steal keystrokes while Help is open
+    }
     const active = document.activeElement;
     if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.isContentEditable)) return;
     if (e.ctrlKey || e.metaKey || e.altKey) return;
