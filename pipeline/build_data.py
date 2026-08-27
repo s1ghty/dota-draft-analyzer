@@ -11,8 +11,10 @@ Usage:
 STRATZ needs a free-tier API key: https://stratz.com/api -> set STRATZ_API_KEY.
 """
 import argparse
+import datetime as dt
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
@@ -104,13 +106,92 @@ def build_items():
 
 # ---- hero_baseline.json (OpenDota /heroStats) ----
 
+# A hero_baseline that's stale right after a patch flips the meta is the
+# actual motivating problem here -- but OpenDota's /heroStats fields aren't
+# "overall win rate" like their names suggest: per OpenDota's own source
+# (svc/api/spec.ts), every {bracket}_pick/{bracket}_win value (including the
+# 1-8 skill-bracket fields this function used to sum) is already a rolling
+# *7-day* sum from daily Redis counters, not an all-time total. Confirmed
+# empirically too: data/hero_baseline.json's values shift slightly between
+# pipeline runs on different days -- an all-time average over millions of
+# historical games couldn't move that fast.
+#
+# So the 7-day window already IS "since roughly last week," which covers
+# "since this patch" fine once a patch is more than ~7 days old. The one gap
+# is the first few days after a fresh patch, when that rolling window still
+# has some pre-patch days mixed in. OpenDota's pub_pick_trend/pub_win_trend
+# expose the same 7-day window as daily buckets (oldest-to-newest, verified
+# live), which lets us split it precisely: buckets from on/after the patch
+# release date are the "since-patch" pool, the remaining (pre-patch) buckets
+# are the fallback pool, blended by the same shrinkage-by-sample-size shape
+# already used for matchup/synergy shrinkage. When the patch is >=7 days
+# old this naturally degrades to "since_games = all 7 days, weight ~= 1" --
+# no separate branch needed, no separate all-time query needed either.
+#
+# ponytail: an OpenDota Explorer SQL query (like synergy_matrix's) would let
+# this reach further back than 7 days for a true "since an old patch, vs a
+# longer prior-patch baseline" comparison. Tried it first -- as of this
+# session, OpenDota's Explorer times out (>15s) on *any* picks_bans join
+# regardless of window size, even the pre-existing 30-day synergy_matrix
+# self-join that used to work. That's an OpenDota-side infrastructure
+# problem (data/synergy_matrix.json can't currently be refreshed either),
+# not something tunable away here -- this REST-only approach sidesteps it
+# entirely. Revisit Explorer once/if it's healthy again.
+BASELINE_PATCH_TREND_K = 500
+
+
+def get_current_patch():
+    """{'id', 'name', 'date' (epoch seconds)} for the most recent patch
+    whose release date is not in the future."""
+    patches = fetch_json(f"{OPENDOTA}/constants/patch")
+    now = time.time()
+
+    def parse_iso(s):
+        s = re.sub(r"\.\d+Z$", "Z", s).replace("Z", "+00:00")
+        return dt.datetime.fromisoformat(s).timestamp()
+
+    current = None
+    for p in patches:
+        ts = parse_iso(p["date"])
+        if ts <= now and (current is None or ts > current["date"]):
+            current = {"id": p["id"], "name": p["name"], "date": ts}
+    return current
+
+
+# Shrinks a "since" estimate toward a "broad/fallback" estimate by sample
+# size, same shape as SHRINKAGE_K: weight rises toward 1 as since_games grows
+# past k, so a thin since-patch sample doesn't swing the number on noise, but
+# a well-supported one is trusted close to fully. Reused for hero_role_stats.
+def blend_by_sample_size(since_value, since_games, broad_value, broad_games, k):
+    if since_games == 0:
+        return broad_value if broad_games else 0.5
+    if broad_games == 0:
+        return since_value
+    weight = since_games / (since_games + k)
+    return since_value * weight + broad_value * (1 - weight)
+
+
 def build_hero_baseline():
     stats = fetch_json(f"{OPENDOTA}/heroStats")
+    patch = get_current_patch()
+    patch_age_days = (time.time() - patch["date"]) / 86400 if patch else 7
+    # buckets are oldest(6 days ago)->newest(today); how many trailing
+    # buckets fall on/after the patch release (clamped into 0..7).
+    n_since = min(7, max(0, int(patch_age_days) + 1))
+
     baseline = {}
     for h in stats:
-        wins = sum(h.get(f"{b}_win", 0) or 0 for b in range(1, 9))
-        picks = sum(h.get(f"{b}_pick", 0) or 0 for b in range(1, 9))
-        baseline[str(h["id"])] = round(wins / picks, 4) if picks else 0.5
+        pick_trend = h.get("pub_pick_trend") or [0] * 7
+        win_trend = h.get("pub_win_trend") or [0] * 7
+        since_games = sum(pick_trend[7 - n_since:]) if n_since else 0
+        since_wins = sum(win_trend[7 - n_since:]) if n_since else 0
+        broad_games = sum(pick_trend[: 7 - n_since])
+        broad_wins = sum(win_trend[: 7 - n_since])
+
+        since_rate = since_wins / since_games if since_games else 0.5
+        broad_rate = broad_wins / broad_games if broad_games else 0.5
+        blended = blend_by_sample_size(since_rate, since_games, broad_rate, broad_games, BASELINE_PATCH_TREND_K)
+        baseline[str(h["id"])] = round(blended, 4) if (since_games or broad_games) else 0.5
     return baseline
 
 
@@ -257,28 +338,45 @@ def build_synergy_matrix():
 
 
 # ---- hero_role_stats.json (STRATZ GraphQL) ----
-# Confirmed against STRATZ's live schema via introspection: heroStats.stats
-# with groupByPosition:true, grouped by (heroId, position). `position` is a
-# string enum (POSITION_1..5), not a queryable field on winWeek like the
-# original guess assumed.
-
-STRATZ_QUERY = """
-query HeroPositionStats($positionIds: [MatchPlayerPositionType]) {
-  heroStats {
-    stats(positionIds: $positionIds, groupByPosition: true) {
-      heroId
-      position
-      matchCount
-      winCount
-    }
-  }
-}
-"""
-
+# Was heroStats.stats(positionIds:, groupByPosition:true) -- confirmed via
+# live schema introspection that this defaults to STRATZ's *current calendar
+# week only* when its optional `week` arg is omitted (their own schema doc:
+# "Leaving null gives the current week"), same "already recent, just fixed-
+# window" situation as hero_baseline's old bracket-sum. Switched to
+# heroStats.winGameVersion, which buckets matchCount/winCount by patch
+# (gameVersionId) directly -- confirmed live (2026-08-26, real API key) this
+# is patch-aware, not week-aware, and doesn't need any date math at all.
+#
+# One real surface mismatch found only by running this live: third-party
+# schema dumps (and STRATZ's own docs elsewhere) show a `gameVersionIds`
+# filter argument on winGameVersion -- the live schema (checked via
+# __type introspection) does NOT have it. Worked around by pulling all
+# versions in one call (take: 20000 comfortably covers every hero x every
+# patch STRATZ has ever tracked -- confirmed live, <4s for all 5 positions
+# in a single request) and filtering by gameVersionId client-side instead.
+#
+# "Current patch" is taken as the newest gameVersionId actually present in
+# the returned data, not the newest entry in constants.gameVersions -- a
+# patch can be registered there before STRATZ has bucketed any real match
+# data under it yet (confirmed live: id 182/"7.40b" existed in constants but
+# had zero winGameVersion rows for any hero; id 181/"7.40" was the newest
+# with real data).
 STRATZ_POSITION_MAP = {
     "POSITION_1": "1", "POSITION_2": "2", "POSITION_3": "3",
     "POSITION_4": "4", "POSITION_5": "5",
 }
+
+# games needed at this hero+position, in the current patch alone, before its
+# winrate is trusted close to fully over the broader fallback window (same
+# shrinkage shape as BASELINE_PATCH_TREND_K/SHRINKAGE_K).
+ROLE_STATS_PATCH_K = 1000
+# how many patches before the current one make up the fallback pool. Also
+# bounds *pickrate*'s window (unlike winrate, pickrate isn't blended by
+# recency -- how often a hero is played at a role is structural, not
+# something that needs to be this patch-fresh -- but it's still capped to
+# this window rather than a hero's entire multi-year history, so a hero's
+# pickrate at a role it hasn't been played at in years doesn't linger).
+ROLE_STATS_BROAD_LOOKBACK_VERSIONS = 3
 
 
 def build_role_stats(api_key):
@@ -287,35 +385,65 @@ def build_role_stats(api_key):
         "Content-Type": "application/json",
         "User-Agent": "STRATZ_API",
     }
-    variables = {"positionIds": list(STRATZ_POSITION_MAP.keys())}
-    body = json.dumps({"query": STRATZ_QUERY, "variables": variables}).encode()
+    # one HTTP round-trip for all 5 positions via aliases, each pulling
+    # every hero x every patch version STRATZ has data for.
+    position_fields = "\n".join(
+        f"    {stratz_pos}: winGameVersion(positionIds: [{stratz_pos}], take: 20000) "
+        f"{{ gameVersionId heroId matchCount winCount }}"
+        for stratz_pos in STRATZ_POSITION_MAP
+    )
+    query = f"query {{\n  heroStats {{\n{position_fields}\n  }}\n}}"
+    body = json.dumps({"query": query}).encode()
     result = fetch_json(STRATZ_URL, headers=headers, data=body, timeout=60)
     if "errors" in result:
         raise RuntimeError(f"STRATZ GraphQL error: {result['errors']}")
+    hero_stats = result["data"]["heroStats"]
 
-    rows = result["data"]["heroStats"]["stats"]
+    all_version_ids = {
+        row["gameVersionId"]
+        for stratz_pos in STRATZ_POSITION_MAP
+        for row in hero_stats[stratz_pos]
+    }
+    if not all_version_ids:
+        return {}
+    current_version = max(all_version_ids)
+    broad_versions = set(
+        sorted((v for v in all_version_ids if v < current_version), reverse=True)[
+            :ROLE_STATS_BROAD_LOOKBACK_VERSIONS
+        ]
+    )
 
     # pickrate = this hero's share of games played *at that position*, not
     # of all games everywhere -- that's what makes weights.json's
     # role_fit_pickrate_floor (0.01) a meaningful "near never played" cutoff.
     total_by_position = {}
-    for row in rows:
-        pos = STRATZ_POSITION_MAP.get(row["position"])
-        if pos is None:
-            continue
-        total_by_position[pos] = total_by_position.get(pos, 0) + row["matchCount"]
+    per_hero = {}  # (hero_id, position) -> since/broad matches+wins, total matches
+    for stratz_pos, pos in STRATZ_POSITION_MAP.items():
+        for row in hero_stats[stratz_pos]:
+            gv = row["gameVersionId"]
+            if gv != current_version and gv not in broad_versions:
+                continue  # outside the current-patch + fallback window entirely
+            hid = str(row["heroId"])
+            matches, wins = row["matchCount"], row["winCount"]
+            entry = per_hero.setdefault((hid, pos), {"since_m": 0, "since_w": 0, "broad_m": 0, "broad_w": 0, "total_m": 0})
+            entry["total_m"] += matches
+            if gv == current_version:
+                entry["since_m"] += matches
+                entry["since_w"] += wins
+            else:
+                entry["broad_m"] += matches
+                entry["broad_w"] += wins
+            total_by_position[pos] = total_by_position.get(pos, 0) + matches
 
     role_stats = {}
-    for row in rows:
-        pos = STRATZ_POSITION_MAP.get(row["position"])
-        if pos is None:
-            continue
-        hid = str(row["heroId"])
-        matches, wins = row["matchCount"], row["winCount"]
+    for (hid, pos), e in per_hero.items():
+        since_wr = e["since_w"] / e["since_m"] if e["since_m"] else 0.5
+        broad_wr = e["broad_w"] / e["broad_m"] if e["broad_m"] else 0.5
+        winrate = blend_by_sample_size(since_wr, e["since_m"], broad_wr, e["broad_m"], ROLE_STATS_PATCH_K)
         total = total_by_position.get(pos, 0)
         role_stats.setdefault(hid, {})[pos] = {
-            "winrate": round(wins / matches, 4) if matches else 0.0,
-            "pickrate": round(matches / total, 6) if total else 0.0,
+            "winrate": round(winrate, 4),
+            "pickrate": round(e["total_m"] / total, 6) if total else 0.0,
         }
     return role_stats
 
