@@ -295,14 +295,27 @@ def build_matchup_matrix(hero_ids, delay=0.6):
 # match history, so it starved this self-join of rows. `matches` is
 # OpenDota's full parsed-match table (same data backing /heroes/{id}/matchups)
 # and has far more rows per pair, at the cost of no rank-tier filter.
-# ponytail: 30-day window is picked empirically to land under Explorer's
-# ~15s read timeout on this self-join, not derived from anything -- if a
-# patch just dropped and you want fresher data faster, or the query starts
-# timing out again, shrink the window; OpenDota's paid tier lifts the
-# timeout if this stays annoying.
-SYNERGY_WINDOW_DAYS = 30
+# 60 days, not 30 -- deliberate choice (2026-08-27): unlike hero_baseline's
+# win rate, a hero-pair *kit* synergy doesn't really go stale the way an
+# individual hero's power level does after a patch, so more sample size at
+# the cost of some recency is the right trade here. At 30 days, 41% of all
+# pairs were single-game samples (median 2 games/pair) -- see git history
+# for the actual before/after distribution this traded against.
+SYNERGY_WINDOW_DAYS = 60
 
-SYNERGY_SQL = f"""
+# This self-join used to filter on `m.start_time > now() - interval` and
+# timed out unpredictably (sometimes <1s, sometimes the full ~15s Explorer
+# read timeout, on the *identical* query). Root-caused 2026-08-27:
+# matches.start_time isn't usably indexed for a join into picks_bans (a much
+# bigger table), so that filter forces a load-dependent scan of a large
+# chunk of picks_bans regardless of window size -- confirmed live that even
+# a 1-day window timed out the same way a 30-day one did. picks_bans.match_id
+# filters reliably fast instead (confirmed: 0.3-0.6s across repeated runs,
+# vs. either <1s or >15s before). Since match_id increases monotonically
+# with time, get_recent_match_id_threshold() calibrates a match_id cutoff
+# for "N days ago" using two match_id-filtered (never start_time-filtered)
+# lookups, and the query below filters on that instead.
+SYNERGY_SQL_TEMPLATE = """
 SELECT pb1.hero_id AS hero_a, pb2.hero_id AS hero_b,
        COUNT(*) AS games,
        SUM(CASE WHEN (pb1.team = 0 AND m.radiant_win)
@@ -314,14 +327,46 @@ JOIN picks_bans pb2
  AND pb1.team = pb2.team
  AND pb1.hero_id < pb2.hero_id
 JOIN matches m ON m.match_id = pb1.match_id
-WHERE pb1.is_pick AND pb2.is_pick
-  AND m.start_time > extract(epoch from now() - interval '{SYNERGY_WINDOW_DAYS} days')
+WHERE pb1.is_pick AND pb2.is_pick AND pb1.match_id > {lo_match_id}
 GROUP BY pb1.hero_id, pb2.hero_id
 """
 
 
+def get_recent_match_id_threshold(days, tolerance_days=1, max_iterations=5):
+    """match_id for "days ago". A single rate extrapolated from a short local
+    sample isn't good enough -- confirmed live (2026-08-27) that a rate
+    calibrated from a ~1.4-day window and extrapolated 20x out to 30 days
+    landed at an *actual* 40.5 days back, because match volume isn't constant
+    across that longer span. Instead, iteratively refine the guess against
+    the real measured elapsed time at that match_id until it's within
+    tolerance_days -- each check is one fast match_id-filtered lookup
+    (confirmed reliably <1s), so a few extra rounds cost nothing."""
+    def match_id_and_time(sql):
+        url = f"{OPENDOTA}/explorer?sql=" + urllib.parse.quote(sql)
+        return fetch_json(url, timeout=15)["rows"][0]
+
+    newest = match_id_and_time("SELECT match_id, start_time FROM matches ORDER BY match_id DESC LIMIT 1")
+    probe = match_id_and_time(
+        f"SELECT match_id, start_time FROM matches WHERE match_id < {newest['match_id'] - 3_000_000} "
+        "ORDER BY match_id DESC LIMIT 1"
+    )
+    ids_per_second = (newest["match_id"] - probe["match_id"]) / (newest["start_time"] - probe["start_time"])
+    id_delta = ids_per_second * days * 86400
+
+    for _ in range(max_iterations):
+        lo_id = int(newest["match_id"] - id_delta)
+        at_lo = match_id_and_time(f"SELECT match_id, start_time FROM matches WHERE match_id > {lo_id} ORDER BY match_id ASC LIMIT 1")
+        actual_days = (newest["start_time"] - at_lo["start_time"]) / 86400
+        if abs(actual_days - days) <= tolerance_days:
+            break
+        id_delta = id_delta * days / actual_days  # rescale toward the target
+    return lo_id
+
+
 def build_synergy_matrix():
-    url = f"{OPENDOTA}/explorer?sql=" + urllib.parse.quote(SYNERGY_SQL)
+    lo_match_id = get_recent_match_id_threshold(SYNERGY_WINDOW_DAYS)
+    sql = SYNERGY_SQL_TEMPLATE.format(lo_match_id=lo_match_id)
+    url = f"{OPENDOTA}/explorer?sql=" + urllib.parse.quote(sql)
     result = fetch_json(url, timeout=30)
     rows = result.get("rows", [])
     matrix = {}
