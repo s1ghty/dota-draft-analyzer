@@ -95,14 +95,14 @@
       "Boots of Speed",
       "Staff of Wizardry",
       "Arcane Boots",
-      "Kaya"
+      "Vitality Booster"
     ],
     "late_game_items": [
       "Blink Dagger",
       "Mystic Staff",
+      "Force Staff",
       "Kaya",
-      "Scythe of Vyse",
-      "Force Staff"
+      "Scythe of Vyse"
     ],
     "mid_game_items": [
       "Staff of Wizardry",
@@ -218,18 +218,18 @@
       "Urn of Shadows"
     ],
     "late_game_items": [
-      "Mystic Staff",
       "Force Staff",
+      "Mystic Staff",
       "Eul's Scepter of Divinity",
       "Glimmer Cape",
-      "Aether Lens"
+      "Soul Booster"
     ],
     "mid_game_items": [
-      "Arcane Boots",
       "Staff of Wizardry",
+      "Arcane Boots",
       "Glimmer Cape",
       "Pavise",
-      "Essence Distiller"
+      "Eul's Scepter of Divinity"
     ],
     "start_game_items": [
       "Iron Branch",
@@ -249,17 +249,17 @@
     ],
     "late_game_items": [
       "Aghanim's Scepter",
-      "Shiva's Guard",
       "Black King Bar",
+      "Shiva's Guard",
       "Sange",
-      "Soul Booster"
+      "Kaya"
     ],
     "mid_game_items": [
       "Spirit Vessel",
       "Ogre Axe",
       "Diadem",
       "Staff of Wizardry",
-      "Aghanim's Shard"
+      "Mithril Hammer"
     ],
     "start_game_items": [
       "Iron Branch",
@@ -272,31 +272,31 @@
   "107": {
     "early_game_items": [
       "Boots of Speed",
-      "Bottle",
       "Urn of Shadows",
+      "Bottle",
       "Power Treads",
       "Diadem"
     ],
     "late_game_items": [
       "Shiva's Guard",
       "Soul Booster",
+      "Bloodstone",
       "Sange",
-      "Kaya and Sange",
-      "Bloodstone"
+      "Kaya and Sange"
     ],
     "mid_game_items": [
-      "Ogre Axe",
       "Spirit Vessel",
+      "Ogre Axe",
+      "Staff of Wizardry",
       "Mithril Hammer",
-      "Black King Bar",
-      "Staff of Wizardry"
+      "Kaya"
     ],
     "start_game_items": [
       "Iron Branch",
       "Tango",
       "Observer Ward",
       "Faerie Fire",
-      "Gauntlets of Strength"
+      "Circlet"
     ]
   },
   "108": {
@@ -304,15 +304,15 @@
       "Boots of Speed",
       "Soul Ring",
       "Bracer",
-      "Power Treads",
-      "Chainmail"
+      "Chainmail",
+      "Phase Boots"
     ],
     "late_game_items": [
-      "Black King Bar",
       "Shiva's Guard",
+      "Black King Bar",
       "Soul Booster",
-      "Octarine Core",
-      "Lotus Orb"
+      "Lotus Orb",
+      "Gleipnir"
     ],
     "mid_game_items": [
       "Staff of Wizardry",
@@ -322,11 +322,11 @@
       "Aghanim's Scepter"
     ],
     "start_game_items": [
-      "Iron Branch",
       "Gauntlets of Strength",
-      "Magic Stick",
+      "Iron Branch",
       "Tango",
-      "Circlet"
+      "Magic Stick",
+      "Quelling Blade"
     ]
   },
   "109": {
@@ -353,10 +353,10 @@
     ],
     "start_game_items": [
       "Iron Branch",
-      "Tango",
       "Faerie Fire",
-      "Quelling Blade",
-      "Circlet"
+      "Tango",
+      "Circlet",
+      "Quelling Blade"
     ]
   },
   "11": {
@@ -393,45 +393,45 @@
     "early_game_items": [
       "Boots of Speed",
       "Tranquil Boots",
-      "Bracer",
       "Urn of Shadows",
+      "Bracer",
       "Diadem"
     ],
     "late_game_items": [
       "Refresher Orb",
-      "Mystic Staff",
-      "Scythe of Vyse",
+      "Shiva's Guard",
       "Aeon Disk",
-      "Shiva's Guard"
+      "Mystic Staff",
+      "Scythe of Vyse"
     ],
     "mid_game_items": [
       "Aghanim's Shard",
-      "Staff of Wizardry",
-      "Solar Crest",
-      "Pavise",
-      "Platemail"
+      "Spirit Vessel",
+      "Platemail",
+      "Diadem",
+      "Staff of Wizardry"
     ],
     "start_game_items": [
       "Iron Branch",
       "Tango",
       "Faerie Fire",
       "Blood Grenade",
-      "Observer and Sentry Wards"
+      "Sentry Ward"
     ]
   },
   "111": {
     "early_game_items": [
       "Boots of Speed",
       "Arcane Boots",
-      "Null Talisman",
       "Bottle",
+      "Null Talisman",
       "Urn of Shadows"
     ],
     "late_game_items": [
       "Blink Dagger",
       "Aether Lens",
-      "Glimmer Cape",
       "Guardian Greaves",
+      "Glimmer Cape",
       "Aeon Disk"
     ],
     "mid_game_items": [
@@ -452,9 +452,10 @@
   "112": {
     "early_game_items": [
       "Boots of Speed",
-      "Null Talisman",
       "Arcane Boots",
-      "Power Treads"
+      "Power Treads",
+      "Null Talisman",
+      "Urn of Shadows"
     ],
     "late_game_items": [
       "Force Staff",
@@ -465,17 +466,17 @@
     ],
     "mid_game_items": [
       "Blink Dagger",
-      "Power Treads",
-      "Glimmer Cape",
       "Arcane Boots",
-      "Staff of Wizardry"
+      "Staff of Wizardry",
+      "Power Treads",
+      "Glimmer Cape"
     ],
     "start_game_items": [
       "Iron Branch",
       "Faerie Fire",
-      "Blood Grenade",
       "Tango",
-      "Smoke of Deceit"
+      "Blood Grenade",
+      "Observer and Sentry Wards"
     ]
   },
   "113": {
@@ -513,13 +514,13 @@
       "Boots of Speed",
       "Power Treads",
       "Wraith Band",
-      "Void Stone",
-      "Blade of Alacrity"
+      "Blade of Alacrity",
+      "Broadsword"
     ],
     "late_game_items": [
       "Ultimate Orb",
-      "Demon Edge",
       "Black King Bar",
+      "Demon Edge",
       "Eye of Skadi",
       "Harpoon"
     ],
@@ -528,12 +529,12 @@
       "Ogre Axe",
       "Desolator",
       "Broadsword",
-      "Blade of Alacrity"
+      "Echo Sabre"
     ],
     "start_game_items": [
       "Iron Branch",
-      "Tango",
       "Circlet",
+      "Tango",
       "Faerie Fire",
       "Quelling Blade"
     ]
@@ -542,7 +543,9 @@
     "early_game_items": [
       "Boots of Speed",
       "Tranquil Boots",
-      "Urn of Shadows"
+      "Urn of Shadows",
+      "Bracer",
+      "Blink Dagger"
     ],
     "late_game_items": [
       "Blink Dagger",
@@ -552,17 +555,17 @@
       "Force Staff"
     ],
     "mid_game_items": [
-      "Essence Distiller",
       "Staff of Wizardry",
+      "Essence Distiller",
       "Eul's Scepter of Divinity",
-      "Blink Dagger",
-      "Aghanim's Shard"
+      "Aghanim's Shard",
+      "Blink Dagger"
     ],
     "start_game_items": [
       "Iron Branch",
+      "Observer and Sentry Wards",
       "Tango",
       "Blood Grenade",
-      "Observer and Sentry Wards",
       "Faerie Fire"
     ]
   },
@@ -602,19 +605,19 @@
       "Bottle",
       "Blade of Alacrity",
       "Power Treads",
-      "Ring of Health"
+      "Diffusal Blade"
     ],
     "late_game_items": [
-      "Skull Basher",
       "Aghanim's Scepter",
+      "Skull Basher",
       "Soul Booster",
       "Octarine Core",
       "Eaglesong"
     ],
     "mid_game_items": [
       "Blink Dagger",
-      "Diffusal Blade",
       "Blade of Alacrity",
+      "Diffusal Blade",
       "Aghanim's Shard",
       "Ogre Axe"
     ],
@@ -630,22 +633,22 @@
     "early_game_items": [
       "Boots of Speed",
       "Arcane Boots",
-      "Null Talisman",
-      "Urn of Shadows"
+      "Bracer",
+      "Null Talisman"
     ],
     "late_game_items": [
       "Blink Dagger",
       "Aghanim's Scepter",
       "Mystic Staff",
       "Scythe of Vyse",
-      "Glimmer Cape"
+      "Aether Lens"
     ],
     "mid_game_items": [
       "Arcane Boots",
       "Blink Dagger",
       "Staff of Wizardry",
-      "Point Booster",
-      "Ogre Axe"
+      "Ogre Axe",
+      "Point Booster"
     ],
     "start_game_items": [
       "Iron Branch",
@@ -659,29 +662,29 @@
     "early_game_items": [
       "Boots of Speed",
       "Urn of Shadows",
-      "Arcane Boots",
       "Chainmail",
-      "Wraith Band"
+      "Arcane Boots",
+      "Bracer"
     ],
     "late_game_items": [
       "Blink Dagger",
-      "Mystic Staff",
       "Force Staff",
       "Eul's Scepter of Divinity",
-      "Glimmer Cape"
+      "Mystic Staff",
+      "Scythe of Vyse"
     ],
     "mid_game_items": [
       "Essence Distiller",
       "Arcane Boots",
       "Staff of Wizardry",
-      "Blink Dagger",
-      "Force Staff"
+      "Force Staff",
+      "Blink Dagger"
     ],
     "start_game_items": [
       "Iron Branch",
       "Tango",
-      "Blood Grenade",
       "Observer and Sentry Wards",
+      "Blood Grenade",
       "Faerie Fire"
     ]
   },
@@ -691,21 +694,21 @@
       "Bottle",
       "Urn of Shadows",
       "Power Treads",
-      "Diadem"
+      "Chainmail"
     ],
     "late_game_items": [
       "Aghanim's Scepter",
       "Black King Bar",
       "Yasha",
       "Yasha and Kaya",
-      "Ultimate Orb"
+      "Soul Booster"
     ],
     "mid_game_items": [
       "Staff of Wizardry",
-      "Aghanim's Shard",
-      "Blade of Alacrity",
       "Spirit Vessel",
-      "Ogre Axe"
+      "Aghanim's Shard",
+      "Ogre Axe",
+      "Diadem"
     ],
     "start_game_items": [
       "Iron Branch",
@@ -728,21 +731,21 @@
       "Yasha",
       "Yasha and Kaya",
       "Shiva's Guard",
-      "Refresher Orb"
+      "Mystic Staff"
     ],
     "mid_game_items": [
       "Aghanim's Shard",
-      "Blink Dagger",
       "Staff of Wizardry",
-      "Boots of Travel",
-      "Kaya"
+      "Blink Dagger",
+      "Kaya",
+      "Boots of Travel"
     ],
     "start_game_items": [
       "Iron Branch",
       "Tango",
       "Faerie Fire",
       "Observer Ward",
-      "Gauntlets of Strength"
+      "Observer and Sentry Wards"
     ]
   },
   "129": {
@@ -758,12 +761,12 @@
       "Mystic Staff",
       "Scythe of Vyse",
       "Reaver",
-      "Refresher Orb"
+      "Aghanim's Scepter"
     ],
     "mid_game_items": [
       "Blink Dagger",
-      "Aghanim's Shard",
       "Mithril Hammer",
+      "Aghanim's Shard",
       "Ogre Axe",
       "Staff of Wizardry"
     ],
@@ -1676,15 +1679,15 @@
       "Wraith Band",
       "Boots of Speed",
       "Power Treads",
-      "Javelin",
-      "Blade of Alacrity"
+      "Blade of Alacrity",
+      "Javelin"
     ],
     "late_game_items": [
       "Demon Edge",
       "Black King Bar",
       "Crystalys",
       "Daedalus",
-      "Ultimate Orb"
+      "Hurricane Pike"
     ],
     "mid_game_items": [
       "Blade of Alacrity",
@@ -1695,8 +1698,8 @@
     ],
     "start_game_items": [
       "Iron Branch",
-      "Slippers of Agility",
       "Circlet",
+      "Slippers of Agility",
       "Observer Ward",
       "Tango"
     ]
@@ -1706,15 +1709,15 @@
       "Boots of Speed",
       "Bracer",
       "Boots of Travel",
-      "Talisman of Evasion",
-      "Sacred Relic"
+      "Null Talisman",
+      "Talisman of Evasion"
     ],
     "late_game_items": [
-      "Reaver",
       "Heart of Tarrasque",
+      "Reaver",
       "Shiva's Guard",
-      "Boots of Travel 2",
-      "Black King Bar"
+      "Black King Bar",
+      "Boots of Travel 2"
     ],
     "mid_game_items": [
       "Radiance",
@@ -1735,7 +1738,8 @@
     "early_game_items": [
       "Boots of Speed",
       "Arcane Boots",
-      "Shadow Amulet"
+      "Shadow Amulet",
+      "Null Talisman"
     ],
     "late_game_items": [
       "Aghanim's Scepter",
@@ -1769,10 +1773,10 @@
     ],
     "late_game_items": [
       "Black King Bar",
-      "Hyperstone",
       "Assault Cuirass",
+      "Hyperstone",
       "Boots of Travel",
-      "Blink Dagger"
+      "Mystic Staff"
     ],
     "mid_game_items": [
       "Ultimate Orb",
@@ -1784,8 +1788,8 @@
     "start_game_items": [
       "Iron Branch",
       "Tango",
-      "Sage's Mask",
       "Faerie Fire",
+      "Sage's Mask",
       "Magic Stick"
     ]
   },
@@ -1802,14 +1806,14 @@
       "Shiva's Guard",
       "Black King Bar",
       "Aghanim's Scepter",
-      "Bloodstone"
+      "Sange"
     ],
     "mid_game_items": [
       "Ogre Axe",
       "Staff of Wizardry",
       "Kaya",
       "Point Booster",
-      "Blade of Alacrity"
+      "Sange"
     ],
     "start_game_items": [
       "Iron Branch",
