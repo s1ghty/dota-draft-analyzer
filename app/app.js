@@ -303,6 +303,16 @@ function matchupNoteHtml(note, opponentId) {
   return `<div class="matchup-note"><span class="matchup-note-label">vs ${heroName(opponentId)}:</span> ${note.note}${itemsSuffix}</div>`;
 }
 
+// how many real recorded games back a matchup number (data/matchup_matrix.json's
+// games_played) -- spelled out instead of a bare "(n=X)" since that reads as
+// unexplained jargon to anyone who hasn't seen this app before (see Help panel
+// for the fuller explanation). Missing for matchups not yet refreshed with the
+// newer pipeline, so no games count isn't a bug, just older data.
+function sampleSizeHtml(games) {
+  if (games === null || games === undefined) return "";
+  return ` <span class="sample-size" title="This matchup number is backed by ${games} real recorded games in the data -- more games means more confidence in it.">(${games} games on record)</span>`;
+}
+
 // shared item-pill renderer: icon when items.json has a matching entry,
 // text-only pill otherwise (item_counters.json sometimes names a category
 // like "Armor items (Vanguard/Solar Crest)" rather than a real item).
@@ -429,7 +439,7 @@ function renderCandidates(candidates, threat) {
   shown.forEach((c, i) => {
     const parts = [];
     if (c.bestCounter && c.bestCounter.value > 0) {
-      const sampleSuffix = c.bestCounter.games !== null && c.bestCounter.games !== undefined ? ` (n=${c.bestCounter.games})` : "";
+      const sampleSuffix = sampleSizeHtml(c.bestCounter.games);
       parts.push(`${c.bestCounter.value >= 0 ? "+" : ""}${Math.round(c.bestCounter.value * 100)}% vs their ${heroName(c.bestCounter.heroId)}${sampleSuffix}`);
     }
     if (c.bestSynergy && c.bestSynergy.value > 0.5) {

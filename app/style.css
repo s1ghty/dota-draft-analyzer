@@ -375,6 +375,7 @@ kbd {
   font-size: 0.76em; color: var(--text-dim);
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
+.sample-size { color: var(--text-dimmer); font-style: italic; cursor: help; }
 .candidate .rank {
   flex-shrink: 0; width: 22px; padding-top: 4px; text-align: center;
   font-size: 0.72em; font-weight: 700; color: var(--text-dimmer);
