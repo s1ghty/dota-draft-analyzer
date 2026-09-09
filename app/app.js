@@ -86,6 +86,14 @@ function isUsed(id) {
   return state.yourTeam.includes(id) || state.enemyTeam.includes(id) || state.banned.includes(id);
 }
 
+// still-pickable heroes matching the current search term -- used to let
+// Enter add the hero directly once a search has narrowed it down to one.
+function matchingPickableHeroIds() {
+  const term = state.search.trim().toLowerCase();
+  if (!term) return [];
+  return Object.keys(data.heroes).filter((id) => !isUsed(id) && heroSearchText(id).includes(term));
+}
+
 // which list a hero is already in, for a distinct visual per list (§5)
 function heroStatus(id) {
   if (state.yourTeam.includes(id)) return "yours";
@@ -118,18 +126,29 @@ function ctxForScoring() {
 
 const MAX_TEAM_SIZE = 5; // a Dota side has 5 players -- yours/enemy can't exceed that
 
-function addHero(id) {
+// Live-draft speed: a modifier held during the click/Enter that adds a hero
+// overrides which list it goes to for just that one add, without touching
+// the persistent "Add to" mode -- so with mode left on "Your Team" you can
+// Shift+click every enemy pick as it happens instead of toggling the mode
+// button back and forth between every single pick.
+function addModeForEvent(e) {
+  if (e.shiftKey) return "enemy";
+  if (e.altKey) return "banned";
+  return state.addMode;
+}
+
+function addHero(id, mode = state.addMode) {
   if (isUsed(id)) return;
-  if (state.addMode === "yours") {
+  if (mode === "yours") {
     if (state.yourTeam.length >= MAX_TEAM_SIZE) return;
     state.yourTeam.push(id);
-  } else if (state.addMode === "enemy") {
+  } else if (mode === "enemy") {
     if (state.enemyTeam.length >= MAX_TEAM_SIZE) return;
     state.enemyTeam.push(id);
   } else {
     state.banned.push(id); // no cap -- any number of heroes can be banned/excluded
   }
-  if (state.addMode !== "banned") state.pickOrder.push(id);
+  if (mode !== "banned") state.pickOrder.push(id);
   renderAll();
 }
 
@@ -197,7 +216,7 @@ function renderGrid() {
       <img src="${heroIconUrl(id)}" alt="${heroName(id)}" loading="lazy" />
       ${badge ? `<span class="status-badge">${badge}</span>` : ""}
       <span class="name">${heroName(id)}</span>`;
-    el.addEventListener("click", () => addHero(id));
+    el.addEventListener("click", (e) => addHero(id, addModeForEvent(e)));
     grid.appendChild(el);
   }
 }
@@ -546,6 +565,19 @@ function wireControls() {
     renderGrid();
   }
 
+  // Enter adds the hero directly once the search has narrowed to exactly
+  // one still-pickable match -- lets a fast draft run as type-name/Enter,
+  // type-name/Enter with no clicking at all. Shift/Alt still override which
+  // list it goes to, same as a click (see addModeForEvent).
+  function tryAddSoleMatch(e) {
+    const matches = matchingPickableHeroIds();
+    if (matches.length !== 1) return false;
+    addHero(matches[0], addModeForEvent(e));
+    clearTimeout(idleTimer);
+    setSearch("");
+    return true;
+  }
+
   searchBox.addEventListener("input", (e) => {
     setSearch(e.target.value);
     if (e.target.value) touchSearch();
@@ -556,6 +588,9 @@ function wireControls() {
       clearTimeout(idleTimer);
       setSearch("");
       searchBox.blur();
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      tryAddSoleMatch(e);
     }
   });
 
@@ -569,6 +604,12 @@ function wireControls() {
     }
     const active = document.activeElement;
     if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.isContentEditable)) return;
+
+    if (e.key === "Enter") {
+      e.preventDefault();
+      tryAddSoleMatch(e);
+      return;
+    }
     if (e.ctrlKey || e.metaKey || e.altKey) return;
 
     if (e.key === "Escape") {

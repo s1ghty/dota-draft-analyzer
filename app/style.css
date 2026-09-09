@@ -212,9 +212,13 @@ kbd {
   min-height: 0;
   overflow-y: auto;
   display: grid;
-  /* scales with viewport width between 100px and 150px, so it's compact on
-     a small window and bigger on a wide monitor rather than one fixed size */
-  grid-template-columns: repeat(auto-fill, minmax(clamp(100px, 9vw, 150px), 1fr));
+  /* a clamp() nested inside minmax() here used to silently fail on some
+     browsers (confirmed: broke the whole grid into stacked, overlapping
+     columns on Safari/Mac while working fine on Chrome/Windows) -- nesting
+     CSS math functions inside minmax() track sizes is a known cross-browser
+     landmine. Plain fixed minmax is bulletproof everywhere; the narrow-
+     screen media query below still shrinks it for small windows. */
+  grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
   align-content: start;
   gap: 9px;
   background: var(--surface);
@@ -232,7 +236,7 @@ kbd {
 @media (max-width: 1000px) {
   html, body { overflow: auto; }
   #layout { flex-direction: column; overflow: visible; height: auto; }
-  #hero-grid { flex: 0 0 auto; max-height: 60vh; }
+  #hero-grid { flex: 0 0 auto; max-height: 60vh; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
   #side-panel, #results-panel { flex: 0 0 auto; width: 100%; overflow: visible; }
   #candidates-list { max-height: 50vh; }
 }
@@ -243,11 +247,21 @@ kbd {
   border: 2px solid transparent;
   border-radius: var(--radius-sm);
   overflow: hidden;
-  aspect-ratio: 16 / 9;
+  /* height:0 + padding-bottom% instead of aspect-ratio: confirmed live that
+     aspect-ratio on a grid item with flexible (1fr) column width rendered
+     rows overlapping/stacked on Safari -- a known aspect-ratio-in-CSS-Grid
+     row-sizing bug on some engines (the grid sizes the row before the
+     aspect-ratio-derived height is settled). Percentage padding-bottom
+     always resolves against the element's own width regardless of grid
+     context, sidestepping that interaction completely -- this is the
+     pre-aspect-ratio technique for exactly this case and has been reliable
+     everywhere for well over a decade. */
+  height: 0;
+  padding-bottom: 56.25%; /* 9/16 */
   background: var(--surface-2);
   transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
 }
-.hero-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-icon img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 .hero-icon:hover { border-color: #565664; transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.35); }
 
 /* search match state: clearly stands out, not just a thin border */
