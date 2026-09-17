@@ -4,7 +4,8 @@
     "synergy_score": 0.25,
     "role_fit": 0.20,
     "hero_baseline": 0.10,
-    "countered_by_enemy_penalty": 0.10
+    "countered_by_enemy_penalty": 0.10,
+    "player_affinity": 0.05
   },
   "base_threat": {
     "hero_baseline": 0.4,
@@ -22,5 +23,7 @@
     "pusher":           {"1": 1.0, "2": 1.0, "3": 1.0, "4": 1.0, "5": 1.0}
   },
   "role_fit_pickrate_floor": 0.01,
-  "kit_counter_bonus": 0.05
+  "kit_counter_bonus": 0.05,
+  "player_affinity_games_floor": 20,
+  "player_affinity_games_cap": 100
 }

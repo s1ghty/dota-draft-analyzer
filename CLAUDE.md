@@ -35,6 +35,12 @@ itself never makes a network call — all internet access happens in
   - `item_builds.json` — hero_id → start/early/mid/late item picks from
     OpenDota's real match data (`/heroes/{id}/itemPopularity`), not in
     SPEC.md's original scope. Powers the UI's "Suggested Build" panel.
+  - `player_hero_stats.json` — optional, single-user only: your own
+    hero_id → {games, win} from OpenDota's public `/players/{account_id}/heroes`
+    (`DOTA_ACCOUNT_ID` env var). Powers a small "you play this hero" score
+    bonus (`weights.json`'s `player_affinity`) and reason-line note. Not
+    written at all if `DOTA_ACCOUNT_ID` isn't set -- the app handles that
+    file being absent gracefully (feature just doesn't activate).
 - `app/` — the static page: `index.html`, `scoring.js` (pure scoring
   functions, §3), `app.js` (UI wiring), `style.css`.
 - `tests/` — a small `unittest` script for the scoring functions.
@@ -66,8 +72,9 @@ user reviews.
   `R`. Near-zero pickrate at `R` → **excluded from candidates entirely**, not
   just penalized.
 - **Final score**: weighted sum of counter/synergy/role-fit/baseline, minus
-  how hard the candidate gets countered by the enemy team. Ranked, top 5–8
-  shown with a one-line reason.
+  how hard the candidate gets countered by the enemy team, plus a small
+  optional personal-affinity bonus if `data/player_hero_stats.json` exists
+  (see below). Ranked, top 5–8 shown with a one-line reason.
 
 All weights live in `data/weights.json` — never hardcode a scoring constant.
 
@@ -101,6 +108,7 @@ meta/stats shift, refresh everything with:
 
 ```
 export STRATZ_API_KEY=your_key_here    # get one free at https://stratz.com/api
+export DOTA_ACCOUNT_ID=your_numeric_id # optional: enables the personal hero-affinity bonus, see below
 python3 pipeline/build_data.py
 ```
 
@@ -108,6 +116,12 @@ Run that from the project root. It re-pulls heroes/items/baseline/matchups/
 synergy/role-stats/item-builds (127 heroes × a few API calls each — expect
 roughly 10-20 minutes, OpenDota's rate limit is the bottleneck, not this
 script). Safe to re-run any time; nothing needs to be undone first.
+
+- `DOTA_ACCOUNT_ID` is your numeric Steam/Dota account id (the "friend ID"
+  number, not your Steam64 ID or profile name) — optional, only needed for
+  the personal-affinity bonus. Public data, no auth/API key required for
+  this one. Leave unset to skip it entirely; nothing else in the pipeline
+  depends on it.
 
 - Hand-curated data (hero `tags`/`threat_profile`, item `tier`, aliases)
   **survives the re-run automatically** — the pipeline merges onto the
@@ -149,6 +163,18 @@ No coding, no asking me — just the one command.
 - STRATZ requires a free-tier API key (GraphQL, bearer token) — read from
   `STRATZ_API_KEY` env var, never hardcode it. Get one at
   https://stratz.com/api.
+- `player_hero_stats.json` (personal-affinity feature, `DOTA_ACCOUNT_ID`):
+  this repo is public (GitHub Pages requires it on the free tier), so
+  whatever account id gets configured has its derived per-hero games/win
+  data committed to a public file. Not a secret the way an API key is, but
+  it is personally identifying (reveals which Steam account owns this
+  site). The account id itself stays in the env var, never committed --
+  only the derived stats file is. Considered fetching this live from the
+  browser instead (would avoid committing anything) but OpenDota's API
+  didn't appear to send `Access-Control-Allow-Origin` when checked, and
+  baking it into the pipeline keeps the app's "never touches the network"
+  invariant intact either way -- see the scoring.js comment on
+  `playerHeroAffinity()` for the full reasoning.
 - OpenDota's public REST + Explorer endpoints don't require a key but are
   rate-limited — the pipeline should be polite (small delay between the
   per-hero matchup calls) since it's a one-shot job, not something run often.

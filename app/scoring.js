@@ -164,6 +164,21 @@ function roleFit(candidateId, role, roleStatsMap, pickrateFloor, maxPickrateAtRo
   return 0.7 * winrateComponent + 0.3 * pickrateComponent;
 }
 
+// Personal hero-affinity bonus (optional, single-user feature -- see
+// data/player_hero_stats.json, built by pipeline/build_player_hero_stats()).
+// 0 when you've never played the hero or playerHeroStats is missing/empty
+// (the default state for anyone who hasn't configured DOTA_ACCOUNT_ID),
+// ramping linearly from gamesFloor (a single fluke game doesn't count as a
+// main) to gamesCap (full strength) -- deliberately games-based, not
+// win-rate-based: the point is "you have reps on this hero," not "you got
+// lucky on a small personal sample."
+function playerHeroAffinity(candidateId, playerHeroStats, gamesFloor, gamesCap) {
+  const games = (playerHeroStats && playerHeroStats[candidateId] && playerHeroStats[candidateId].games) || 0;
+  if (games <= gamesFloor) return 0;
+  if (games >= gamesCap) return 1;
+  return (games - gamesFloor) / (gamesCap - gamesFloor);
+}
+
 // Every §3.5 component is centered at a neutral value and expressed as "how
 // far from neutral" before it reaches here: counter_score/counteredByEnemy
 // are already win-rate deltas (neutral 0), synergy_score/hero_baseline are
@@ -186,12 +201,14 @@ function finalScore(parts, weights) {
   const roleFitNorm = Math.max(-1, Math.min(1, parts.roleFit)); // already -1..1-shaped
   const baselineNorm = normalizeFromNeutral(parts.heroBaseline, 0.5);
   const counteredByNorm = normalizeFromNeutral(parts.counteredByEnemy, 0);
+  const playerAffinityVal = parts.playerAffinity || 0; // already 0..1-shaped
   return (
     w.counter_score * counterNorm +
     w.synergy_score * synergyNorm +
     w.role_fit * roleFitNorm +
     w.hero_baseline * baselineNorm +
-    -w.countered_by_enemy_penalty * counteredByNorm
+    -w.countered_by_enemy_penalty * counteredByNorm +
+    (w.player_affinity || 0) * playerAffinityVal
   );
 }
 
@@ -218,6 +235,12 @@ function scoreCandidate(candidateId, ctx, threatWeights, data) {
   const synergyScoreVal = synergyScore(candidateId, ctx.yourTeamIds, data.synergyMatrix);
   const heroBaselineVal = data.heroBaseline[candidateId] !== undefined ? data.heroBaseline[candidateId] : 0.5;
   const counteredByEnemyVal = avgMatchupAgainst(data.matchupMatrix, ctx.enemyTeamIds, candidateId);
+  const playerAffinityVal = playerHeroAffinity(
+    candidateId,
+    data.playerHeroStats,
+    data.weights.player_affinity_games_floor,
+    data.weights.player_affinity_games_cap
+  );
 
   const final = finalScore(
     {
@@ -226,6 +249,7 @@ function scoreCandidate(candidateId, ctx, threatWeights, data) {
       roleFit: roleFitVal,
       heroBaseline: heroBaselineVal,
       counteredByEnemy: counteredByEnemyVal,
+      playerAffinity: playerAffinityVal,
     },
     data.weights
   );
@@ -252,6 +276,8 @@ function scoreCandidate(candidateId, ctx, threatWeights, data) {
     roleFit: roleFitVal,
     heroBaseline: heroBaselineVal,
     counteredByEnemy: counteredByEnemyVal,
+    playerAffinity: playerAffinityVal,
+    playerHeroStat: (data.playerHeroStats && data.playerHeroStats[candidateId]) || null,
     bestCounter,
     bestSynergy,
   };
@@ -326,6 +352,7 @@ const api = {
   roleRelevance,
   computeThreatWeights,
   roleFit,
+  playerHeroAffinity,
   normalizeFromNeutral,
   finalScore,
   scoreCandidate,

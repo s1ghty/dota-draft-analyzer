@@ -493,6 +493,26 @@ def build_role_stats(api_key):
     return role_stats
 
 
+# ---- player_hero_stats.json (OpenDota /players/{account_id}/heroes) ----
+# Optional, personal, single-user feature (SPEC.md's tool is explicitly for
+# one user -- CLAUDE.md): your own per-hero games/wins, so scoring.js can
+# give a small nudge toward heroes you actually play. Public endpoint, no
+# auth needed -- confirmed live 2026-09-16. Baked into the pipeline rather
+# than fetched live by the browser: this repo is public (GitHub Pages), and
+# a live per-page-load browser fetch would need OpenDota to send
+# Access-Control-Allow-Origin (unconfirmed -- their API was down, HTTP 521,
+# while checking this), on top of adding a live network dependency to an
+# app whose whole point is "never touches the network" (CLAUDE.md). Server-
+# side via the same fetch_json() every other source already uses sidesteps
+# both problems.
+def build_player_hero_stats(account_id):
+    data = fetch_json(f"{OPENDOTA}/players/{account_id}/heroes")
+    if not isinstance(data, list):
+        print(f"  WARNING: unexpected response for account {account_id} (private profile or bad id?) -- writing empty player_hero_stats.json")
+        return {}
+    return {str(h["hero_id"]): {"games": h["games"], "win": h["win"]} for h in data if h.get("games", 0) > 0}
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--skip-stratz", action="store_true")
@@ -547,6 +567,16 @@ def main():
                 print(f"  hero_role_stats FAILED ({e})")
     else:
         print("skipping hero_role_stats")
+
+    account_id = os.environ.get("DOTA_ACCOUNT_ID")
+    if account_id:
+        print("OpenDota: player_hero_stats (personal affinity)")
+        try:
+            save("player_hero_stats.json", build_player_hero_stats(account_id))
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            print(f"  player_hero_stats FAILED ({e})")
+    else:
+        print("DOTA_ACCOUNT_ID not set -- skipping player_hero_stats.json (optional personal-affinity feature)")
 
     print("done")
 

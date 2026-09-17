@@ -19,6 +19,13 @@ const DATA_FILES = {
   heroCounters: "../data/hero_specific_counters.json",
 };
 
+// Optional: only exists once the pipeline's been run with DOTA_ACCOUNT_ID
+// set (personal hero-affinity feature). Missing/404 is the default state
+// for anyone who hasn't configured that -- must not break the app.
+const OPTIONAL_DATA_FILES = {
+  playerHeroStats: "../data/player_hero_stats.json",
+};
+
 const BUILD_PHASES = [
   ["start_game_items", "Start"],
   ["early_game_items", "Early"],
@@ -48,6 +55,18 @@ async function loadData() {
     })
   );
   data = Object.fromEntries(entries);
+
+  const optionalEntries = await Promise.all(
+    Object.entries(OPTIONAL_DATA_FILES).map(async ([key, url]) => {
+      try {
+        const res = await fetch(url);
+        return [key, res.ok ? await res.json() : {}];
+      } catch {
+        return [key, {}];
+      }
+    })
+  );
+  Object.assign(data, Object.fromEntries(optionalEntries));
 
   // reverse lookup for item icons: item_counters.json refers to items by
   // display name (curated text, sometimes not a real item at all -- e.g.
@@ -464,6 +483,10 @@ function renderCandidates(candidates, threat) {
     if (c.bestSynergy && c.bestSynergy.value > 0.5) {
       parts.push(`strong synergy with your ${heroName(c.bestSynergy.heroId)}`);
     }
+    if (c.playerAffinity > 0 && c.playerHeroStat) {
+      const wr = Math.round((c.playerHeroStat.win / c.playerHeroStat.games) * 100);
+      parts.push(`you play this hero (${c.playerHeroStat.games} games, ${wr}% WR)`);
+    }
     const reason = parts.join(", ") || "solid all-round pick for this role";
 
     // curated note: how this candidate counters the biggest matching enemy
@@ -485,7 +508,8 @@ function renderCandidates(candidates, threat) {
       `Overall pick score: ${c.finalScore.toFixed(3)} (raw, not a percentage -- ` +
       `only meaningful relative to others in this list). Combines counter (35%), ` +
       `synergy (25%), role fit (20%), baseline strength (10%), minus how hard ` +
-      `the enemy counters this pick (10%).`;
+      `the enemy counters this pick (10%), plus a small bonus if it's a hero ` +
+      `you personally play a lot (5%, only if configured).`;
 
     const li = document.createElement("li");
     li.className = "candidate";

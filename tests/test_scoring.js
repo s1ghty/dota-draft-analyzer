@@ -132,4 +132,16 @@ const puckCounterHeavy = Scoring.finalScore(
 );
 assert.ok(puckCounterHeavy > sniperCounterHeavy, "a much stronger counter into the same enemy should win once role_fit is normalized onto a comparable scale");
 
+// --- playerHeroAffinity: 0 below the floor (a fluke game isn't a "main"),
+// linear ramp between floor and cap, capped at 1 -- and 0 with no personal
+// data at all, which must be the default (anyone without DOTA_ACCOUNT_ID
+// configured has no player_hero_stats.json, so this must never distort
+// scoring for them).
+const playerHeroStats = { X: { games: 60, win: 30 }, Y: { games: 5, win: 5 } };
+assert.strictEqual(Scoring.playerHeroAffinity("X", playerHeroStats, 20, 100), 0.5, "60 games, floor 20, cap 100 -> halfway up the ramp");
+assert.strictEqual(Scoring.playerHeroAffinity("Y", playerHeroStats, 20, 100), 0, "5 games is below the floor -- doesn't count as a main yet");
+assert.strictEqual(Scoring.playerHeroAffinity("X", playerHeroStats, 20, 40), 1, "at/above the cap should clamp to 1, not overshoot");
+assert.strictEqual(Scoring.playerHeroAffinity("Z", playerHeroStats, 20, 100), 0, "a hero with no entry at all (never played) is 0");
+assert.strictEqual(Scoring.playerHeroAffinity("X", null, 20, 100), 0, "missing playerHeroStats entirely (the default, unconfigured state) must be 0, not throw");
+
 console.log("all scoring tests passed");
