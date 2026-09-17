@@ -8,9 +8,15 @@ summary — read `SPEC.md` for exact formulas.
 
 A single static HTML/JS/CSS page (no backend, no build step to run it) that
 scores candidate heroes live in the browser against the current draft state,
-using JSON data baked ahead of time by a one-time Python pipeline. The app
-itself never makes a network call — all internet access happens in
-`pipeline/build_data.py`, run manually and only after major patches.
+using JSON data baked ahead of time by a one-time Python pipeline. Nearly
+all internet access happens in `pipeline/build_data.py`, run manually and
+only after major patches. **One deliberate exception**: the optional
+personal hero-affinity feature makes a live, read-only, unauthenticated
+browser-side fetch to OpenDota's public player-stats API, but only if you
+enter your own account id in the app's profile dialog — nothing happens on
+load otherwise, and nothing about it is committed or shared server-side
+(see `player_hero_stats.json`'s entry below and the `PROFILE_STORAGE_KEY`
+comment in `app/app.js` for the full reasoning).
 
 ## Layout
 
@@ -35,12 +41,16 @@ itself never makes a network call — all internet access happens in
   - `item_builds.json` — hero_id → start/early/mid/late item picks from
     OpenDota's real match data (`/heroes/{id}/itemPopularity`), not in
     SPEC.md's original scope. Powers the UI's "Suggested Build" panel.
-  - `player_hero_stats.json` — optional, single-user only: your own
-    hero_id → {games, win} from OpenDota's public `/players/{account_id}/heroes`
-    (`DOTA_ACCOUNT_ID` env var). Powers a small "you play this hero" score
-    bonus (`weights.json`'s `player_affinity`) and reason-line note. Not
-    written at all if `DOTA_ACCOUNT_ID` isn't set -- the app handles that
-    file being absent gracefully (feature just doesn't activate).
+  - `player_hero_stats.json` — the site-wide *default*: hero_id →
+    {games, win} for whichever account `DOTA_ACCOUNT_ID` was set to when
+    the pipeline last ran. Powers a small "you play this hero" score bonus
+    (`weights.json`'s `player_affinity`) and reason-line note. Not written
+    at all if `DOTA_ACCOUNT_ID` isn't set -- the app handles that file
+    being absent gracefully (feature just doesn't activate). Any visitor
+    can override this for themselves, per-browser, via the app's profile
+    dialog (👤 button) -- see `PROFILE_STORAGE_KEY` in `app/app.js`. That
+    override is a live fetch stored only in `localStorage`, never written
+    to this file or committed anywhere.
 - `app/` — the static page: `index.html`, `scoring.js` (pure scoring
   functions, §3), `app.js` (UI wiring), `style.css`.
 - `tests/` — a small `unittest` script for the scoring functions.
@@ -118,10 +128,12 @@ roughly 10-20 minutes, OpenDota's rate limit is the bottleneck, not this
 script). Safe to re-run any time; nothing needs to be undone first.
 
 - `DOTA_ACCOUNT_ID` is your numeric Steam/Dota account id (the "friend ID"
-  number, not your Steam64 ID or profile name) — optional, only needed for
-  the personal-affinity bonus. Public data, no auth/API key required for
-  this one. Leave unset to skip it entirely; nothing else in the pipeline
-  depends on it.
+  number, not your Steam64 ID or profile name) — optional, sets the
+  *site-wide default* for the personal-affinity bonus (any visitor can
+  still override it for themselves, per-browser, via the app's own profile
+  dialog — no pipeline re-run needed for that). Public data, no auth/API
+  key required for this one. Leave unset to skip the default entirely;
+  nothing else in the pipeline depends on it.
 
 - Hand-curated data (hero `tags`/`threat_profile`, item `tier`, aliases)
   **survives the re-run automatically** — the pipeline merges onto the
@@ -163,18 +175,24 @@ No coding, no asking me — just the one command.
 - STRATZ requires a free-tier API key (GraphQL, bearer token) — read from
   `STRATZ_API_KEY` env var, never hardcode it. Get one at
   https://stratz.com/api.
-- `player_hero_stats.json` (personal-affinity feature, `DOTA_ACCOUNT_ID`):
-  this repo is public (GitHub Pages requires it on the free tier), so
-  whatever account id gets configured has its derived per-hero games/win
-  data committed to a public file. Not a secret the way an API key is, but
-  it is personally identifying (reveals which Steam account owns this
-  site). The account id itself stays in the env var, never committed --
-  only the derived stats file is. Considered fetching this live from the
-  browser instead (would avoid committing anything) but OpenDota's API
-  didn't appear to send `Access-Control-Allow-Origin` when checked, and
-  baking it into the pipeline keeps the app's "never touches the network"
-  invariant intact either way -- see the scoring.js comment on
-  `playerHeroAffinity()` for the full reasoning.
+- Personal hero-affinity feature has two layers, both feeding the same
+  `data.playerHeroStats` shape (`scoring.js`'s `playerHeroAffinity()`
+  doesn't care which one supplied it):
+  - **Site-wide default**, baked by the pipeline (`DOTA_ACCOUNT_ID` env
+    var → `data/player_hero_stats.json`, committed). This repo is public
+    (GitHub Pages requires it on the free tier), so whatever account id
+    gets configured has its derived per-hero games/win data committed to a
+    public file -- not a secret the way an API key is, but personally
+    identifying. The account id itself stays in the env var, never
+    committed -- only the derived stats file is.
+  - **Per-visitor override**, live from the browser (`app/app.js`'s
+    `PROFILE_STORAGE_KEY`/profile dialog, 👤 button). Originally skipped
+    this route because OpenDota's API didn't appear to send
+    `Access-Control-Allow-Origin` when first checked -- re-checked later
+    the same day once OpenDota was healthy again and it does (reflects
+    whatever `Origin` sent the request, confirmed with two different
+    origins). Nothing from this path is committed or shared -- it's
+    `localStorage`-only, per browser.
 - OpenDota's public REST + Explorer endpoints don't require a key but are
   rate-limited — the pipeline should be polite (small delay between the
   per-hero matchup calls) since it's a one-shot job, not something run often.

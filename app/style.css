@@ -123,7 +123,7 @@ body {
 #reset-btn:hover { background: rgba(239,84,100,0.15); border-color: var(--red); }
 #reset-btn:active { transform: scale(0.95); }
 
-#help-btn {
+.icon-btn {
   background: var(--surface-2);
   color: var(--accent);
   border: 1px solid var(--border-strong);
@@ -135,18 +135,23 @@ body {
   flex-shrink: 0;
   transition: background 0.15s, border-color 0.15s, transform 0.08s;
 }
-#help-btn:hover { background: rgba(108,142,255,0.15); border-color: var(--accent); }
-#help-btn:active { transform: scale(0.95); }
+.icon-btn:hover { background: rgba(108,142,255,0.15); border-color: var(--accent); }
+.icon-btn:active { transform: scale(0.95); }
 
-/* ---- Help panel: dismissible overlay, explains the app to a first-time
-   user mid-draft (SPEC.md-adjacent, not part of the scoring/data model). ---- */
-#help-overlay {
+/* ---- Dialog overlay: shared by Help and the profile dialog (and any
+   future one) -- a real centered modal with a dimmed backdrop. Was scoped
+   to #help-overlay specifically at first, so #profile-overlay never
+   picked up position:fixed/centering/backdrop *or* the .hidden rule --
+   it rendered in normal page flow, always visible, pushing the grid down
+   (found from a user screenshot, 2026-09-17). Class-based now so nothing
+   using this markup pattern can miss it again. ---- */
+.dialog-overlay {
   position: fixed; inset: 0; z-index: 50;
   background: rgba(5,5,8,0.6); backdrop-filter: blur(2px);
   display: flex; align-items: center; justify-content: center;
   padding: 24px;
 }
-#help-overlay.hidden { display: none; }
+.dialog-overlay.hidden { display: none; }
 
 #help-panel {
   background: var(--surface);
@@ -179,7 +184,27 @@ body {
 .help-body ul { margin: 0; padding-left: 20px; }
 .help-body li { margin-bottom: 5px; font-size: 0.88em; color: var(--text); line-height: 1.4; }
 .help-body li:last-child { margin-bottom: 0; }
+.help-body p { margin: 0 0 10px; font-size: 0.88em; color: var(--text); line-height: 1.4; }
 .help-note { font-size: 0.82em; color: var(--text-dim); margin: 8px 0 0; }
+
+.profile-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+#profile-input {
+  background: var(--surface-2); border: 1px solid var(--border-strong); color: var(--text);
+  padding: 8px 12px; border-radius: var(--radius-sm); font-size: 0.9em; flex: 1 1 180px;
+}
+#profile-input::placeholder { color: var(--text-dimmer); }
+#profile-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+#profile-save-btn, #profile-clear-btn {
+  background: var(--surface-2); border: 1px solid var(--border-strong); color: var(--text);
+  padding: 8px 14px; border-radius: var(--radius-sm); font-size: 0.88em; font-weight: 600; cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+#profile-save-btn { color: var(--accent); }
+#profile-save-btn:hover { background: rgba(108,142,255,0.15); border-color: var(--accent); }
+#profile-clear-btn { color: var(--red); }
+#profile-clear-btn:hover { background: rgba(239,84,100,0.15); border-color: var(--red); }
+#profile-status.error { color: var(--red); }
+#profile-status.ok { color: var(--green); }
 kbd {
   background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: 4px;
   padding: 1px 6px; font-size: 0.9em; font-family: inherit;

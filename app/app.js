@@ -1,7 +1,10 @@
 // UI wiring for the draft analyzer (SPEC.md §5). All the actual math lives
 // in scoring.js -- this file just tracks draft state, renders it, and
-// re-scores on every change. No network calls except the one-time load of
-// the local data/*.json files below.
+// re-scores on every change. One deliberate exception to "no network calls
+// beyond the one-time load of local data/*.json": the optional personal
+// profile feature (see PROFILE_STORAGE_KEY below) makes a live, read-only,
+// unauthenticated fetch to OpenDota's public API, but only if you've
+// entered your own account id -- nothing happens on load otherwise.
 
 const ICON_BASE = "https://cdn.cloudflare.steamstatic.com";
 
@@ -25,6 +28,59 @@ const DATA_FILES = {
 const OPTIONAL_DATA_FILES = {
   playerHeroStats: "../data/player_hero_stats.json",
 };
+
+// ---- personal profile (live, per-browser override of playerHeroStats) ----
+// The pipeline-baked data/player_hero_stats.json (above) only ever reflects
+// whichever one account the site owner configured -- this lets any visitor
+// enter their own id and see their own affinity bonus, stored only in
+// their own browser's localStorage, never sent anywhere but OpenDota's
+// public read-only API. Confirmed live (2026-09-17) that OpenDota sends
+// Access-Control-Allow-Origin reflecting whatever Origin asks, so this is
+// safe to call directly from the browser (no proxy needed).
+const PROFILE_STORAGE_KEY = "dota-draft-analyzer:profile";
+const PROFILE_CACHE_HOURS = 24; // re-fetch if older than this, otherwise trust the cached copy
+
+function loadStoredProfile() {
+  try {
+    const raw = localStorage.getItem(PROFILE_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null; // localStorage unavailable (private browsing, etc.) -- feature just won't persist
+  }
+}
+
+function saveStoredProfile(accountId, stats) {
+  try {
+    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify({ accountId, fetchedAt: Date.now(), stats }));
+  } catch {
+    // ignore -- worst case it just re-fetches next load instead of persisting
+  }
+}
+
+function clearStoredProfile() {
+  try {
+    localStorage.removeItem(PROFILE_STORAGE_KEY);
+  } catch {
+    // nothing to do
+  }
+}
+
+// same trim/shape as pipeline/build_data.py's build_player_hero_stats()
+function parsePlayerHeroesResponse(rawList) {
+  const stats = {};
+  for (const h of rawList) {
+    if (h.games > 0) stats[String(h.hero_id)] = { games: h.games, win: h.win };
+  }
+  return stats;
+}
+
+async function fetchLivePlayerHeroStats(accountId) {
+  const res = await fetch(`https://api.opendota.com/api/players/${accountId}/heroes`);
+  if (!res.ok) throw new Error(`OpenDota returned ${res.status}`);
+  const rawList = await res.json();
+  if (!Array.isArray(rawList)) throw new Error("unexpected response shape (private profile or bad id?)");
+  return parsePlayerHeroesResponse(rawList);
+}
 
 const BUILD_PHASES = [
   ["start_game_items", "Start"],
@@ -67,6 +123,31 @@ async function loadData() {
     })
   );
   Object.assign(data, Object.fromEntries(optionalEntries));
+
+  // personal profile: a per-browser override of playerHeroStats, on top of
+  // whichever site-wide default the pipeline baked in above. Keep the
+  // baked value around separately so "Forget my ID" has something to
+  // revert to instead of falling back to nothing.
+  data.bakedPlayerHeroStats = data.playerHeroStats;
+  const stored = loadStoredProfile();
+  if (stored && stored.accountId) {
+    const ageHours = (Date.now() - stored.fetchedAt) / 3600000;
+    if (stored.stats && ageHours < PROFILE_CACHE_HOURS) {
+      data.playerHeroStats = stored.stats;
+    } else {
+      try {
+        const stats = await fetchLivePlayerHeroStats(stored.accountId);
+        data.playerHeroStats = stats;
+        saveStoredProfile(stored.accountId, stats);
+      } catch {
+        // fetch failed on load (network hiccup, OpenDota down, etc.) --
+        // fall back to whatever's cached even if stale, or the site
+        // default if there's no cache at all. Silent here on purpose:
+        // errors are only surfaced interactively, from the profile dialog.
+        if (stored.stats) data.playerHeroStats = stored.stats;
+      }
+    }
+  }
 
   // reverse lookup for item icons: item_counters.json refers to items by
   // display name (curated text, sometimes not a real item at all -- e.g.
@@ -551,11 +632,75 @@ function closeHelp() {
   document.getElementById("help-overlay").classList.add("hidden");
 }
 
+function isProfileOpen() {
+  return !document.getElementById("profile-overlay").classList.contains("hidden");
+}
+function setProfileStatus(text, kind) {
+  const status = document.getElementById("profile-status");
+  status.textContent = text;
+  status.className = kind ? `help-note ${kind}` : "help-note";
+}
+function openProfile() {
+  document.getElementById("profile-overlay").classList.remove("hidden");
+  const stored = loadStoredProfile();
+  const input = document.getElementById("profile-input");
+  if (stored && stored.accountId) {
+    input.value = stored.accountId;
+    const count = stored.stats ? Object.keys(stored.stats).length : 0;
+    setProfileStatus(`Currently using account ${stored.accountId} (${count} hero${count === 1 ? "" : "es"} loaded).`);
+  } else {
+    input.value = "";
+    setProfileStatus("No personal account set -- using the site default.");
+  }
+}
+function closeProfile() {
+  document.getElementById("profile-overlay").classList.add("hidden");
+}
+async function saveProfile() {
+  const id = document.getElementById("profile-input").value.trim();
+  if (!id || !/^\d+$/.test(id)) {
+    setProfileStatus("Enter a valid numeric account id.", "error");
+    return;
+  }
+  setProfileStatus("Loading...");
+  try {
+    const stats = await fetchLivePlayerHeroStats(id);
+    data.playerHeroStats = stats;
+    saveStoredProfile(id, stats);
+    const count = Object.keys(stats).length;
+    setProfileStatus(`Saved -- ${count} hero${count === 1 ? "" : "es"} loaded.`, "ok");
+    renderAll();
+  } catch {
+    setProfileStatus("Couldn't load stats for that id -- check it's correct and your profile isn't set to private.", "error");
+  }
+}
+function clearProfile() {
+  clearStoredProfile();
+  data.playerHeroStats = data.bakedPlayerHeroStats || {};
+  document.getElementById("profile-input").value = "";
+  setProfileStatus("Cleared -- back to the site default.");
+  renderAll();
+}
+
 function wireControls() {
   document.getElementById("help-btn").addEventListener("click", openHelp);
   document.getElementById("help-close").addEventListener("click", closeHelp);
   document.getElementById("help-overlay").addEventListener("click", (e) => {
     if (e.target.id === "help-overlay") closeHelp(); // click on the backdrop, not the panel itself
+  });
+
+  document.getElementById("profile-btn").addEventListener("click", openProfile);
+  document.getElementById("profile-close").addEventListener("click", closeProfile);
+  document.getElementById("profile-overlay").addEventListener("click", (e) => {
+    if (e.target.id === "profile-overlay") closeProfile();
+  });
+  document.getElementById("profile-save-btn").addEventListener("click", saveProfile);
+  document.getElementById("profile-clear-btn").addEventListener("click", clearProfile);
+  document.getElementById("profile-input").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      saveProfile();
+    }
   });
 
   document.querySelectorAll(".role-btn").forEach((btn) => {
@@ -625,6 +770,10 @@ function wireControls() {
     if (isHelpOpen()) {
       if (e.key === "Escape") closeHelp();
       return; // don't let type-to-search steal keystrokes while Help is open
+    }
+    if (isProfileOpen()) {
+      if (e.key === "Escape") closeProfile();
+      return; // don't let type-to-search steal keystrokes while the profile dialog is open
     }
     const active = document.activeElement;
     if (active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.isContentEditable)) return;

@@ -24,10 +24,11 @@
     </div>
     <input id="search" type="search" placeholder="Search heroes..." autocomplete="off" />
     <button id="reset-btn" title="Clear Your Team, Enemy Team, and Bans">Reset</button>
-    <button id="help-btn" title="Help" aria-haspopup="dialog" aria-controls="help-overlay">?</button>
+    <button id="profile-btn" class="icon-btn" title="Your profile (personal hero-affinity bonus)" aria-haspopup="dialog" aria-controls="profile-overlay">&#128100;</button>
+    <button id="help-btn" class="icon-btn" title="Help" aria-haspopup="dialog" aria-controls="help-overlay">?</button>
   </header>
 
-  <div id="help-overlay" class="hidden">
+  <div id="help-overlay" class="dialog-overlay hidden">
     <div id="help-panel" role="dialog" aria-modal="true" aria-labelledby="help-title">
       <div class="help-header">
         <h2 id="help-title">How this works</h2>
@@ -72,7 +73,7 @@
             <li>The bar length is <b>relative to this list only</b> &mdash; not a win-rate or a percentage. It combines: counter matchup vs. enemies, synergy with your team, role fit at your chosen role, and baseline strength, minus how hard the enemy already counters the pick.</li>
             <li>The one-line reason under each name calls out its biggest single contributor (e.g. a strong matchup or synergy).</li>
             <li>A matchup number is sometimes followed by <i>"(N games on record)"</i> &mdash; that's how many real games back that specific number, so you can tell a well-supported stat from a thin one. No count shown just means that matchup hasn't been refreshed with a games count yet, not that something's wrong.</li>
-            <li><b>Optional:</b> if the pipeline's been run with your own Dota account configured, a small "you play this hero" bonus (and a games/win-rate note in the reason line) nudges heroes you actually have reps on. Off by default &mdash; single-user setup, not something you configure from the app itself.</li>
+            <li><b>Optional:</b> click the &#128100; button in the top bar and enter your Dota account id to get a small "you play this hero" bonus (and a games/win-rate note in the reason line) toward heroes you actually have reps on. Stored only in your browser, per-visitor &mdash; someone else opening the same site won't see your bonus unless they enter their own id.</li>
           </ul>
           <ul class="help-example help-example-list">
             <li class="candidate">
@@ -117,6 +118,26 @@
           </ul>
         </section>
 
+      </div>
+    </div>
+  </div>
+
+  <div id="profile-overlay" class="dialog-overlay hidden">
+    <div class="help-panel" role="dialog" aria-modal="true" aria-labelledby="profile-title">
+      <div class="help-header">
+        <h2 id="profile-title">Your profile</h2>
+        <button id="profile-close" aria-label="Close profile">&times;</button>
+      </div>
+      <div class="help-body">
+        <section>
+          <p>Enter your Dota account id (the numeric "Friend ID" from your Steam/Dota profile, not your name) to get a small pick bonus toward heroes you actually play. This is stored only in <b>this browser</b> &mdash; nobody else's view of the site is affected, and nothing is sent anywhere except a read-only lookup to OpenDota's public stats API.</p>
+          <div class="profile-form">
+            <input id="profile-input" type="text" inputmode="numeric" placeholder="e.g. 1174747570" autocomplete="off" />
+            <button id="profile-save-btn">Save</button>
+            <button id="profile-clear-btn">Forget my ID</button>
+          </div>
+          <p id="profile-status" class="help-note"></p>
+        </section>
       </div>
     </div>
   </div>
