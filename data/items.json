@@ -450,7 +450,7 @@
     "tier": "cheap"
   },
   "chasm_stone": {
-    "cost": 800,
+    "cost": 900,
     "icon": "/apps/dota2/images/dota_react/items/chasm_stone.png?t=1593393829403",
     "id": 1872,
     "localized_name": "Chasm Stone",
@@ -630,7 +630,7 @@
     "tier": "cheap"
   },
   "dagon": {
-    "cost": 3050,
+    "cost": 3000,
     "icon": "/apps/dota2/images/dota_react/items/dagon.png?t=1593393829403",
     "id": 104,
     "localized_name": "Dagon",
@@ -639,7 +639,7 @@
     "tier": "mid"
   },
   "dagon_2": {
-    "cost": 4200,
+    "cost": 4100,
     "icon": "/apps/dota2/images/dota_react/items/dagon_2.png?t=1593393829403",
     "id": 201,
     "localized_name": "Dagon",
@@ -648,7 +648,7 @@
     "tier": "mid"
   },
   "dagon_3": {
-    "cost": 5350,
+    "cost": 5200,
     "icon": "/apps/dota2/images/dota_react/items/dagon_3.png?t=1593393829403",
     "id": 202,
     "localized_name": "Dagon",
@@ -657,7 +657,7 @@
     "tier": "luxury"
   },
   "dagon_4": {
-    "cost": 6500,
+    "cost": 6300,
     "icon": "/apps/dota2/images/dota_react/items/dagon_4.png?t=1593393829403",
     "id": 203,
     "localized_name": "Dagon",
@@ -666,7 +666,7 @@
     "tier": "luxury"
   },
   "dagon_5": {
-    "cost": 7650,
+    "cost": 7400,
     "icon": "/apps/dota2/images/dota_react/items/dagon_5.png?t=1593393829403",
     "id": 204,
     "localized_name": "Dagon",
@@ -819,7 +819,7 @@
     "tier": "cheap"
   },
   "dragon_lance": {
-    "cost": 1900,
+    "cost": 2000,
     "icon": "/apps/dota2/images/dota_react/items/dragon_lance.png?t=1593393829403",
     "id": 236,
     "localized_name": "Dragon Lance",
@@ -1494,7 +1494,7 @@
     "tier": "cheap"
   },
   "greater_crit": {
-    "cost": 5100,
+    "cost": 5200,
     "icon": "/apps/dota2/images/dota_react/items/greater_crit.png?t=1593393829403",
     "id": 141,
     "localized_name": "Daedalus",
@@ -1620,7 +1620,7 @@
     "tier": "cheap"
   },
   "heart": {
-    "cost": 5100,
+    "cost": 5300,
     "icon": "/apps/dota2/images/dota_react/items/heart.png?t=1593393829403",
     "id": 114,
     "localized_name": "Heart of Tarrasque",
@@ -1629,7 +1629,7 @@
     "tier": "luxury"
   },
   "heavens_halberd": {
-    "cost": 3400,
+    "cost": 3300,
     "icon": "/apps/dota2/images/dota_react/items/heavens_halberd.png?t=1593393829403",
     "id": 210,
     "localized_name": "Heaven's Halberd",
@@ -1710,7 +1710,7 @@
     "tier": "cheap"
   },
   "hurricane_pike": {
-    "cost": 4450,
+    "cost": 4550,
     "icon": "/apps/dota2/images/dota_react/items/hurricane_pike.png?t=1593393829403",
     "id": 263,
     "localized_name": "Hurricane Pike",
@@ -2268,7 +2268,7 @@
     "tier": "cheap"
   },
   "octarine_core": {
-    "cost": 4900,
+    "cost": 5100,
     "icon": "/apps/dota2/images/dota_react/items/octarine_core.png?t=1593393829403",
     "id": 235,
     "localized_name": "Octarine Core",
@@ -2871,7 +2871,7 @@
     "tier": "cheap"
   },
   "recipe_dagon": {
-    "cost": 1150,
+    "cost": 1100,
     "icon": "/apps/dota2/images/dota_react/items/recipe.png?t=1593393829403",
     "id": 103,
     "localized_name": "Dagon Recipe",
@@ -2907,7 +2907,7 @@
     "tier": "cheap"
   },
   "recipe_dragon_lance": {
-    "cost": 450,
+    "cost": 550,
     "icon": "/apps/dota2/images/dota_react/items/recipe.png?t=1593393829403",
     "id": 234,
     "localized_name": "Dragon Lance Recipe",
@@ -2970,7 +2970,7 @@
     "tier": "cheap"
   },
   "recipe_greater_crit": {
-    "cost": 900,
+    "cost": 1000,
     "icon": "/apps/dota2/images/dota_react/items/recipe.png?t=1593393829403",
     "id": 140,
     "localized_name": "Daedalus Recipe",
@@ -2988,7 +2988,7 @@
     "tier": "cheap"
   },
   "recipe_gungir": {
-    "cost": 400,
+    "cost": 300,
     "icon": "/apps/dota2/images/dota_react/items/recipe.png?t=1593393829403",
     "id": 1565,
     "localized_name": "Gleipnir Recipe",
@@ -3024,7 +3024,7 @@
     "tier": "cheap"
   },
   "recipe_heart": {
-    "cost": 600,
+    "cost": 800,
     "icon": "/apps/dota2/images/dota_react/items/recipe.png?t=1593393829403",
     "id": 113,
     "localized_name": "Heart of Tarrasque Recipe",
@@ -3033,7 +3033,7 @@
     "tier": "cheap"
   },
   "recipe_heavens_halberd": {
-    "cost": 450,
+    "cost": 350,
     "icon": "/apps/dota2/images/dota_react/items/recipe.png?t=1593393829403",
     "id": 209,
     "localized_name": "Heaven's Halberd Recipe",
@@ -3078,7 +3078,7 @@
     "tier": "cheap"
   },
   "recipe_hydras_breath": {
-    "cost": 1100,
+    "cost": 1000,
     "icon": "/apps/dota2/images/dota_react/items/recipe.png?t=1593393829403",
     "id": 1857,
     "localized_name": "recipe_hydras_breath",
@@ -3195,7 +3195,7 @@
     "tier": "cheap"
   },
   "recipe_octarine_core": {
-    "cost": 200,
+    "cost": 400,
     "icon": "/apps/dota2/images/dota_react/items/recipe.png?t=1593393829403",
     "id": 228,
     "localized_name": "Octarine Core Recipe",
@@ -3303,7 +3303,7 @@
     "tier": "cheap"
   },
   "recipe_shivas_guard": {
-    "cost": 1350,
+    "cost": 1250,
     "icon": "/apps/dota2/images/dota_react/items/recipe.png?t=1593393829403",
     "id": 118,
     "localized_name": "Shiva's Guard Recipe",
