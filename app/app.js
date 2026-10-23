@@ -8,6 +8,14 @@
 
 const ICON_BASE = "https://cdn.cloudflare.steamstatic.com";
 
+// one shared icon for every "nothing here yet" state, instead of bare italic
+// text -- cheap, consistent, no new logic per spot.
+const EMPTY_ICON_SVG =
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>`;
+function emptyStateHtml(text) {
+  return `${EMPTY_ICON_SVG}<span>${text}</span>`;
+}
+
 const DATA_FILES = {
   heroes: "../data/heroes.json",
   items: "../data/items.json",
@@ -447,7 +455,7 @@ function renderThreats(threat) {
   const el = document.getElementById("threat-content");
   if (state.enemyTeam.length === 0) {
     el.className = "empty";
-    el.textContent = "Add enemy heroes to see threats.";
+    el.innerHTML = emptyStateHtml("Add enemy heroes to see threats.");
     return;
   }
   el.className = "";
@@ -497,13 +505,13 @@ function renderBuild() {
   const heroId = effectiveMyHeroId();
   if (!heroId) {
     el.className = "empty";
-    el.textContent = "Add your own hero to Your Team to see its build.";
+    el.innerHTML = emptyStateHtml("Add your own hero to Your Team to see its build.");
     return;
   }
   const build = data.itemBuilds[heroId];
   if (!build) {
     el.className = "empty";
-    el.textContent = `No build data for ${heroName(heroId)}.`;
+    el.innerHTML = emptyStateHtml(`No build data for ${heroName(heroId)}.`);
     return;
   }
 
@@ -529,12 +537,12 @@ function renderCandidates(candidates, threat) {
   const list = document.getElementById("candidates-list");
   if (state.yourTeam.length === 0 && state.enemyTeam.length === 0) {
     list.className = "empty";
-    list.textContent = "Pick your role and add heroes to see suggestions.";
+    list.innerHTML = emptyStateHtml("Pick your role and add heroes to see suggestions.");
     return;
   }
   if (Object.keys(data.heroRoleStats).length === 0) {
     list.className = "empty";
-    list.textContent = "hero_role_stats.json is empty (needs a STRATZ API key in the pipeline) -- role fit can't be computed, so no candidates pass the filter yet.";
+    list.innerHTML = emptyStateHtml("hero_role_stats.json is empty (needs a STRATZ API key in the pipeline) -- role fit can't be computed, so no candidates pass the filter yet.");
     return;
   }
   list.className = "";
@@ -734,6 +742,13 @@ function wireControls() {
     renderGrid();
   }
 
+  // visibility of the clear (x) button itself is pure CSS (:has(#search:not(:placeholder-shown)))
+  document.getElementById("search-clear").addEventListener("click", () => {
+    clearTimeout(idleTimer);
+    setSearch("");
+    searchBox.focus();
+  });
+
   // Enter adds the hero directly once the search has narrowed to exactly
   // one still-pickable match -- lets a fast draft run as type-name/Enter,
   // type-name/Enter with no clicking at all. Shift/Alt still override which
@@ -809,6 +824,8 @@ async function main() {
     document.getElementById("hero-grid").textContent =
       "Failed to load data/*.json -- serve this folder over http (see README/CLAUDE.md), don't open index.html directly. " + err.message;
     return;
+  } finally {
+    document.getElementById("loading-overlay").classList.add("hidden");
   }
   renderAll();
 }

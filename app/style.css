@@ -1,20 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 :root {
-  --bg: #0a0a0e;
-  --surface: #131318;
-  --surface-2: #1b1b22;
-  --border: rgba(255,255,255,0.08);
-  --border-strong: rgba(255,255,255,0.14);
-  --text: #eaeaf0;
-  --text-dim: #8b8b98;
-  --text-dimmer: #5c5c68;
-  --accent: #6c8eff;
-  --accent-glow: rgba(108,142,255,0.35);
+  --bg: #0a0d14;
+  --surface: #121621;
+  --surface-2: #1a202e;
+  --surface-3: #212838;
+  --border: rgba(255,255,255,0.07);
+  --border-strong: rgba(255,255,255,0.16);
+  --text: #eef0f6;
+  --text-dim: #8d93a8;
+  --text-dimmer: #5a6075;
+  --accent: #6e8bff;
+  --accent-2: #22c55e; /* status-green, used for "match found"/success states -- not a replacement for --green (Your Team's semantic color) */
+  --accent-glow: rgba(110,139,255,0.35);
   --green: #34c669;
   --red: #ef5464;
   --grey: #7a7a89;
   --gold: #f0b93d;
-  --radius: 12px;
-  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-sm: 9px;
+  --shadow-sm: 0 2px 10px rgba(0,0,0,0.3);
+  --shadow-md: 0 12px 40px rgba(0,0,0,0.5);
 }
 
 * { box-sizing: border-box; }
@@ -28,18 +34,60 @@ html, body {
 body {
   display: flex;
   flex-direction: column;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
 }
 
 /* thin, unobtrusive scrollbars everywhere a panel scrolls internally */
-* { scrollbar-width: thin; scrollbar-color: #3a3a45 transparent; }
+* { scrollbar-width: thin; scrollbar-color: #3a4256 transparent; }
 *::-webkit-scrollbar { width: 9px; height: 9px; }
 *::-webkit-scrollbar-track { background: transparent; }
-*::-webkit-scrollbar-thumb { background: #34343f; border-radius: 6px; border: 2px solid transparent; background-clip: padding-box; }
-*::-webkit-scrollbar-thumb:hover { background: #454552; background-clip: padding-box; }
+*::-webkit-scrollbar-thumb { background: #343d52; border-radius: 6px; border: 2px solid transparent; background-clip: padding-box; }
+*::-webkit-scrollbar-thumb:hover { background: #46506a; background-clip: padding-box; }
+
+/* ---- initial load state: loadData() fetches ~12 JSON files before the app
+   has anything to show -- this fills that gap instead of a blank rectangle.
+   Removed (class="hidden") the moment main() resolves, see app.js. ---- */
+#loading-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  color: var(--text-dim); font-size: 0.92em;
+}
+#loading-overlay.hidden { display: none; }
+.spinner {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 3px solid var(--surface-2); border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2s; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---- shared button base: role/mode/reset/icon/profile-save/profile-clear
+   used to each carry their own padding/radius/font-size that drifted
+   slightly -- one base, semantic color layered per button. ---- */
+.role-btn, .mode-btn, #reset-btn, .icon-btn, #profile-save-btn, #profile-clear-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.08s, box-shadow 0.15s, color 0.15s;
+}
+.role-btn:hover, .mode-btn:hover, #reset-btn:hover, .icon-btn:hover, #profile-save-btn:hover, #profile-clear-btn:hover {
+  background: var(--surface-3); border-color: #4a5068;
+}
+.role-btn:active, .mode-btn:active, #reset-btn:active, .icon-btn:active, #profile-save-btn:active, #profile-clear-btn:active {
+  transform: scale(0.95);
+}
+.role-btn:focus-visible, .mode-btn:focus-visible, #reset-btn:focus-visible, .icon-btn:focus-visible,
+#profile-save-btn:focus-visible, #profile-clear-btn:focus-visible, #search:focus-visible, #profile-input:focus-visible {
+  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow);
+}
 
 #top-bar {
   flex: 0 0 auto;
@@ -47,10 +95,10 @@ body {
   align-items: center;
   gap: 18px;
   padding: 12px 22px;
-  background: rgba(19,19,24,0.9);
+  background: rgba(18,22,33,0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  box-shadow: var(--shadow-sm);
   z-index: 5;
 }
 
@@ -65,22 +113,14 @@ body {
 .label { color: var(--text-dimmer); margin-right: 6px; font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; }
 
 .role-btn, .mode-btn {
-  background: var(--surface-2);
-  color: #c8c8d2;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
   padding: 7px 13px;
-  cursor: pointer;
   font-size: 0.88em;
   font-weight: 600;
-  transition: background 0.15s, border-color 0.15s, transform 0.08s, box-shadow 0.15s;
 }
-.role-btn:hover, .mode-btn:hover { background: #26262f; border-color: #4a4a58; }
-.role-btn:active, .mode-btn:active { transform: scale(0.95); }
 .role-btn.active {
-  background: linear-gradient(155deg, #7b9bff, var(--accent));
-  color: #fff; border-color: #8aa3ff;
-  box-shadow: 0 0 0 3px var(--accent-glow), 0 2px 8px rgba(108,142,255,0.3);
+  background: linear-gradient(155deg, #829bff, var(--accent));
+  color: #fff; border-color: #92a7ff;
+  box-shadow: 0 0 0 3px var(--accent-glow), 0 2px 8px rgba(110,139,255,0.3);
 }
 .mode-btn.active[data-mode="yours"] {
   background: linear-gradient(155deg, #46d67e, var(--green)); border-color: #5de08f; color: #06210f;
@@ -95,48 +135,56 @@ body {
   box-shadow: 0 0 0 3px rgba(122,122,137,0.3);
 }
 
-#search {
+/* ---- search: the specific visual ask -- a real search control instead of
+   a plain box competing for space. Icon + input + conditional clear button,
+   all in one bordered wrapper so it reads as a single control. ---- */
+#search-wrap {
   margin-left: auto;
+  position: relative;
+  display: flex; align-items: center;
+  min-width: 280px;
+}
+.search-icon {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  width: 16px; height: 16px; color: var(--text-dimmer); pointer-events: none;
+}
+#search {
+  width: 100%;
   background: var(--surface-2);
   border: 1px solid var(--border-strong);
   color: var(--text);
-  padding: 9px 15px;
+  padding: 9px 34px 9px 34px;
   border-radius: var(--radius-sm);
-  min-width: 260px;
+  font: inherit;
   font-size: 0.92em;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
 }
 #search::placeholder { color: var(--text-dimmer); }
-#search:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-
-#reset-btn {
-  background: var(--surface-2);
-  color: var(--red);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
-  padding: 9px 14px;
-  cursor: pointer;
-  font-size: 0.88em;
-  font-weight: 600;
-  transition: background 0.15s, border-color 0.15s, transform 0.08s;
+#search:focus { background: var(--surface-3); }
+.search-clear-btn {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  display: none; align-items: center; justify-content: center;
+  width: 22px; height: 22px; padding: 0;
+  background: none; border: none; border-radius: 50%; color: var(--text-dim); cursor: pointer;
+  transition: background 0.15s, color 0.15s;
 }
-#reset-btn:hover { background: rgba(239,84,100,0.15); border-color: var(--red); }
-#reset-btn:active { transform: scale(0.95); }
+.search-clear-btn svg { width: 14px; height: 14px; }
+.search-clear-btn:hover { background: var(--surface-3); color: var(--text); }
+/* shown only once the input actually has a value -- no JS needed for this */
+#search-wrap:has(#search:not(:placeholder-shown)) .search-clear-btn { display: flex; }
+
+#reset-btn { padding: 9px 14px; font-size: 0.88em; font-weight: 600; color: var(--red); }
+#reset-btn:hover { background: rgba(239,84,100,0.14); border-color: var(--red); }
 
 .icon-btn {
-  background: var(--surface-2);
-  color: var(--accent);
-  border: 1px solid var(--border-strong);
   border-radius: 50%;
   width: 34px; height: 34px;
-  cursor: pointer;
-  font-size: 0.95em;
-  font-weight: 700;
+  color: var(--accent);
   flex-shrink: 0;
-  transition: background 0.15s, border-color 0.15s, transform 0.08s;
+  padding: 0;
 }
-.icon-btn:hover { background: rgba(108,142,255,0.15); border-color: var(--accent); }
-.icon-btn:active { transform: scale(0.95); }
+.icon-btn:hover { background: rgba(110,139,255,0.15); border-color: var(--accent); }
+.icon-btn svg { width: 18px; height: 18px; }
 
 /* ---- Dialog overlay: shared by Help and the profile dialog (and any
    future one) -- a real centered modal with a dimmed backdrop. Was scoped
@@ -144,20 +192,21 @@ body {
    picked up position:fixed/centering/backdrop *or* the .hidden rule --
    it rendered in normal page flow, always visible, pushing the grid down
    (found from a user screenshot, 2026-09-17). Class-based now so nothing
-   using this markup pattern can miss it again. ---- */
+   using this markup pattern can miss it again -- keep this a class, not a
+   per-ID selector, if a third dialog is ever added. ---- */
 .dialog-overlay {
   position: fixed; inset: 0; z-index: 50;
-  background: rgba(5,5,8,0.6); backdrop-filter: blur(2px);
+  background: rgba(5,7,12,0.65); backdrop-filter: blur(3px);
   display: flex; align-items: center; justify-content: center;
   padding: 24px;
 }
 .dialog-overlay.hidden { display: none; }
 
-#help-panel {
+#help-panel, .help-panel {
   background: var(--surface);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  box-shadow: var(--shadow-md);
   width: min(640px, 100%);
   max-height: min(85vh, 780px);
   display: flex; flex-direction: column;
@@ -167,12 +216,13 @@ body {
   flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between;
   padding: 16px 20px; border-bottom: 1px solid var(--border);
 }
-.help-header h2 { margin: 0; font-size: 1.05em; }
-#help-close {
+.help-header h2 { margin: 0; font-size: 1.05em; font-weight: 700; }
+#help-close, #profile-close {
   background: none; border: none; color: var(--text-dim); font-size: 1.4em;
-  line-height: 1; cursor: pointer; padding: 0 4px;
+  line-height: 1; cursor: pointer; padding: 4px; border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
 }
-#help-close:hover { color: var(--text); }
+#help-close:hover, #profile-close:hover { color: var(--text); background: var(--surface-2); }
 
 .help-body { flex: 1 1 auto; overflow-y: auto; padding: 16px 20px 22px; }
 .help-body section { margin-bottom: 18px; }
@@ -182,29 +232,24 @@ body {
   color: var(--accent); font-weight: 700;
 }
 .help-body ul { margin: 0; padding-left: 20px; }
-.help-body li { margin-bottom: 5px; font-size: 0.88em; color: var(--text); line-height: 1.4; }
+.help-body li { margin-bottom: 5px; font-size: 0.88em; color: var(--text); line-height: 1.45; }
 .help-body li:last-child { margin-bottom: 0; }
-.help-body p { margin: 0 0 10px; font-size: 0.88em; color: var(--text); line-height: 1.4; }
+.help-body p { margin: 0 0 10px; font-size: 0.88em; color: var(--text); line-height: 1.45; }
 .help-note { font-size: 0.82em; color: var(--text-dim); margin: 8px 0 0; }
 
 .profile-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 #profile-input {
   background: var(--surface-2); border: 1px solid var(--border-strong); color: var(--text);
-  padding: 8px 12px; border-radius: var(--radius-sm); font-size: 0.9em; flex: 1 1 180px;
+  padding: 8px 12px; border-radius: var(--radius-sm); font: inherit; font-size: 0.9em; flex: 1 1 180px;
 }
 #profile-input::placeholder { color: var(--text-dimmer); }
-#profile-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
-#profile-save-btn, #profile-clear-btn {
-  background: var(--surface-2); border: 1px solid var(--border-strong); color: var(--text);
-  padding: 8px 14px; border-radius: var(--radius-sm); font-size: 0.88em; font-weight: 600; cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
-}
+#profile-save-btn, #profile-clear-btn { padding: 8px 14px; font-size: 0.88em; font-weight: 600; }
 #profile-save-btn { color: var(--accent); }
-#profile-save-btn:hover { background: rgba(108,142,255,0.15); border-color: var(--accent); }
+#profile-save-btn:hover { background: rgba(110,139,255,0.15); border-color: var(--accent); }
 #profile-clear-btn { color: var(--red); }
 #profile-clear-btn:hover { background: rgba(239,84,100,0.15); border-color: var(--red); }
 #profile-status.error { color: var(--red); }
-#profile-status.ok { color: var(--green); }
+#profile-status.ok { color: var(--accent-2); }
 kbd {
   background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: 4px;
   padding: 1px 6px; font-size: 0.9em; font-family: inherit;
@@ -264,6 +309,7 @@ kbd {
   #hero-grid { flex: 0 0 auto; max-height: 60vh; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
   #side-panel, #results-panel { flex: 0 0 auto; width: 100%; overflow: visible; }
   #candidates-list { max-height: 50vh; }
+  #search-wrap { min-width: 0; }
 }
 
 .hero-icon {
@@ -280,22 +326,23 @@ kbd {
      always resolves against the element's own width regardless of grid
      context, sidestepping that interaction completely -- this is the
      pre-aspect-ratio technique for exactly this case and has been reliable
-     everywhere for well over a decade. */
+     everywhere for well over a decade. Keep this mechanism even if the
+     visual values around it change. */
   height: 0;
   padding-bottom: 56.25%; /* 9/16 */
   background: var(--surface-2);
-  transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.12s;
 }
 .hero-icon img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.hero-icon:hover { border-color: #565664; transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.35); }
+.hero-icon:hover { border-color: #4a5068; transform: translateY(-2px); box-shadow: var(--shadow-sm); }
 
 /* search match state: clearly stands out, not just a thin border */
 .hero-icon.matched {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(240,185,61,0.35), 0 0 16px rgba(240,185,61,0.45);
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 3px rgba(34,197,94,0.3), 0 0 16px rgba(34,197,94,0.4);
   transform: translateY(-1px);
 }
-.hero-icon.dimmed { opacity: 0.22; }
+.hero-icon.dimmed { opacity: 0.2; }
 
 /* picked/banned state: distinct color per list, plus a corner badge */
 .hero-icon.status-yours, .hero-icon.status-enemy, .hero-icon.status-banned {
@@ -340,19 +387,20 @@ kbd {
   display: flex; align-items: center; gap: 6px;
   background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px 7px 4px 4px;
   font-size: 0.85em;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, background 0.15s;
 }
-.chip:hover { border-color: var(--border-strong); }
+.chip:hover { border-color: var(--border-strong); background: var(--surface-3); }
 .chip img { width: 26px; height: 15px; object-fit: cover; border-radius: 3px; }
 .chip button {
   background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 1.1em; line-height: 1; padding: 0 2px;
-  transition: color 0.15s;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
 }
-.chip button:hover { color: var(--red); }
+.chip button:hover { color: var(--red); background: rgba(239,84,100,0.12); }
 
 .chip-selectable { cursor: pointer; }
 .chip-selectable:hover { border-color: var(--accent); }
-.chip-selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); background: #1e2536; }
+.chip-selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); background: #1d2742; }
 
 .build-hint { font-size: 0.68em; font-weight: 400; color: var(--text-dimmer); text-transform: none; margin-left: 6px; }
 
@@ -381,7 +429,11 @@ kbd {
 }
 .build-items { display: flex; flex-wrap: wrap; gap: 5px; flex: 1 1 auto; }
 
-.empty { color: var(--text-dimmer); font-size: 0.85em; font-style: italic; }
+.empty {
+  color: var(--text-dimmer); font-size: 0.85em; font-style: normal;
+  display: flex; align-items: center; gap: 8px;
+}
+.empty svg { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.6; }
 
 .threat-hero { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
 .threat-hero img { width: 64px; height: 36px; object-fit: cover; border-radius: var(--radius-sm); flex-shrink: 0; }
