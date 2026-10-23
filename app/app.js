@@ -8,14 +8,6 @@
 
 const ICON_BASE = "https://cdn.cloudflare.steamstatic.com";
 
-// one shared icon for every "nothing here yet" state, instead of bare italic
-// text -- cheap, consistent, no new logic per spot.
-const EMPTY_ICON_SVG =
-  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>`;
-function emptyStateHtml(text) {
-  return `${EMPTY_ICON_SVG}<span>${text}</span>`;
-}
-
 const DATA_FILES = {
   heroes: "../data/heroes.json",
   items: "../data/items.json",
@@ -321,7 +313,7 @@ function renderGrid() {
     }
     const badge = { yours: "Y", enemy: "E", banned: "B" }[status];
     el.innerHTML = `
-      <img src="${heroIconUrl(id)}" alt="${heroName(id)}" loading="lazy" />
+      <img src="${heroIconUrl(id)}" alt="${heroName(id)}" />
       ${badge ? `<span class="status-badge">${badge}</span>` : ""}
       <span class="name">${heroName(id)}</span>`;
     el.addEventListener("click", (e) => addHero(id, addModeForEvent(e)));
@@ -455,16 +447,20 @@ function renderThreats(threat) {
   const el = document.getElementById("threat-content");
   if (state.enemyTeam.length === 0) {
     el.className = "empty";
-    el.innerHTML = emptyStateHtml("Add enemy heroes to see threats.");
+    el.textContent = "Add enemy heroes to see threats.";
     return;
   }
   el.className = "";
   el.innerHTML = "";
 
+  // show every drafted enemy, ranked -- capping this to just the top 2 used
+  // to hide whichever hero you actually wanted item suggestions for whenever
+  // it scored #3 or lower, with no way to see it short of removing other
+  // enemies to force it up the ranking.
   const ranked = [...state.enemyTeam].sort(
     (a, b) => threat.normalized[b] - threat.normalized[a]
   );
-  for (const id of ranked.slice(0, 2)) {
+  ranked.forEach((id, rank) => {
     const items = itemsForThreat(id, state.role);
     const itemsHtml = items.length
       ? items.map((i) => itemPillHtml(i.item, i.tier)).join("")
@@ -482,8 +478,9 @@ function renderThreats(threat) {
     }
 
     const div = document.createElement("div");
-    div.className = "threat-hero";
+    div.className = rank === 0 ? "threat-hero threat-hero-top" : "threat-hero";
     div.innerHTML = `
+      <span class="threat-rank">#${rank + 1}</span>
       <img src="${heroIconUrl(id)}" alt="" />
       <div class="threat-hero-info">
         <div class="name">${heroName(id)} <span class="threat-pct">(${Math.round(threat.normalized[id] * 100)}% of enemy threat)</span></div>
@@ -493,7 +490,7 @@ function renderThreats(threat) {
         ${noteHtml}
       </div>`;
     el.appendChild(div);
-  }
+  });
 }
 
 // build order for whichever Your Team hero is selected -- click a chip in
@@ -505,13 +502,13 @@ function renderBuild() {
   const heroId = effectiveMyHeroId();
   if (!heroId) {
     el.className = "empty";
-    el.innerHTML = emptyStateHtml("Add your own hero to Your Team to see its build.");
+    el.textContent = "Add your own hero to Your Team to see its build.";
     return;
   }
   const build = data.itemBuilds[heroId];
   if (!build) {
     el.className = "empty";
-    el.innerHTML = emptyStateHtml(`No build data for ${heroName(heroId)}.`);
+    el.textContent = `No build data for ${heroName(heroId)}.`;
     return;
   }
 
@@ -520,8 +517,35 @@ function renderBuild() {
     ? `<span class="build-hint">click a hero in Your Team to switch</span>`
     : "";
   el.innerHTML = `<div class="build-hero-name">${heroName(heroId)} ${hint}</div>`;
-  for (const [key, label] of BUILD_PHASES) {
-    const items = build[key] || [];
+  // OpenDota's itemPopularity buckets are independent samples per time
+  // window: at any given moment some players in the sample are still
+  // mid-assembly on a recipe item, so its raw cheap-tier components (Ogre
+  // Axe, Mithril Hammer, Staff of Wizardry, ...) show up as "popular" in the
+  // same mid/late bucket as the finished item itself (Black King Bar,
+  // Scythe of Vyse). Those components are a real purchase in Start/Early
+  // (that's genuinely what you buy first) but just build-step noise once
+  // we're looking at Mid/Late -- drop cheap-tier items from those two
+  // phases, keeping only the real mid/luxury purchases.
+  const filteredPhases = BUILD_PHASES.map(([key, label]) => {
+    let items = build[key] || [];
+    if (key === "mid_game_items" || key === "late_game_items") {
+      items = items.filter((name) => {
+        const item = data.itemsByName[name];
+        return !item || item.tier !== "cheap";
+      });
+    }
+    return [key, label, items];
+  });
+  // the same finished item (e.g. Blink Dagger, Aghanim's Scepter) also
+  // routinely repeats verbatim across adjacent buckets -- show it once, in
+  // the latest tier it appears in.
+  const seenLater = new Set();
+  const dedupedPhases = [...filteredPhases].reverse().map(([key, label, items]) => {
+    const kept = items.filter((name) => !seenLater.has(name));
+    kept.forEach((name) => seenLater.add(name));
+    return [key, label, kept];
+  }).reverse();
+  for (const [key, label, items] of dedupedPhases) {
     const row = document.createElement("div");
     row.className = "build-row";
     row.innerHTML = `
@@ -537,12 +561,12 @@ function renderCandidates(candidates, threat) {
   const list = document.getElementById("candidates-list");
   if (state.yourTeam.length === 0 && state.enemyTeam.length === 0) {
     list.className = "empty";
-    list.innerHTML = emptyStateHtml("Pick your role and add heroes to see suggestions.");
+    list.textContent = "Pick your role and add heroes to see suggestions.";
     return;
   }
   if (Object.keys(data.heroRoleStats).length === 0) {
     list.className = "empty";
-    list.innerHTML = emptyStateHtml("hero_role_stats.json is empty (needs a STRATZ API key in the pipeline) -- role fit can't be computed, so no candidates pass the filter yet.");
+    list.textContent = "hero_role_stats.json is empty (needs a STRATZ API key in the pipeline) -- role fit can't be computed, so no candidates pass the filter yet.";
     return;
   }
   list.className = "";
@@ -742,13 +766,6 @@ function wireControls() {
     renderGrid();
   }
 
-  // visibility of the clear (x) button itself is pure CSS (:has(#search:not(:placeholder-shown)))
-  document.getElementById("search-clear").addEventListener("click", () => {
-    clearTimeout(idleTimer);
-    setSearch("");
-    searchBox.focus();
-  });
-
   // Enter adds the hero directly once the search has narrowed to exactly
   // one still-pickable match -- lets a fast draft run as type-name/Enter,
   // type-name/Enter with no clicking at all. Shift/Alt still override which
@@ -824,8 +841,6 @@ async function main() {
     document.getElementById("hero-grid").textContent =
       "Failed to load data/*.json -- serve this folder over http (see README/CLAUDE.md), don't open index.html directly. " + err.message;
     return;
-  } finally {
-    document.getElementById("loading-overlay").classList.add("hidden");
   }
   renderAll();
 }

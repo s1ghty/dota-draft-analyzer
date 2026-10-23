@@ -1,26 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
 :root {
-  --bg: #0a0d14;
-  --surface: #121621;
-  --surface-2: #1a202e;
-  --surface-3: #212838;
-  --border: rgba(255,255,255,0.07);
-  --border-strong: rgba(255,255,255,0.16);
-  --text: #eef0f6;
-  --text-dim: #8d93a8;
-  --text-dimmer: #5a6075;
-  --accent: #6e8bff;
-  --accent-2: #22c55e; /* status-green, used for "match found"/success states -- not a replacement for --green (Your Team's semantic color) */
-  --accent-glow: rgba(110,139,255,0.35);
+  --bg: #0a0a0e;
+  --surface: #131318;
+  --surface-2: #1b1b22;
+  --border: rgba(255,255,255,0.08);
+  --border-strong: rgba(255,255,255,0.14);
+  --text: #eaeaf0;
+  --text-dim: #8b8b98;
+  --text-dimmer: #5c5c68;
+  --accent: #6c8eff;
+  --accent-2: #7b9bff;
+  --accent-glow: rgba(108,142,255,0.35);
   --green: #34c669;
   --red: #ef5464;
   --grey: #7a7a89;
   --gold: #f0b93d;
-  --radius: 14px;
-  --radius-sm: 9px;
-  --shadow-sm: 0 2px 10px rgba(0,0,0,0.3);
+  --radius: 12px;
+  --radius-sm: 8px;
   --shadow-md: 0 12px 40px rgba(0,0,0,0.5);
+  --grad-primary: linear-gradient(135deg, var(--accent-2), var(--accent));
 }
 
 * { box-sizing: border-box; }
@@ -34,60 +31,18 @@ html, body {
 body {
   display: flex;
   flex-direction: column;
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
 }
 
 /* thin, unobtrusive scrollbars everywhere a panel scrolls internally */
-* { scrollbar-width: thin; scrollbar-color: #3a4256 transparent; }
+* { scrollbar-width: thin; scrollbar-color: #3a3a45 transparent; }
 *::-webkit-scrollbar { width: 9px; height: 9px; }
 *::-webkit-scrollbar-track { background: transparent; }
-*::-webkit-scrollbar-thumb { background: #343d52; border-radius: 6px; border: 2px solid transparent; background-clip: padding-box; }
-*::-webkit-scrollbar-thumb:hover { background: #46506a; background-clip: padding-box; }
-
-/* ---- initial load state: loadData() fetches ~12 JSON files before the app
-   has anything to show -- this fills that gap instead of a blank rectangle.
-   Removed (class="hidden") the moment main() resolves, see app.js. ---- */
-#loading-overlay {
-  position: fixed; inset: 0; z-index: 100;
-  background: var(--bg);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
-  color: var(--text-dim); font-size: 0.92em;
-}
-#loading-overlay.hidden { display: none; }
-.spinner {
-  width: 30px; height: 30px; border-radius: 50%;
-  border: 3px solid var(--surface-2); border-top-color: var(--accent);
-  animation: spin 0.8s linear infinite;
-}
-@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2s; } }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ---- shared button base: role/mode/reset/icon/profile-save/profile-clear
-   used to each carry their own padding/radius/font-size that drifted
-   slightly -- one base, semantic color layered per button. ---- */
-.role-btn, .mode-btn, #reset-btn, .icon-btn, #profile-save-btn, #profile-clear-btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  background: var(--surface-2);
-  color: var(--text);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
-  font: inherit;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, transform 0.08s, box-shadow 0.15s, color 0.15s;
-}
-.role-btn:hover, .mode-btn:hover, #reset-btn:hover, .icon-btn:hover, #profile-save-btn:hover, #profile-clear-btn:hover {
-  background: var(--surface-3); border-color: #4a5068;
-}
-.role-btn:active, .mode-btn:active, #reset-btn:active, .icon-btn:active, #profile-save-btn:active, #profile-clear-btn:active {
-  transform: scale(0.95);
-}
-.role-btn:focus-visible, .mode-btn:focus-visible, #reset-btn:focus-visible, .icon-btn:focus-visible,
-#profile-save-btn:focus-visible, #profile-clear-btn:focus-visible, #search:focus-visible, #profile-input:focus-visible {
-  outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow);
-}
+*::-webkit-scrollbar-thumb { background: #34343f; border-radius: 6px; border: 2px solid transparent; background-clip: padding-box; }
+*::-webkit-scrollbar-thumb:hover { background: #454552; background-clip: padding-box; }
 
 #top-bar {
   flex: 0 0 auto;
@@ -95,10 +50,10 @@ body {
   align-items: center;
   gap: 18px;
   padding: 12px 22px;
-  background: rgba(18,22,33,0.92);
+  background: rgba(19,19,24,0.9);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
   z-index: 5;
 }
 
@@ -113,14 +68,24 @@ body {
 .label { color: var(--text-dimmer); margin-right: 6px; font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 600; }
 
 .role-btn, .mode-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--surface-2);
+  color: #c8c8d2;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
   padding: 7px 13px;
+  cursor: pointer;
   font-size: 0.88em;
   font-weight: 600;
+  transition: background 0.15s, border-color 0.15s, transform 0.08s, box-shadow 0.15s;
 }
+.role-btn img { width: 14px; height: 14px; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.85; }
+.role-btn:hover, .mode-btn:hover { background: #26262f; border-color: #4a4a58; }
+.role-btn:active, .mode-btn:active { transform: scale(0.95); }
 .role-btn.active {
-  background: linear-gradient(155deg, #829bff, var(--accent));
-  color: #fff; border-color: #92a7ff;
-  box-shadow: 0 0 0 3px var(--accent-glow), 0 2px 8px rgba(110,139,255,0.3);
+  background: linear-gradient(155deg, #7b9bff, var(--accent));
+  color: #fff; border-color: #8aa3ff;
+  box-shadow: 0 0 0 3px var(--accent-glow), 0 2px 8px rgba(108,142,255,0.3);
 }
 .mode-btn.active[data-mode="yours"] {
   background: linear-gradient(155deg, #46d67e, var(--green)); border-color: #5de08f; color: #06210f;
@@ -135,56 +100,48 @@ body {
   box-shadow: 0 0 0 3px rgba(122,122,137,0.3);
 }
 
-/* ---- search: the specific visual ask -- a real search control instead of
-   a plain box competing for space. Icon + input + conditional clear button,
-   all in one bordered wrapper so it reads as a single control. ---- */
-#search-wrap {
-  margin-left: auto;
-  position: relative;
-  display: flex; align-items: center;
-  min-width: 280px;
-}
-.search-icon {
-  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-  width: 16px; height: 16px; color: var(--text-dimmer); pointer-events: none;
-}
 #search {
-  width: 100%;
+  margin-left: auto;
   background: var(--surface-2);
   border: 1px solid var(--border-strong);
   color: var(--text);
-  padding: 9px 34px 9px 34px;
+  padding: 9px 15px;
   border-radius: var(--radius-sm);
-  font: inherit;
+  min-width: 260px;
   font-size: 0.92em;
-  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 #search::placeholder { color: var(--text-dimmer); }
-#search:focus { background: var(--surface-3); }
-.search-clear-btn {
-  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
-  display: none; align-items: center; justify-content: center;
-  width: 22px; height: 22px; padding: 0;
-  background: none; border: none; border-radius: 50%; color: var(--text-dim); cursor: pointer;
-  transition: background 0.15s, color 0.15s;
-}
-.search-clear-btn svg { width: 14px; height: 14px; }
-.search-clear-btn:hover { background: var(--surface-3); color: var(--text); }
-/* shown only once the input actually has a value -- no JS needed for this */
-#search-wrap:has(#search:not(:placeholder-shown)) .search-clear-btn { display: flex; }
+#search:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
 
-#reset-btn { padding: 9px 14px; font-size: 0.88em; font-weight: 600; color: var(--red); }
-#reset-btn:hover { background: rgba(239,84,100,0.14); border-color: var(--red); }
+#reset-btn {
+  background: var(--surface-2);
+  color: var(--red);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 9px 14px;
+  cursor: pointer;
+  font-size: 0.88em;
+  font-weight: 600;
+  transition: background 0.15s, border-color 0.15s, transform 0.08s;
+}
+#reset-btn:hover { background: rgba(239,84,100,0.15); border-color: var(--red); }
+#reset-btn:active { transform: scale(0.95); }
 
 .icon-btn {
+  background: var(--surface-2);
+  color: var(--accent);
+  border: 1px solid var(--border-strong);
   border-radius: 50%;
   width: 34px; height: 34px;
-  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 700;
   flex-shrink: 0;
-  padding: 0;
+  transition: background 0.15s, border-color 0.15s, transform 0.08s;
 }
-.icon-btn:hover { background: rgba(110,139,255,0.15); border-color: var(--accent); }
-.icon-btn svg { width: 18px; height: 18px; }
+.icon-btn:hover { background: rgba(108,142,255,0.15); border-color: var(--accent); }
+.icon-btn:active { transform: scale(0.95); }
 
 /* ---- Dialog overlay: shared by Help and the profile dialog (and any
    future one) -- a real centered modal with a dimmed backdrop. Was scoped
@@ -192,17 +149,16 @@ body {
    picked up position:fixed/centering/backdrop *or* the .hidden rule --
    it rendered in normal page flow, always visible, pushing the grid down
    (found from a user screenshot, 2026-09-17). Class-based now so nothing
-   using this markup pattern can miss it again -- keep this a class, not a
-   per-ID selector, if a third dialog is ever added. ---- */
+   using this markup pattern can miss it again. ---- */
 .dialog-overlay {
   position: fixed; inset: 0; z-index: 50;
-  background: rgba(5,7,12,0.65); backdrop-filter: blur(3px);
+  background: rgba(5,5,8,0.6); backdrop-filter: blur(2px);
   display: flex; align-items: center; justify-content: center;
   padding: 24px;
 }
 .dialog-overlay.hidden { display: none; }
 
-#help-panel, .help-panel {
+.help-panel {
   background: var(--surface);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
@@ -214,12 +170,19 @@ body {
 }
 .help-header {
   flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 20px; border-bottom: 1px solid var(--border);
+  padding: 18px 22px; border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
 }
-.help-header h2 { margin: 0; font-size: 1.05em; font-weight: 700; }
+.help-header h2 {
+  margin: 0; font-size: 1.05em; display: flex; align-items: center; gap: 9px;
+}
+.help-header h2::before {
+  content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--grad-primary);
+  box-shadow: 0 0 8px var(--accent-glow); flex-shrink: 0;
+}
 #help-close, #profile-close {
   background: none; border: none; color: var(--text-dim); font-size: 1.4em;
-  line-height: 1; cursor: pointer; padding: 4px; border-radius: 6px;
+  line-height: 1; cursor: pointer; padding: 2px 8px; border-radius: var(--radius-sm);
   transition: background 0.15s, color 0.15s;
 }
 #help-close:hover, #profile-close:hover { color: var(--text); background: var(--surface-2); }
@@ -232,24 +195,39 @@ body {
   color: var(--accent); font-weight: 700;
 }
 .help-body ul { margin: 0; padding-left: 20px; }
-.help-body li { margin-bottom: 5px; font-size: 0.88em; color: var(--text); line-height: 1.45; }
+.help-body li { margin-bottom: 5px; font-size: 0.88em; color: var(--text); line-height: 1.4; }
 .help-body li:last-child { margin-bottom: 0; }
-.help-body p { margin: 0 0 10px; font-size: 0.88em; color: var(--text); line-height: 1.45; }
+.help-body p { margin: 0 0 10px; font-size: 0.88em; color: var(--text); line-height: 1.4; }
 .help-note { font-size: 0.82em; color: var(--text-dim); margin: 8px 0 0; }
 
-.profile-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.profile-form {
+  display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px;
+}
 #profile-input {
-  background: var(--surface-2); border: 1px solid var(--border-strong); color: var(--text);
-  padding: 8px 12px; border-radius: var(--radius-sm); font: inherit; font-size: 0.9em; flex: 1 1 180px;
+  background: var(--surface); border: 1px solid var(--border-strong); color: var(--text);
+  padding: 10px 13px; border-radius: var(--radius-sm); font-size: 0.92em; flex: 1 1 200px;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 #profile-input::placeholder { color: var(--text-dimmer); }
-#profile-save-btn, #profile-clear-btn { padding: 8px 14px; font-size: 0.88em; font-weight: 600; }
-#profile-save-btn { color: var(--accent); }
-#profile-save-btn:hover { background: rgba(110,139,255,0.15); border-color: var(--accent); }
-#profile-clear-btn { color: var(--red); }
+#profile-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+#profile-save-btn, #profile-clear-btn {
+  border-radius: var(--radius-sm); font-size: 0.88em; font-weight: 700; cursor: pointer;
+  padding: 10px 16px; border: 1px solid transparent;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, transform 0.08s;
+}
+#profile-save-btn:active, #profile-clear-btn:active { transform: scale(0.96); }
+#profile-save-btn {
+  background: var(--grad-primary); color: #fff;
+  box-shadow: 0 2px 10px rgba(108,142,255,0.3);
+}
+#profile-save-btn:hover { box-shadow: 0 2px 16px rgba(108,142,255,0.5); }
+#profile-clear-btn { background: transparent; border-color: var(--border-strong); color: var(--red); }
 #profile-clear-btn:hover { background: rgba(239,84,100,0.15); border-color: var(--red); }
+#profile-status { display: block; }
 #profile-status.error { color: var(--red); }
-#profile-status.ok { color: var(--accent-2); }
+#profile-status.ok { color: var(--green); }
 kbd {
   background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: 4px;
   padding: 1px 6px; font-size: 0.9em; font-family: inherit;
@@ -308,8 +286,6 @@ kbd {
   #layout { flex-direction: column; overflow: visible; height: auto; }
   #hero-grid { flex: 0 0 auto; max-height: 60vh; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
   #side-panel, #results-panel { flex: 0 0 auto; width: 100%; overflow: visible; }
-  #candidates-list { max-height: 50vh; }
-  #search-wrap { min-width: 0; }
 }
 
 .hero-icon {
@@ -326,23 +302,22 @@ kbd {
      always resolves against the element's own width regardless of grid
      context, sidestepping that interaction completely -- this is the
      pre-aspect-ratio technique for exactly this case and has been reliable
-     everywhere for well over a decade. Keep this mechanism even if the
-     visual values around it change. */
+     everywhere for well over a decade. */
   height: 0;
   padding-bottom: 56.25%; /* 9/16 */
   background: var(--surface-2);
-  transition: border-color 0.15s, box-shadow 0.15s, transform 0.12s;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
 }
 .hero-icon img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.hero-icon:hover { border-color: #4a5068; transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.hero-icon:hover { border-color: #565664; transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.35); }
 
 /* search match state: clearly stands out, not just a thin border */
 .hero-icon.matched {
-  border-color: var(--accent-2);
-  box-shadow: 0 0 0 3px rgba(34,197,94,0.3), 0 0 16px rgba(34,197,94,0.4);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(240,185,61,0.35), 0 0 16px rgba(240,185,61,0.45);
   transform: translateY(-1px);
 }
-.hero-icon.dimmed { opacity: 0.2; }
+.hero-icon.dimmed { opacity: 0.22; }
 
 /* picked/banned state: distinct color per list, plus a corner badge */
 .hero-icon.status-yours, .hero-icon.status-enemy, .hero-icon.status-banned {
@@ -387,20 +362,19 @@ kbd {
   display: flex; align-items: center; gap: 6px;
   background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 4px 7px 4px 4px;
   font-size: 0.85em;
-  transition: border-color 0.15s, background 0.15s;
+  transition: border-color 0.15s;
 }
-.chip:hover { border-color: var(--border-strong); background: var(--surface-3); }
+.chip:hover { border-color: var(--border-strong); }
 .chip img { width: 26px; height: 15px; object-fit: cover; border-radius: 3px; }
 .chip button {
   background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 1.1em; line-height: 1; padding: 0 2px;
-  border-radius: 4px;
-  transition: color 0.15s, background 0.15s;
+  transition: color 0.15s;
 }
-.chip button:hover { color: var(--red); background: rgba(239,84,100,0.12); }
+.chip button:hover { color: var(--red); }
 
 .chip-selectable { cursor: pointer; }
 .chip-selectable:hover { border-color: var(--accent); }
-.chip-selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); background: #1d2742; }
+.chip-selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); background: #1e2536; }
 
 .build-hint { font-size: 0.68em; font-weight: 400; color: var(--text-dimmer); text-transform: none; margin-left: 6px; }
 
@@ -408,9 +382,12 @@ kbd {
   background: var(--surface); border-radius: var(--radius); padding: 16px;
   border: 1px solid var(--border);
   display: flex; flex-direction: column;
-  min-height: 0; overflow: hidden; /* only #candidates-list scrolls -- build/threat stay pinned */
+  min-height: 0; overflow-y: auto; /* the whole panel scrolls as one unit --
+    pinning only #candidates-list and clipping the rest meant a long threat/
+    build section (lots of item suggestions, matchup notes) just got cut off
+    with no way to see the rest of it */
 }
-#candidates-section { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+#candidates-section { display: flex; flex-direction: column; }
 #results-panel h2 {
   font-size: 0.74em; margin: 0 0 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.09em; font-weight: 700;
   padding-bottom: 8px; border-bottom: 1px solid var(--border);
@@ -429,18 +406,18 @@ kbd {
 }
 .build-items { display: flex; flex-wrap: wrap; gap: 5px; flex: 1 1 auto; }
 
-.empty {
-  color: var(--text-dimmer); font-size: 0.85em; font-style: normal;
-  display: flex; align-items: center; gap: 8px;
-}
-.empty svg { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.6; }
+.empty { color: var(--text-dimmer); font-size: 0.85em; font-style: italic; }
 
-.threat-hero { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+.threat-hero { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.threat-hero:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 .threat-hero img { width: 64px; height: 36px; object-fit: cover; border-radius: var(--radius-sm); flex-shrink: 0; }
 .threat-hero-info { min-width: 0; }
 .threat-hero .why { font-size: 0.82em; color: var(--text-dim); margin-top: 2px; }
 .threat-hero .name { font-weight: 700; font-size: 0.98em; }
 .threat-pct { color: var(--text-dim); font-weight: 400; font-size: 0.85em; }
+.threat-rank { font-size: 0.72em; font-weight: 700; color: var(--text-dimmer); padding-top: 3px; flex-shrink: 0; width: 1.4em; }
+.threat-hero-top .threat-rank { color: var(--gold); }
+.threat-hero-top img { box-shadow: 0 0 0 2px var(--gold); }
 .threat-items-label { font-size: 0.72em; color: var(--text-dimmer); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 8px; }
 .threat-items { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
 
@@ -452,7 +429,7 @@ kbd {
 .item-pill img { width: 20px; height: 15px; object-fit: cover; border-radius: 3px; }
 .item-pill-text { padding: 2px 8px; }
 
-#candidates-list { list-style: none; margin: 0; padding: 0; flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+#candidates-list { list-style: none; margin: 0; padding: 0; }
 .candidate {
   display: flex; gap: 10px; align-items: flex-start;
   padding: 7px 6px; border-radius: var(--radius-sm);

@@ -3,23 +3,33 @@
 <head>
 <meta charset="utf-8" />
 <title>Dota Draft Analyzer</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%236e8bff' d='M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6z'/></svg>" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%E2%9A%94%EF%B8%8F</text></svg>" />
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="loading-overlay">
-    <div class="spinner"></div>
-    <div>Loading draft data&hellip;</div>
-  </div>
-
   <header id="top-bar">
     <div id="role-selector" role="radiogroup" aria-label="Your role">
       <span class="label">Role:</span>
-      <button class="role-btn" data-role="1">1</button>
-      <button class="role-btn" data-role="2">2</button>
-      <button class="role-btn" data-role="3">3</button>
-      <button class="role-btn" data-role="4">4</button>
-      <button class="role-btn" data-role="5">5</button>
+      <button class="role-btn" data-role="1" title="Position 1 &mdash; Carry">
+        <img src="icons/carry.png" alt="" aria-hidden="true" />
+        <span>1</span>
+      </button>
+      <button class="role-btn" data-role="2" title="Position 2 &mdash; Mid">
+        <img src="icons/mid.png" alt="" aria-hidden="true" />
+        <span>2</span>
+      </button>
+      <button class="role-btn" data-role="3" title="Position 3 &mdash; Offlane">
+        <img src="icons/offlane.png" alt="" aria-hidden="true" />
+        <span>3</span>
+      </button>
+      <button class="role-btn" data-role="4" title="Position 4 &mdash; Soft support">
+        <img src="icons/soft_support.png" alt="" aria-hidden="true" />
+        <span>4</span>
+      </button>
+      <button class="role-btn" data-role="5" title="Position 5 &mdash; Hard support">
+        <img src="icons/hard_support.png" alt="" aria-hidden="true" />
+        <span>5</span>
+      </button>
     </div>
     <div id="add-mode" role="radiogroup" aria-label="Clicking a hero adds to">
       <span class="label">Add to:</span>
@@ -27,24 +37,14 @@
       <button class="mode-btn" data-mode="enemy">Enemy Team</button>
       <button class="mode-btn" data-mode="banned">Ban</button>
     </div>
-    <div id="search-wrap">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input id="search" type="text" placeholder="Search or just start typing..." autocomplete="off" />
-      <button id="search-clear" class="search-clear-btn" type="button" aria-label="Clear search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
-      </button>
-    </div>
+    <input id="search" type="search" placeholder="Search heroes..." autocomplete="off" />
     <button id="reset-btn" title="Clear Your Team, Enemy Team, and Bans">Reset</button>
-    <button id="profile-btn" class="icon-btn" title="Your profile (personal hero-affinity bonus)" aria-haspopup="dialog" aria-controls="profile-overlay">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg>
-    </button>
-    <button id="help-btn" class="icon-btn" title="Help" aria-haspopup="dialog" aria-controls="help-overlay">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a2.9 2.9 0 1 1 3.9 2.7c-.7.3-1.2.9-1.2 1.7v.4"/><circle cx="12" cy="17.5" r="1" fill="currentColor" stroke="none"/></svg>
-    </button>
+    <button id="profile-btn" class="icon-btn" title="Your profile (personal hero-affinity bonus)" aria-haspopup="dialog" aria-controls="profile-overlay">&#128100;</button>
+    <button id="help-btn" class="icon-btn" title="Help" aria-haspopup="dialog" aria-controls="help-overlay">?</button>
   </header>
 
   <div id="help-overlay" class="dialog-overlay hidden">
-    <div id="help-panel" role="dialog" aria-modal="true" aria-labelledby="help-title">
+    <div id="help-panel" class="help-panel" role="dialog" aria-modal="true" aria-labelledby="help-title">
       <div class="help-header">
         <h2 id="help-title">How this works</h2>
         <button id="help-close" aria-label="Close help">&times;</button>
@@ -93,7 +93,7 @@
           <ul class="help-example help-example-list">
             <li class="candidate">
               <span class="rank">#1</span>
-              <img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/puck.png" alt="" />
+              <img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/puck.png" alt="" />
               <div class="info">
                 <div class="name">Puck</div>
                 <div class="reason">+9% vs their Invoker <span class="sample-size">(180 games on record)</span>, solid all-round pick for this role</div>
@@ -111,7 +111,7 @@
           </ul>
           <div class="help-example">
             <div class="threat-hero">
-              <img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/icons/invoker.png" alt="" />
+              <img src="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/invoker.png" alt="" />
               <div class="threat-hero-info">
                 <div class="name">Invoker <span class="threat-pct">(74% of enemy threat)</span></div>
                 <div class="threat-items-label">Items to buy against this threat:</div>
