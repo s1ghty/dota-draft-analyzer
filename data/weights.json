@@ -25,5 +25,7 @@
   "role_fit_pickrate_floor": 0.01,
   "kit_counter_bonus": 0.05,
   "player_affinity_games_floor": 20,
-  "player_affinity_games_cap": 100
+  "player_affinity_games_cap": 100,
+  "matchup_source": "stratz",
+  "matchup_stratz_games_floor": 20
 }

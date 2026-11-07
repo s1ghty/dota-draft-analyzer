@@ -32,6 +32,37 @@ function getSynergyGames(synergyMatrix, a, b) {
   return typeof cell === "object" ? cell.games : null; // null = old-format data, sample size unknown
 }
 
+// Matchup source: STRATZ (primary, as of 2026-11 -- evaluated against real
+// match outcomes before switching, see git log) with OpenDota as a per-pair
+// fallback, not a full replacement -- a pair STRATZ hasn't got enough games
+// for (matchup_stratz_games_floor, weights.json) falls back to OpenDota's
+// row for *that pair only*, not the whole matrix. stratzMatrix is whichever
+// bracket's matrix app.js currently has loaded (it owns the bracket->file
+// mapping and lazy-loading; this function just merges two already-resolved
+// matrices). source !== "stratz", or no stratzMatrix loaded yet, -> returns
+// openDotaMatrix unchanged (also the config switch to flip back entirely).
+function buildEffectiveMatchupMatrix(openDotaMatrix, stratzMatrix, gamesFloor, source) {
+  if (source !== "stratz" || !stratzMatrix) return openDotaMatrix;
+  const merged = {};
+  const allHeroIds = new Set([...Object.keys(openDotaMatrix), ...Object.keys(stratzMatrix)]);
+  for (const a of allHeroIds) {
+    merged[a] = {};
+    const opponents = new Set([
+      ...Object.keys(openDotaMatrix[a] || {}),
+      ...Object.keys(stratzMatrix[a] || {}),
+    ]);
+    for (const b of opponents) {
+      const stratzGames = getMatchupGames(stratzMatrix, a, b);
+      if (stratzGames !== null && stratzGames >= gamesFloor) {
+        merged[a][b] = { delta: getMatchup(stratzMatrix, a, b), games: stratzGames };
+      } else if (openDotaMatrix[a] && openDotaMatrix[a][b] !== undefined) {
+        merged[a][b] = openDotaMatrix[a][b];
+      }
+    }
+  }
+  return merged;
+}
+
 // Bracket toggle (hero_baseline + role stats only -- matchup/synergy don't
 // have per-bracket data yet). bracket "all"/falsy -> heroBaseline.json's
 // existing bare-number value, unchanged (this is what makes "All" reproduce
@@ -384,12 +415,26 @@ function rankCandidates(ctx, data) {
   const heroThreatProfiles = {};
   for (const hid of allHeroIds) heroThreatProfiles[hid] = data.heroes[hid].threat_profile;
 
+  // merged once per call (not per-candidate) -- data.matchupMatrixStratz is
+  // whichever bracket's STRATZ matrix app.js currently has loaded for
+  // ctx.bracket; see buildEffectiveMatchupMatrix's comment for the fallback
+  // rule. Everything downstream (threat scoring, counter scoring, the UI's
+  // per-enemy breakdown) reads this instead of data.matchupMatrix directly,
+  // so it's consistent across the whole scoring pass.
+  const effectiveMatchup = buildEffectiveMatchupMatrix(
+    data.matchupMatrix,
+    data.matchupMatrixStratz,
+    data.weights.matchup_stratz_games_floor,
+    data.weights.matchup_source
+  );
+  const effectiveData = { ...data, matchupMatrix: effectiveMatchup };
+
   const threatCtx = {
     ...ctx,
     heroBaseline: data.heroBaseline,
     heroBaselineBrackets: data.heroBaselineBrackets,
     synergyMatrix: data.synergyMatrix,
-    matchupMatrix: data.matchupMatrix,
+    matchupMatrix: effectiveMatchup,
   };
   const threat = computeThreatWeights(threatCtx, heroThreatProfiles, data.weights);
 
@@ -408,7 +453,7 @@ function rankCandidates(ctx, data) {
   const scored = [];
   for (const hid of allHeroIds) {
     if (excluded.has(hid)) continue;
-    const result = scoreCandidate(hid, { ...ctx, maxPickrateAtRole }, threat.normalized, data);
+    const result = scoreCandidate(hid, { ...ctx, maxPickrateAtRole }, threat.normalized, effectiveData);
     if (result) scored.push(result);
   }
 
@@ -442,6 +487,7 @@ const api = {
   getSynergy,
   getSynergyGames,
   getHeroBaseline,
+  buildEffectiveMatchupMatrix,
   hasKitCounter,
   counterScore,
   synergyScore,

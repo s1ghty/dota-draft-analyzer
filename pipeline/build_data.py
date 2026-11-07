@@ -7,6 +7,7 @@ Usage:
     python3 pipeline/build_data.py            # build everything
     python3 pipeline/build_data.py --skip-stratz   # skip role stats (needs STRATZ_API_KEY)
     python3 pipeline/build_data.py --skip-synergy  # skip the slow Explorer SQL query
+    python3 pipeline/build_data.py --skip-matchups-stratz  # skip the ~10-12 min STRATZ matchup pull
 
 STRATZ needs a free-tier API key: https://stratz.com/api -> set STRATZ_API_KEY.
 """
@@ -323,6 +324,172 @@ def build_matchup_matrix(hero_ids, delay=0.6):
     return matrix
 
 
+# ---- matchup_matrix_stratz_<bracket>.json (STRATZ heroVsHeroMatchup, primary
+# matchup source as of 2026-11 -- see CLAUDE.md) ----
+#
+# Why this exists alongside matchup_matrix.json rather than replacing it:
+# OpenDota's per-hero /matchups endpoint samples from a small fully-parsed
+# pool (tens of games/pair, sometimes single digits -- see SHRINKAGE_K above).
+# STRATZ's heroVsHeroMatchup, pulled explicitly across every week of the
+# current patch, gives 185-2.1M+ games per pair (median 14.3k-105k depending
+# on bracket) -- evaluated against real match outcomes before switching, but
+# the clean (non-leaky) test sample only ran to 77 matches, not the 10k+
+# originally wanted: OpenDota's parsed-match pool is too sparse to reach 10k
+# within any window that doesn't also predate the STRATZ training window
+# (confirmed live -- reaching 10k+ complete-roster matches needs ~230+ days
+# back, i.e. this patch's entire lifetime). At n=77 OpenDota scored higher
+# on point estimate but the confidence intervals overlapped heavily with
+# STRATZ's -- not a clean win either way, see git log/session notes for the
+# full numbers. Kept OpenDota as a per-pair fallback (weights.json's
+# matchup_source / matchup_stratz_games_floor), not deleted outright, given
+# that genuine uncertainty.
+#
+# week:null was tested and rejected: it does NOT reproduce "the current
+# week" as STRATZ's own schema docs claim (confirmed live -- null returned
+# ~83k games for a test hero's matchups at Divine/Immortal, while every
+# explicit single-week timestamp tested, including the literal current week,
+# returned 103k-231k -- a genuine doc/behavior mismatch, not a timezone
+# artifact, see the 7-offset test in git history/session notes). Every week
+# here is an explicit Monday-aligned epoch timestamp instead.
+MATCHUP_STRATZ_SHRINKAGE_K = 10  # see weights.json comment-equivalent: at
+# these sample sizes (hundreds to millions of games/pair) shrinkage barely
+# moves the number either way -- K=10 (vs the OpenDota-tuned K=30) mainly
+# matters for whichever pair sits just above the games-floor fallback cutoff,
+# or if a future pipeline run narrows the window (e.g. last-N-weeks instead
+# of whole-patch) and samples shrink back down.
+
+MATCHUP_STRATZ_BRACKETS = {
+    "herald_guardian": "HERALD_GUARDIAN",
+    "crusader_archon": "CRUSADER_ARCHON",
+    "legend_ancient": "LEGEND_ANCIENT",
+    "divine_immortal": "DIVINE_IMMORTAL",
+}
+MATCHUP_STRATZ_BATCH = 25
+
+
+def _patch_week_timestamps(patch):
+    """Monday-aligned epoch timestamps from the current patch's release week
+    through this week, inclusive -- explicit, not week:null (see above)."""
+    patch_start = dt.datetime.fromtimestamp(patch["date"], dt.timezone.utc)
+    patch_monday = (patch_start - dt.timedelta(days=patch_start.weekday())).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    )
+    now = dt.datetime.now(dt.timezone.utc)
+    this_monday = (now - dt.timedelta(days=now.weekday())).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    )
+    weeks = []
+    w = patch_monday
+    while w <= this_monday:
+        weeks.append(int(w.timestamp()))
+        w += dt.timedelta(weeks=1)
+    return weeks
+
+
+def _fetch_stratz_matchup_week(headers, hero_ids, bracket_enum, week_ts, retries=5):
+    fields = "\n".join(
+        f"  h{hid}: matchUp(heroId: {hid}, week: {week_ts}, bracketBasicIds: [{bracket_enum}], take: 200) "
+        f"{{ vs {{ heroId2 matchCount winCount }} }}"
+        for hid in hero_ids
+    )
+    query = "query {\n  heroStats {\n" + fields + "\n  }\n}"
+    body = json.dumps({"query": query}).encode()
+    headers = {**headers, "User-Agent": "STRATZ_API"}
+    for attempt in range(retries):
+        result = fetch_json(STRATZ_URL, headers=headers, data=body, timeout=60)
+        if "errors" not in result:
+            return result["data"]["heroStats"]
+        codes = {e.get("extensions", {}).get("code") for e in result["errors"]}
+        if codes == {"SERVER_BUSY"} and attempt < retries - 1:
+            wait = 2 ** (attempt + 1)
+            print(f"\n    SERVER_BUSY, retrying in {wait}s...")
+            time.sleep(wait)
+            continue
+        raise RuntimeError(result["errors"])
+    raise RuntimeError("exhausted retries on SERVER_BUSY")
+
+
+def build_matchup_matrix_stratz(api_key, hero_ids):
+    """Returns {bracket_key: matrix} for the 4 bracket groups + "all" (summed
+    across brackets), matrix shaped like matchup_matrix.json ({a: {b: {delta,
+    games}}}). ~792 requests (33 weeks x 4 brackets x 6 hero-batches at the
+    time this was written, scales with patch age) -- comfortably inside
+    STRATZ's rate limit (8/s, 150/min, 1500/hr, confirmed live via response
+    headers) but takes ~10-12 minutes wall-clock, dominated by request
+    latency, not throttling."""
+    hero_ids = sorted(int(h) for h in hero_ids)  # normalize to int -- callers pass
+    # strings (sorted(heroes, key=int) sorts numerically but returns strings), and
+    # the pair-dedup comparison below needs real int comparison, not lexicographic
+    # string comparison ("6" >= "14" is True as strings, wrong -- confirmed live,
+    # it silently dropped real pairs like Drow Ranger vs Pudge from the "all" matrix).
+    headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+    patch = get_current_patch()
+    weeks = _patch_week_timestamps(patch)
+    print(f"  STRATZ matchup pull: {len(weeks)} weeks (patch {patch['name']} start) x "
+          f"{len(MATCHUP_STRATZ_BRACKETS)} brackets x "
+          f"{-(-len(hero_ids) // MATCHUP_STRATZ_BATCH)} hero-batches")
+
+    # bracket -> hero_a -> hero_b -> {games, wins_lo}
+    totals = {bk: {} for bk in MATCHUP_STRATZ_BRACKETS}
+    request_count = 0
+    t0 = time.time()
+    for bracket_key, bracket_enum in MATCHUP_STRATZ_BRACKETS.items():
+        for week_ts in weeks:
+            for i in range(0, len(hero_ids), MATCHUP_STRATZ_BATCH):
+                batch = hero_ids[i:i + MATCHUP_STRATZ_BATCH]
+                result = _fetch_stratz_matchup_week(headers, batch, bracket_enum, week_ts)
+                request_count += 1
+                for hid in batch:
+                    entries = result.get(f"h{hid}")
+                    if not entries or not entries[0]:
+                        continue
+                    a = hid
+                    for e in entries[0]["vs"]:
+                        b = e["heroId2"]
+                        if a >= b:
+                            continue  # each pair taken from the lower heroId's own query
+                            # only -- confirmed live the two directions report slightly
+                            # different matchCount for the same pair/week/bracket (308 vs
+                            # 298), so using both would double-count on non-identical samples
+                        row = totals[bracket_key].setdefault(str(a), {})
+                        cell = row.setdefault(str(b), {"games": 0, "wins_lo": 0})
+                        cell["games"] += e["matchCount"]
+                        cell["wins_lo"] += e["winCount"]
+            print(f"  {bracket_key}: week {week_ts} done ({request_count} requests, {time.time()-t0:.0f}s)", end="\r")
+        print(f"  {bracket_key}: all weeks done" + " " * 30)
+
+    def shrink(wins, games, k=MATCHUP_STRATZ_SHRINKAGE_K):
+        if games <= 0:
+            return 0.0
+        raw_delta = wins / games - 0.5
+        return raw_delta * games / (games + k)
+
+    def to_matrix(bracket_data):
+        matrix = {}
+        for a, row in bracket_data.items():
+            for b, cell in row.items():
+                d = shrink(cell["wins_lo"], cell["games"])
+                matrix.setdefault(a, {})[b] = {"delta": round(d, 4), "games": cell["games"]}
+                matrix.setdefault(b, {})[a] = {"delta": round(-d, 4), "games": cell["games"]}
+        return matrix
+
+    matrices = {bk: to_matrix(bracket_data) for bk, bracket_data in totals.items()}
+
+    all_data = {}
+    for bracket_data in totals.values():
+        for a, row in bracket_data.items():
+            for b, cell in row.items():
+                if int(a) >= int(b):  # dict keys here are strings -- see the int()
+                    continue          # note above the hero_ids normalization
+                dst = all_data.setdefault(a, {}).setdefault(b, {"games": 0, "wins_lo": 0})
+                dst["games"] += cell["games"]
+                dst["wins_lo"] += cell["wins_lo"]
+    matrices["all"] = to_matrix(all_data)
+
+    print(f"  STRATZ matchup pull done: {request_count} requests, {time.time()-t0:.0f}s total")
+    return matrices
+
+
 # ---- synergy_matrix.json (OpenDota Explorer SQL) ----
 #
 # No prebuilt endpoint for this (SPEC.md §1) -- has to be a raw query.
@@ -599,6 +766,8 @@ def main():
     parser.add_argument("--skip-stratz", action="store_true")
     parser.add_argument("--skip-synergy", action="store_true")
     parser.add_argument("--skip-matchups", action="store_true")
+    parser.add_argument("--skip-matchups-stratz", action="store_true",
+                         help="skip the ~10-12 min STRATZ matchup pull (792 requests, scales with patch age)")
     parser.add_argument("--skip-builds", action="store_true")
     args = parser.parse_args()
 
@@ -640,16 +809,27 @@ def main():
     if not args.skip_stratz:
         api_key = os.environ.get("STRATZ_API_KEY")
         if not api_key:
-            print("STRATZ_API_KEY not set -- skipping hero_role_stats.json. "
-                  "Get a free key at https://stratz.com/api and re-run without --skip-stratz.")
+            print("STRATZ_API_KEY not set -- skipping hero_role_stats.json and the STRATZ "
+                  "matchup matrices. Get a free key at https://stratz.com/api and re-run without --skip-stratz.")
         else:
             print("STRATZ: hero_role_stats")
             try:
                 save("hero_role_stats.json", build_role_stats(api_key))
             except (urllib.error.URLError, RuntimeError) as e:
                 print(f"  hero_role_stats FAILED ({e})")
+
+            if not args.skip_matchups_stratz:
+                print("STRATZ: matchup_matrix_stratz_<bracket> (792 requests, ~10-12 min)")
+                try:
+                    matrices = build_matchup_matrix_stratz(api_key, sorted(heroes, key=int))
+                    for bracket_key, matrix in matrices.items():
+                        save(f"matchup_matrix_stratz_{bracket_key}.json", matrix)
+                except (urllib.error.URLError, RuntimeError) as e:
+                    print(f"  matchup_matrix_stratz FAILED ({e}) -- leaving existing files as-is")
+            else:
+                print("skipping matchup_matrix_stratz")
     else:
-        print("skipping hero_role_stats")
+        print("skipping hero_role_stats and matchup_matrix_stratz")
 
     account_id = os.environ.get("DOTA_ACCOUNT_ID")
     if account_id:

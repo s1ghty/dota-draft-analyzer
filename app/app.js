@@ -36,6 +36,36 @@ const OPTIONAL_DATA_FILES = {
   heroBaselineBrackets: "../data/hero_baseline_brackets.json",
 };
 
+// The STRATZ matchup matrix is ~5MB combined across all 5 bracket variants
+// (~670KB gzipped) -- loading all of it on every page load for a tool
+// that's supposed to open instantly isn't worth it when only one bracket is
+// ever in use at a time. Instead each bracket is its own file, fetched on
+// demand (and cached) the first time that bracket is selected -- each file
+// is ~1MB raw / 130-140KB gzipped, vs. 94.9KB gzipped for today's single
+// OpenDota matchup_matrix.json (which still loads eagerly, as the fallback
+// source for any pair a bracket's STRATZ data is too thin for).
+const STRATZ_MATCHUP_BRACKETS = ["all", "herald_guardian", "crusader_archon", "legend_ancient", "divine_immortal"];
+// "pro" has no STRATZ matchup-specific source (heroVsHeroMatchup doesn't do
+// pro-filtered brackets the way hero_baseline's Pro view does) -- falls
+// back to "all", same spirit as roleFit's "pro" fallback in scoring.js.
+function stratzMatchupFileKey(bracket) {
+  return STRATZ_MATCHUP_BRACKETS.includes(bracket) ? bracket : "all";
+}
+const stratzMatchupCache = {}; // bracket file key -> parsed matrix (fetched once, reused)
+async function ensureStratzMatchupLoaded(bracket) {
+  const key = stratzMatchupFileKey(bracket);
+  if (!stratzMatchupCache[key]) {
+    try {
+      const res = await fetch(`../data/matchup_matrix_stratz_${key}.json`);
+      stratzMatchupCache[key] = res.ok ? await res.json() : null;
+    } catch {
+      stratzMatchupCache[key] = null; // offline/missing file -- Scoring.buildEffectiveMatchupMatrix
+      // falls back to OpenDota's matrix wholesale when this is null, not a crash.
+    }
+  }
+  data.matchupMatrixStratz = stratzMatchupCache[key];
+}
+
 // ---- personal profile (live, per-browser override of playerHeroStats) ----
 // The pipeline-baked data/player_hero_stats.json (above) only ever reflects
 // whichever one account the site owner configured -- this lets any visitor
@@ -896,9 +926,12 @@ function wireControls() {
 
   const bracketSelect = document.getElementById("bracket-select");
   bracketSelect.value = state.bracket;
-  bracketSelect.addEventListener("change", () => {
+  bracketSelect.addEventListener("change", async () => {
     state.bracket = bracketSelect.value;
     saveBracket(state.bracket);
+    bracketSelect.disabled = true; // the matchup file for a not-yet-seen bracket is a real fetch
+    await ensureStratzMatchupLoaded(state.bracket);
+    bracketSelect.disabled = false;
     renderAll();
   });
 
@@ -1040,6 +1073,7 @@ async function main() {
   applyCompositionVisibility();
   try {
     await loadData();
+    await ensureStratzMatchupLoaded(state.bracket);
   } catch (err) {
     document.getElementById("hero-grid").textContent =
       "Failed to load data/*.json -- serve this folder over http (see README/CLAUDE.md), don't open index.html directly. " + err.message;

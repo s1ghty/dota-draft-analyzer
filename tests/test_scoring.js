@@ -260,4 +260,29 @@ assert.strictEqual(Scoring.roleFit("X", "1", bracketRoleStats, 0.001, 0.2, "pro"
 assert.notStrictEqual(Scoring.roleFit("X", "1", bracketRoleStats, 0.001, 0.2, "divine_immortal"), Scoring.roleFit("X", "1", bracketRoleStats, 0.001, 0.2, "all"), "a real bracket with its own data should score differently than All");
 assert.strictEqual(Scoring.roleFit("X", "1", bracketRoleStats, 0.001, 0.2, "herald_guardian"), null, "no byBracket entry for this bracket -- excluded, same treatment as near-zero pickrate (not a silent fallback to All)");
 
+// --- buildEffectiveMatchupMatrix: STRATZ primary, OpenDota per-pair fallback.
+const odMatrix = {
+  A: { B: { delta: 0.10, games: 50 }, C: { delta: 0.05, games: 40 } },
+  B: { A: { delta: -0.10, games: 50 } },
+  C: { A: { delta: -0.05, games: 40 } },
+};
+const stratzMatrixFixture = {
+  A: { B: { delta: 0.30, games: 500 } }, // plenty of games -- should win over OpenDota
+  B: { A: { delta: -0.30, games: 500 } },
+  // no C entry at all -- OpenDota's C row must survive untouched
+};
+const effAllSource = Scoring.buildEffectiveMatchupMatrix(odMatrix, stratzMatrixFixture, 20, "stratz");
+assert.strictEqual(Scoring.getMatchup(effAllSource, "A", "B"), 0.30, "STRATZ has enough games for A-B -- its delta should win over OpenDota's");
+assert.strictEqual(Scoring.getMatchup(effAllSource, "A", "C"), 0.05, "STRATZ has no A-C row at all -- OpenDota's should survive untouched");
+
+const stratzThinFixture = { A: { B: { delta: 0.30, games: 5 } }, B: { A: { delta: -0.30, games: 5 } } };
+const effThin = Scoring.buildEffectiveMatchupMatrix(odMatrix, stratzThinFixture, 20, "stratz");
+assert.strictEqual(Scoring.getMatchup(effThin, "A", "B"), 0.10, "STRATZ games (5) below the floor (20) -- falls back to OpenDota for this pair");
+
+const effOpenDotaSource = Scoring.buildEffectiveMatchupMatrix(odMatrix, stratzMatrixFixture, 20, "opendota");
+assert.strictEqual(Scoring.getMatchup(effOpenDotaSource, "A", "B"), 0.10, "matchup_source='opendota' -- STRATZ ignored entirely, config switch works");
+
+const effNoStratzLoaded = Scoring.buildEffectiveMatchupMatrix(odMatrix, null, 20, "stratz");
+assert.strictEqual(Scoring.getMatchup(effNoStratzLoaded, "A", "B"), 0.10, "no STRATZ matrix loaded yet (e.g. still fetching) -- falls back to OpenDota wholesale, not a crash");
+
 console.log("all scoring tests passed");
