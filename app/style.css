@@ -353,7 +353,25 @@ kbd {
 #yours-box { border-left-color: var(--green); }
 #enemy-box { border-left-color: var(--red); }
 #banned-box { border-left-color: var(--grey); max-height: 180px; overflow-y: auto; }
+#comp-box { border-left-color: var(--accent); }
 .team-box h2 { font-size: 0.74em; margin: 0 0 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.09em; font-weight: 700; }
+
+.comp-row {
+  display: grid; grid-template-columns: 1fr 34px 34px; align-items: center;
+  gap: 4px; padding: 4px 0;
+}
+.comp-row + .comp-row { border-top: 1px solid var(--border); }
+.comp-label { font-size: 0.82em; color: var(--text); }
+.comp-header { padding-bottom: 6px; }
+.comp-header + .comp-row { border-top: none; }
+.comp-col-label { font-size: 0.64em; color: var(--text-dimmer); text-transform: uppercase; letter-spacing: 0.04em; text-align: center; }
+.comp-dot {
+  width: 10px; height: 10px; border-radius: 50%; justify-self: center;
+  background: var(--surface-2); border: 1px solid var(--border-strong);
+}
+.comp-dot.present { background: var(--green); border-color: var(--green); }
+.comp-dot.present.enemy { background: var(--red); border-color: var(--red); }
+.comp-dot.missing { background: transparent; }
 .count { text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--text-dimmer); }
 .count.count-full { color: var(--gold); }
 .chip-row { display: flex; flex-wrap: wrap; gap: 6px; min-height: 32px; }

@@ -352,6 +352,39 @@ function renderChips(listName, containerId, countId) {
   }
 }
 
+// Team composition table: what each side has/lacks across the categories
+// Scoring.COMPOSITION_CATEGORIES tracks (disable, initiation, save/heal,
+// push/wave clear, magic/physical damage, pick-off). A gap on Your Team is
+// also what Scoring.compositionFit rewards candidates for filling -- see
+// weights.json's final_score.composition_fit.
+function renderComposition() {
+  const el = document.getElementById("comp-table");
+  if (state.yourTeam.length === 0 && state.enemyTeam.length === 0) {
+    el.className = "empty";
+    el.textContent = "Add heroes to either team to see composition.";
+    return;
+  }
+  el.className = "";
+  const yours = Scoring.teamComposition(state.yourTeam, data.heroes);
+  const enemy = Scoring.teamComposition(state.enemyTeam, data.heroes);
+  const rows = yours.map((cat, i) => {
+    const enemyPresent = enemy[i].present;
+    return `
+      <div class="comp-row">
+        <span class="comp-label">${cat.label}</span>
+        <span class="comp-dot ${cat.present ? "present" : "missing"}" title="${cat.present ? "Covered" : "Missing"} on Your Team"></span>
+        <span class="comp-dot ${enemyPresent ? "present enemy" : "missing"}" title="${enemyPresent ? "Covered" : "Missing"} on Enemy Team"></span>
+      </div>`;
+  }).join("");
+  el.innerHTML = `
+    <div class="comp-row comp-header">
+      <span class="comp-label"></span>
+      <span class="comp-col-label">Yours</span>
+      <span class="comp-col-label">Enemy</span>
+    </div>
+    ${rows}`;
+}
+
 const THREAT_REASONS = [
   ["baseline", "high current win rate"],
   ["enabledBySynergy", "enabled by their team's synergy"],
@@ -646,6 +679,7 @@ function renderAll() {
   renderChips("yourTeam", "yours-chips", "yours-count");
   renderChips("enemyTeam", "enemy-chips", "enemy-count");
   renderChips("banned", "banned-chips");
+  renderComposition();
 
   renderBuild();
 
