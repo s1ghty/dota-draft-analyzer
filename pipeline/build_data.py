@@ -171,8 +171,20 @@ def blend_by_sample_size(since_value, since_games, broad_value, broad_games, k):
     return since_value * weight + broad_value * (1 - weight)
 
 
-def build_hero_baseline():
-    stats = fetch_json(f"{OPENDOTA}/heroStats")
+# Bracket toggle (All / 4 rank-bracket groups / Pro, hero_baseline + role
+# stats only -- the rest of the app stays bracket-agnostic). OpenDota's
+# /heroStats groups its own 1-8 numeric brackets (Herald..Immortal) in pairs
+# that line up exactly with STRATZ's RankBracket enum groupings below, so
+# both data sources use the same 4 group keys.
+BRACKET_GROUPS_OPENDOTA = {
+    "herald_guardian": [1, 2],
+    "crusader_archon": [3, 4],
+    "legend_ancient": [5, 6],
+    "divine_immortal": [7, 8],
+}
+
+
+def build_hero_baseline(stats):
     patch = get_current_patch()
     patch_age_days = (time.time() - patch["date"]) / 86400 if patch else 7
     # buckets are oldest(6 days ago)->newest(today); how many trailing
@@ -193,6 +205,30 @@ def build_hero_baseline():
         blended = blend_by_sample_size(since_rate, since_games, broad_rate, broad_games, BASELINE_PATCH_TREND_K)
         baseline[str(h["id"])] = round(blended, 4) if (since_games or broad_games) else 0.5
     return baseline
+
+
+# Separate file, not a change to hero_baseline.json's existing shape --
+# hero_baseline.json's per-hero value is a bare float (scoring.js reads it
+# directly as a number), and "All" must keep reproducing it exactly. This
+# holds the 4 bracket groups + Pro, all pulled from the same /heroStats
+# response build_hero_baseline() already fetched -- no extra API call.
+# Raw all-time bucket totals (not patch-blended like "All" is): OpenDota's
+# per-bracket N_pick/N_win fields aren't broken out by time trend the way
+# pub_pick_trend/pub_win_trend are, so there's no "since-patch" number to
+# blend toward here.
+def build_hero_baseline_brackets(stats):
+    brackets = {}
+    for h in stats:
+        entry = {}
+        for group, indices in BRACKET_GROUPS_OPENDOTA.items():
+            games = sum(h.get(f"{i}_pick", 0) or 0 for i in indices)
+            wins = sum(h.get(f"{i}_win", 0) or 0 for i in indices)
+            entry[group] = {"winrate": round(wins / games, 4) if games else 0.5, "games": games}
+        pro_games = h.get("pro_pick", 0) or 0
+        pro_wins = h.get("pro_win", 0) or 0
+        entry["pro"] = {"winrate": round(pro_wins / pro_games, 4) if pro_games else 0.5, "games": pro_games}
+        brackets[str(h["id"])] = entry
+    return brackets
 
 
 # ---- item_builds.json (OpenDota /heroes/{id}/itemPopularity) ----
@@ -428,16 +464,26 @@ ROLE_STATS_PATCH_K = 1000
 ROLE_STATS_BROAD_LOOKBACK_VERSIONS = 3
 
 
-def build_role_stats(api_key):
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-        "User-Agent": "STRATZ_API",
-    }
+# STRATZ's own RankBracket enum (8 tiers, Herald..Immortal) grouped to match
+# BRACKET_GROUPS_OPENDOTA's 4 groups -- confirmed live via introspection that
+# winGameVersion's `bracketIds` arg takes this finer enum (not the 4-value
+# RankBracketBasicEnum some other STRATZ fields use), and that it composes
+# cleanly with positionIds/gameVersionId in one query (tested live).
+BRACKET_GROUPS_STRATZ = {
+    "herald_guardian": ["HERALD", "GUARDIAN"],
+    "crusader_archon": ["CRUSADER", "ARCHON"],
+    "legend_ancient": ["LEGEND", "ANCIENT"],
+    "divine_immortal": ["DIVINE", "IMMORTAL"],
+}
+
+
+def _fetch_role_stats_heroStats(headers, bracket_ids):
+    bracket_arg = f", bracketIds: [{', '.join(bracket_ids)}]" if bracket_ids else ""
     # one HTTP round-trip for all 5 positions via aliases, each pulling
-    # every hero x every patch version STRATZ has data for.
+    # every hero x every patch version STRATZ has data for (optionally
+    # restricted to bracket_ids).
     position_fields = "\n".join(
-        f"    {stratz_pos}: winGameVersion(positionIds: [{stratz_pos}], take: 20000) "
+        f"    {stratz_pos}: winGameVersion(positionIds: [{stratz_pos}], take: 20000{bracket_arg}) "
         f"{{ gameVersionId heroId matchCount winCount }}"
         for stratz_pos in STRATZ_POSITION_MAP
     )
@@ -446,8 +492,13 @@ def build_role_stats(api_key):
     result = fetch_json(STRATZ_URL, headers=headers, data=body, timeout=60)
     if "errors" in result:
         raise RuntimeError(f"STRATZ GraphQL error: {result['errors']}")
-    hero_stats = result["data"]["heroStats"]
+    return result["data"]["heroStats"]
 
+
+# Factored out of build_role_stats() so the exact same since-patch/broad-
+# lookback blend can run once unfiltered ("All" -- byte-identical to before
+# this bracket toggle existed) and again per bracket group.
+def _aggregate_role_stats(hero_stats):
     all_version_ids = {
         row["gameVersionId"]
         for stratz_pos in STRATZ_POSITION_MAP
@@ -484,16 +535,42 @@ def build_role_stats(api_key):
                 entry["broad_w"] += wins
             total_by_position[pos] = total_by_position.get(pos, 0) + matches
 
-    role_stats = {}
+    stats = {}
     for (hid, pos), e in per_hero.items():
         since_wr = e["since_w"] / e["since_m"] if e["since_m"] else 0.5
         broad_wr = e["broad_w"] / e["broad_m"] if e["broad_m"] else 0.5
         winrate = blend_by_sample_size(since_wr, e["since_m"], broad_wr, e["broad_m"], ROLE_STATS_PATCH_K)
         total = total_by_position.get(pos, 0)
-        role_stats.setdefault(hid, {})[pos] = {
+        stats.setdefault(hid, {})[pos] = {
             "winrate": round(winrate, 4),
             "pickrate": round(e["total_m"] / total, 6) if total else 0.0,
+            "games": e["total_m"],
         }
+    return stats
+
+
+def build_role_stats(api_key):
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "User-Agent": "STRATZ_API",
+    }
+    # "All" -- identical query/aggregation to before the bracket toggle
+    # existed, so its winrate/pickrate values reproduce today's numbers
+    # exactly. `games` is a new, purely additive field alongside them.
+    role_stats = _aggregate_role_stats(_fetch_role_stats_heroStats(headers, None))
+
+    for bracket_key, bracket_ids in BRACKET_GROUPS_STRATZ.items():
+        try:
+            bracket_stats = _aggregate_role_stats(_fetch_role_stats_heroStats(headers, bracket_ids))
+        except (urllib.error.URLError, RuntimeError) as e:
+            print(f"  hero_role_stats bracket {bracket_key} FAILED ({e}) -- skipping, \"All\" still has today's data")
+            continue
+        for hid, positions in bracket_stats.items():
+            for pos, entry in positions.items():
+                role_stats.setdefault(hid, {}).setdefault(pos, {"winrate": 0.5, "pickrate": 0.0, "games": 0})
+                role_stats[hid][pos].setdefault("byBracket", {})[bracket_key] = entry
+
     return role_stats
 
 
@@ -534,7 +611,9 @@ def main():
     save("items.json", items)
 
     print("OpenDota: hero_baseline")
-    save("hero_baseline.json", build_hero_baseline())
+    hero_stats_raw = fetch_json(f"{OPENDOTA}/heroStats")
+    save("hero_baseline.json", build_hero_baseline(hero_stats_raw))
+    save("hero_baseline_brackets.json", build_hero_baseline_brackets(hero_stats_raw))
 
     if not args.skip_matchups:
         print("OpenDota: matchup_matrix (one call per hero, be polite)")

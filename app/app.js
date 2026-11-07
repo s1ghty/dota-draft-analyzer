@@ -30,6 +30,10 @@ const OPTIONAL_DATA_FILES = {
   // written by the pipeline's last step (build_data.py) -- missing/404 just
   // means the pipeline hasn't been re-run since meta.json was added.
   meta: "../data/meta.json",
+  // bracket toggle's per-bracket + Pro hero_baseline breakdown -- missing
+  // just means "all" is still the only bracket with real data (Scoring.
+  // getHeroBaseline falls back to neutral 0.5 for any other bracket then).
+  heroBaselineBrackets: "../data/hero_baseline_brackets.json",
 };
 
 // ---- personal profile (live, per-browser override of playerHeroStats) ----
@@ -111,6 +115,35 @@ function saveShowComposition(val) {
   }
 }
 
+// Bracket toggle -- which rank bracket hero_baseline/role-fit are computed
+// against. "all" (default) reproduces the original, bracket-agnostic
+// numbers exactly; matchup/synergy are unaffected (no per-bracket data for
+// those yet). Persisted per-browser, same pattern as showComposition.
+const BRACKETS = [
+  ["all", "All"],
+  ["herald_guardian", "Herald–Guardian"],
+  ["crusader_archon", "Crusader–Archon"],
+  ["legend_ancient", "Legend–Ancient"],
+  ["divine_immortal", "Divine–Immortal"],
+  ["pro", "Pro"],
+];
+const BRACKET_KEY = "dota-draft-analyzer:bracket";
+function loadBracket() {
+  try {
+    const v = localStorage.getItem(BRACKET_KEY);
+    return BRACKETS.some(([key]) => key === v) ? v : "all";
+  } catch {
+    return "all";
+  }
+}
+function saveBracket(val) {
+  try {
+    localStorage.setItem(BRACKET_KEY, val);
+  } catch {
+    // ignore -- worst case it just resets to "all" next load
+  }
+}
+
 const state = {
   role: "1",
   addMode: "yours",
@@ -121,6 +154,7 @@ const state = {
   myHeroId: null, // which Your Team hero the Suggested Build panel targets; null = most recent pick
   search: "",
   showComposition: loadShowComposition(),
+  bracket: loadBracket(),
 };
 
 let data = null; // filled in by loadData()
@@ -242,6 +276,7 @@ function ctxForScoring() {
     bannedIds: state.banned,
     pickOrderIndexByHero,
     totalPicks: state.pickOrder.length,
+    bracket: state.bracket,
   };
 }
 
@@ -501,11 +536,18 @@ function gamesLabel(games) {
 // one the one-line reason above already shows.
 function candidateBreakdownHtml(c) {
   const w = data.weights.final_score;
+  // Pro's sample size is tiny compared to pub brackets (often single/double
+  // digit games) -- show it right next to the number whenever the Pro view
+  // is what produced it, so a 60% win rate off 10 games doesn't read with
+  // the same confidence as one off 50,000.
+  const baselineLabel = state.bracket === "pro"
+    ? `Baseline win rate (Pro, ${gamesLabel(data.heroBaselineBrackets[c.heroId]?.pro?.games)})`
+    : "Baseline win rate";
   const componentRows = [
     ["Counter", `${c.counterScore >= 0 ? "+" : ""}${Math.round(c.counterScore * 100)}%`, w.counter_score],
     ["Synergy", `${Math.round(c.synergyScore * 100)}%`, w.synergy_score],
     ["Role fit", c.roleFit.toFixed(2), w.role_fit],
-    ["Baseline win rate", `${Math.round(c.heroBaseline * 100)}%`, w.hero_baseline],
+    [baselineLabel, `${Math.round(c.heroBaseline * 100)}%`, w.hero_baseline],
     ["Countered by enemy", `${c.counteredByEnemy >= 0 ? "+" : ""}${Math.round(c.counteredByEnemy * 100)}%`, -w.countered_by_enemy_penalty],
     ["You play this hero", `${Math.round(c.playerAffinity * 100)}%`, w.player_affinity || 0],
   ];
@@ -850,6 +892,14 @@ function wireControls() {
     saveShowComposition(state.showComposition);
     applyCompositionVisibility();
     renderComposition();
+  });
+
+  const bracketSelect = document.getElementById("bracket-select");
+  bracketSelect.value = state.bracket;
+  bracketSelect.addEventListener("change", () => {
+    state.bracket = bracketSelect.value;
+    saveBracket(state.bracket);
+    renderAll();
   });
 
   document.getElementById("help-btn").addEventListener("click", openHelp);

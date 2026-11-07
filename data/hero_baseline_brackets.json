@@ -1,0 +1,2796 @@
+{
+  "1": {
+    "crusader_archon": {
+      "games": 228220,
+      "winrate": 0.5133
+    },
+    "divine_immortal": {
+      "games": 67869,
+      "winrate": 0.5095
+    },
+    "herald_guardian": {
+      "games": 51902,
+      "winrate": 0.5156
+    },
+    "legend_ancient": {
+      "games": 267395,
+      "winrate": 0.513
+    },
+    "pro": {
+      "games": 10,
+      "winrate": 0.6
+    }
+  },
+  "10": {
+    "crusader_archon": {
+      "games": 46885,
+      "winrate": 0.4733
+    },
+    "divine_immortal": {
+      "games": 16512,
+      "winrate": 0.4854
+    },
+    "herald_guardian": {
+      "games": 11670,
+      "winrate": 0.4778
+    },
+    "legend_ancient": {
+      "games": 57612,
+      "winrate": 0.4835
+    },
+    "pro": {
+      "games": 2,
+      "winrate": 0.5
+    }
+  },
+  "100": {
+    "crusader_archon": {
+      "games": 49268,
+      "winrate": 0.4658
+    },
+    "divine_immortal": {
+      "games": 27800,
+      "winrate": 0.4886
+    },
+    "herald_guardian": {
+      "games": 10787,
+      "winrate": 0.4598
+    },
+    "legend_ancient": {
+      "games": 79387,
+      "winrate": 0.4843
+    },
+    "pro": {
+      "games": 5,
+      "winrate": 0.6
+    }
+  },
+  "101": {
+    "crusader_archon": {
+      "games": 176458,
+      "winrate": 0.5023
+    },
+    "divine_immortal": {
+      "games": 38132,
+      "winrate": 0.4859
+    },
+    "herald_guardian": {
+      "games": 47058,
+      "winrate": 0.5014
+    },
+    "legend_ancient": {
+      "games": 180951,
+      "winrate": 0.4978
+    },
+    "pro": {
+      "games": 3,
+      "winrate": 0.3333
+    }
+  },
+  "102": {
+    "crusader_archon": {
+      "games": 43099,
+      "winrate": 0.5147
+    },
+    "divine_immortal": {
+      "games": 9704,
+      "winrate": 0.4989
+    },
+    "herald_guardian": {
+      "games": 12026,
+      "winrate": 0.5158
+    },
+    "legend_ancient": {
+      "games": 47601,
+      "winrate": 0.5129
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 1.0
+    }
+  },
+  "103": {
+    "crusader_archon": {
+      "games": 12431,
+      "winrate": 0.4901
+    },
+    "divine_immortal": {
+      "games": 4277,
+      "winrate": 0.5188
+    },
+    "herald_guardian": {
+      "games": 3594,
+      "winrate": 0.4875
+    },
+    "legend_ancient": {
+      "games": 12741,
+      "winrate": 0.5066
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "104": {
+    "crusader_archon": {
+      "games": 223452,
+      "winrate": 0.5291
+    },
+    "divine_immortal": {
+      "games": 46281,
+      "winrate": 0.5135
+    },
+    "herald_guardian": {
+      "games": 51326,
+      "winrate": 0.5261
+    },
+    "legend_ancient": {
+      "games": 245561,
+      "winrate": 0.5264
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 0.0
+    }
+  },
+  "105": {
+    "crusader_archon": {
+      "games": 201321,
+      "winrate": 0.5107
+    },
+    "divine_immortal": {
+      "games": 62146,
+      "winrate": 0.5081
+    },
+    "herald_guardian": {
+      "games": 50481,
+      "winrate": 0.5138
+    },
+    "legend_ancient": {
+      "games": 229582,
+      "winrate": 0.5079
+    },
+    "pro": {
+      "games": 25,
+      "winrate": 0.52
+    }
+  },
+  "106": {
+    "crusader_archon": {
+      "games": 66828,
+      "winrate": 0.4771
+    },
+    "divine_immortal": {
+      "games": 37205,
+      "winrate": 0.4978
+    },
+    "herald_guardian": {
+      "games": 13845,
+      "winrate": 0.4629
+    },
+    "legend_ancient": {
+      "games": 105686,
+      "winrate": 0.4892
+    },
+    "pro": {
+      "games": 15,
+      "winrate": 0.5333
+    }
+  },
+  "107": {
+    "crusader_archon": {
+      "games": 38959,
+      "winrate": 0.4804
+    },
+    "divine_immortal": {
+      "games": 24774,
+      "winrate": 0.5069
+    },
+    "herald_guardian": {
+      "games": 6957,
+      "winrate": 0.4707
+    },
+    "legend_ancient": {
+      "games": 66376,
+      "winrate": 0.4987
+    },
+    "pro": {
+      "games": 15,
+      "winrate": 0.4
+    }
+  },
+  "108": {
+    "crusader_archon": {
+      "games": 67088,
+      "winrate": 0.4922
+    },
+    "divine_immortal": {
+      "games": 15693,
+      "winrate": 0.4621
+    },
+    "herald_guardian": {
+      "games": 13395,
+      "winrate": 0.5009
+    },
+    "legend_ancient": {
+      "games": 83124,
+      "winrate": 0.4752
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 0.0
+    }
+  },
+  "109": {
+    "crusader_archon": {
+      "games": 49093,
+      "winrate": 0.4438
+    },
+    "divine_immortal": {
+      "games": 16688,
+      "winrate": 0.4605
+    },
+    "herald_guardian": {
+      "games": 14805,
+      "winrate": 0.4572
+    },
+    "legend_ancient": {
+      "games": 52013,
+      "winrate": 0.4499
+    },
+    "pro": {
+      "games": 8,
+      "winrate": 0.75
+    }
+  },
+  "11": {
+    "crusader_archon": {
+      "games": 128118,
+      "winrate": 0.4432
+    },
+    "divine_immortal": {
+      "games": 20681,
+      "winrate": 0.4036
+    },
+    "herald_guardian": {
+      "games": 38013,
+      "winrate": 0.4508
+    },
+    "legend_ancient": {
+      "games": 119297,
+      "winrate": 0.419
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "110": {
+    "crusader_archon": {
+      "games": 58132,
+      "winrate": 0.5187
+    },
+    "divine_immortal": {
+      "games": 28737,
+      "winrate": 0.5187
+    },
+    "herald_guardian": {
+      "games": 9926,
+      "winrate": 0.5141
+    },
+    "legend_ancient": {
+      "games": 88282,
+      "winrate": 0.5197
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "111": {
+    "crusader_archon": {
+      "games": 47181,
+      "winrate": 0.493
+    },
+    "divine_immortal": {
+      "games": 20681,
+      "winrate": 0.5163
+    },
+    "herald_guardian": {
+      "games": 10023,
+      "winrate": 0.4668
+    },
+    "legend_ancient": {
+      "games": 66033,
+      "winrate": 0.5029
+    },
+    "pro": {
+      "games": 2,
+      "winrate": 0.5
+    }
+  },
+  "112": {
+    "crusader_archon": {
+      "games": 71930,
+      "winrate": 0.4873
+    },
+    "divine_immortal": {
+      "games": 37341,
+      "winrate": 0.5137
+    },
+    "herald_guardian": {
+      "games": 17491,
+      "winrate": 0.4797
+    },
+    "legend_ancient": {
+      "games": 92918,
+      "winrate": 0.4998
+    },
+    "pro": {
+      "games": 12,
+      "winrate": 0.5
+    }
+  },
+  "113": {
+    "crusader_archon": {
+      "games": 74776,
+      "winrate": 0.5194
+    },
+    "divine_immortal": {
+      "games": 16750,
+      "winrate": 0.5281
+    },
+    "herald_guardian": {
+      "games": 18467,
+      "winrate": 0.5025
+    },
+    "legend_ancient": {
+      "games": 71908,
+      "winrate": 0.5272
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "114": {
+    "crusader_archon": {
+      "games": 69578,
+      "winrate": 0.4516
+    },
+    "divine_immortal": {
+      "games": 19643,
+      "winrate": 0.4628
+    },
+    "herald_guardian": {
+      "games": 21332,
+      "winrate": 0.4584
+    },
+    "legend_ancient": {
+      "games": 77704,
+      "winrate": 0.4571
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 0.0
+    }
+  },
+  "119": {
+    "crusader_archon": {
+      "games": 91884,
+      "winrate": 0.4775
+    },
+    "divine_immortal": {
+      "games": 41147,
+      "winrate": 0.5091
+    },
+    "herald_guardian": {
+      "games": 23337,
+      "winrate": 0.468
+    },
+    "legend_ancient": {
+      "games": 119404,
+      "winrate": 0.4947
+    },
+    "pro": {
+      "games": 37,
+      "winrate": 0.5405
+    }
+  },
+  "12": {
+    "crusader_archon": {
+      "games": 173165,
+      "winrate": 0.5279
+    },
+    "divine_immortal": {
+      "games": 43746,
+      "winrate": 0.5256
+    },
+    "herald_guardian": {
+      "games": 46067,
+      "winrate": 0.5285
+    },
+    "legend_ancient": {
+      "games": 176670,
+      "winrate": 0.5306
+    },
+    "pro": {
+      "games": 6,
+      "winrate": 0.5
+    }
+  },
+  "120": {
+    "crusader_archon": {
+      "games": 33673,
+      "winrate": 0.4548
+    },
+    "divine_immortal": {
+      "games": 23596,
+      "winrate": 0.4664
+    },
+    "herald_guardian": {
+      "games": 7000,
+      "winrate": 0.4421
+    },
+    "legend_ancient": {
+      "games": 56147,
+      "winrate": 0.462
+    },
+    "pro": {
+      "games": 22,
+      "winrate": 0.5
+    }
+  },
+  "121": {
+    "crusader_archon": {
+      "games": 87013,
+      "winrate": 0.5192
+    },
+    "divine_immortal": {
+      "games": 39112,
+      "winrate": 0.5237
+    },
+    "herald_guardian": {
+      "games": 16868,
+      "winrate": 0.5066
+    },
+    "legend_ancient": {
+      "games": 128040,
+      "winrate": 0.5217
+    },
+    "pro": {
+      "games": 9,
+      "winrate": 0.5556
+    }
+  },
+  "123": {
+    "crusader_archon": {
+      "games": 146786,
+      "winrate": 0.4718
+    },
+    "divine_immortal": {
+      "games": 49522,
+      "winrate": 0.4754
+    },
+    "herald_guardian": {
+      "games": 36091,
+      "winrate": 0.4624
+    },
+    "legend_ancient": {
+      "games": 175271,
+      "winrate": 0.4744
+    },
+    "pro": {
+      "games": 26,
+      "winrate": 0.5385
+    }
+  },
+  "126": {
+    "crusader_archon": {
+      "games": 42897,
+      "winrate": 0.4904
+    },
+    "divine_immortal": {
+      "games": 20316,
+      "winrate": 0.4904
+    },
+    "herald_guardian": {
+      "games": 10827,
+      "winrate": 0.479
+    },
+    "legend_ancient": {
+      "games": 60290,
+      "winrate": 0.4983
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 0.0
+    }
+  },
+  "128": {
+    "crusader_archon": {
+      "games": 103681,
+      "winrate": 0.4876
+    },
+    "divine_immortal": {
+      "games": 47614,
+      "winrate": 0.4907
+    },
+    "herald_guardian": {
+      "games": 19698,
+      "winrate": 0.4764
+    },
+    "legend_ancient": {
+      "games": 166189,
+      "winrate": 0.4945
+    },
+    "pro": {
+      "games": 5,
+      "winrate": 0.8
+    }
+  },
+  "129": {
+    "crusader_archon": {
+      "games": 45429,
+      "winrate": 0.475
+    },
+    "divine_immortal": {
+      "games": 22659,
+      "winrate": 0.474
+    },
+    "herald_guardian": {
+      "games": 9505,
+      "winrate": 0.4732
+    },
+    "legend_ancient": {
+      "games": 75499,
+      "winrate": 0.4742
+    },
+    "pro": {
+      "games": 3,
+      "winrate": 0.6667
+    }
+  },
+  "13": {
+    "crusader_archon": {
+      "games": 32359,
+      "winrate": 0.4571
+    },
+    "divine_immortal": {
+      "games": 15943,
+      "winrate": 0.4938
+    },
+    "herald_guardian": {
+      "games": 7851,
+      "winrate": 0.4447
+    },
+    "legend_ancient": {
+      "games": 46458,
+      "winrate": 0.474
+    },
+    "pro": {
+      "games": 3,
+      "winrate": 0.3333
+    }
+  },
+  "131": {
+    "crusader_archon": {
+      "games": 53106,
+      "winrate": 0.4795
+    },
+    "divine_immortal": {
+      "games": 28000,
+      "winrate": 0.4958
+    },
+    "herald_guardian": {
+      "games": 10917,
+      "winrate": 0.4681
+    },
+    "legend_ancient": {
+      "games": 79430,
+      "winrate": 0.4872
+    },
+    "pro": {
+      "games": 6,
+      "winrate": 0.8333
+    }
+  },
+  "135": {
+    "crusader_archon": {
+      "games": 96574,
+      "winrate": 0.5189
+    },
+    "divine_immortal": {
+      "games": 49189,
+      "winrate": 0.522
+    },
+    "herald_guardian": {
+      "games": 17776,
+      "winrate": 0.5132
+    },
+    "legend_ancient": {
+      "games": 157901,
+      "winrate": 0.5244
+    },
+    "pro": {
+      "games": 7,
+      "winrate": 0.1429
+    }
+  },
+  "136": {
+    "crusader_archon": {
+      "games": 63821,
+      "winrate": 0.4926
+    },
+    "divine_immortal": {
+      "games": 18313,
+      "winrate": 0.5026
+    },
+    "herald_guardian": {
+      "games": 20951,
+      "winrate": 0.4826
+    },
+    "legend_ancient": {
+      "games": 66594,
+      "winrate": 0.4989
+    },
+    "pro": {
+      "games": 3,
+      "winrate": 0.3333
+    }
+  },
+  "137": {
+    "crusader_archon": {
+      "games": 44615,
+      "winrate": 0.4928
+    },
+    "divine_immortal": {
+      "games": 17945,
+      "winrate": 0.5181
+    },
+    "herald_guardian": {
+      "games": 11638,
+      "winrate": 0.4892
+    },
+    "legend_ancient": {
+      "games": 52059,
+      "winrate": 0.4925
+    },
+    "pro": {
+      "games": 12,
+      "winrate": 0.5
+    }
+  },
+  "138": {
+    "crusader_archon": {
+      "games": 37498,
+      "winrate": 0.4804
+    },
+    "divine_immortal": {
+      "games": 9477,
+      "winrate": 0.4776
+    },
+    "herald_guardian": {
+      "games": 11752,
+      "winrate": 0.4829
+    },
+    "legend_ancient": {
+      "games": 39603,
+      "winrate": 0.4704
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "14": {
+    "crusader_archon": {
+      "games": 395611,
+      "winrate": 0.5198
+    },
+    "divine_immortal": {
+      "games": 107961,
+      "winrate": 0.5003
+    },
+    "herald_guardian": {
+      "games": 87971,
+      "winrate": 0.5294
+    },
+    "legend_ancient": {
+      "games": 426942,
+      "winrate": 0.5089
+    },
+    "pro": {
+      "games": 12,
+      "winrate": 0.6667
+    }
+  },
+  "145": {
+    "crusader_archon": {
+      "games": 49612,
+      "winrate": 0.4527
+    },
+    "divine_immortal": {
+      "games": 20313,
+      "winrate": 0.4532
+    },
+    "herald_guardian": {
+      "games": 12497,
+      "winrate": 0.4664
+    },
+    "legend_ancient": {
+      "games": 63773,
+      "winrate": 0.4478
+    },
+    "pro": {
+      "games": 16,
+      "winrate": 0.5
+    }
+  },
+  "15": {
+    "crusader_archon": {
+      "games": 89708,
+      "winrate": 0.5001
+    },
+    "divine_immortal": {
+      "games": 21872,
+      "winrate": 0.4979
+    },
+    "herald_guardian": {
+      "games": 27774,
+      "winrate": 0.5023
+    },
+    "legend_ancient": {
+      "games": 102407,
+      "winrate": 0.5028
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "155": {
+    "crusader_archon": {
+      "games": 18936,
+      "winrate": 0.471
+    },
+    "divine_immortal": {
+      "games": 10628,
+      "winrate": 0.4989
+    },
+    "herald_guardian": {
+      "games": 4541,
+      "winrate": 0.464
+    },
+    "legend_ancient": {
+      "games": 26960,
+      "winrate": 0.4874
+    },
+    "pro": {
+      "games": 8,
+      "winrate": 0.125
+    }
+  },
+  "16": {
+    "crusader_archon": {
+      "games": 62771,
+      "winrate": 0.4984
+    },
+    "divine_immortal": {
+      "games": 14366,
+      "winrate": 0.4738
+    },
+    "herald_guardian": {
+      "games": 17826,
+      "winrate": 0.5141
+    },
+    "legend_ancient": {
+      "games": 64068,
+      "winrate": 0.4848
+    },
+    "pro": {
+      "games": 12,
+      "winrate": 0.3333
+    }
+  },
+  "17": {
+    "crusader_archon": {
+      "games": 71752,
+      "winrate": 0.4639
+    },
+    "divine_immortal": {
+      "games": 23220,
+      "winrate": 0.4682
+    },
+    "herald_guardian": {
+      "games": 18753,
+      "winrate": 0.4713
+    },
+    "legend_ancient": {
+      "games": 86443,
+      "winrate": 0.468
+    },
+    "pro": {
+      "games": 8,
+      "winrate": 0.625
+    }
+  },
+  "18": {
+    "crusader_archon": {
+      "games": 137371,
+      "winrate": 0.51
+    },
+    "divine_immortal": {
+      "games": 50561,
+      "winrate": 0.5207
+    },
+    "herald_guardian": {
+      "games": 36321,
+      "winrate": 0.5059
+    },
+    "legend_ancient": {
+      "games": 165100,
+      "winrate": 0.5162
+    },
+    "pro": {
+      "games": 16,
+      "winrate": 0.375
+    }
+  },
+  "19": {
+    "crusader_archon": {
+      "games": 53591,
+      "winrate": 0.4453
+    },
+    "divine_immortal": {
+      "games": 20474,
+      "winrate": 0.4517
+    },
+    "herald_guardian": {
+      "games": 16759,
+      "winrate": 0.4524
+    },
+    "legend_ancient": {
+      "games": 63591,
+      "winrate": 0.445
+    },
+    "pro": {
+      "games": 8,
+      "winrate": 0.375
+    }
+  },
+  "2": {
+    "crusader_archon": {
+      "games": 237623,
+      "winrate": 0.5079
+    },
+    "divine_immortal": {
+      "games": 56188,
+      "winrate": 0.4868
+    },
+    "herald_guardian": {
+      "games": 56002,
+      "winrate": 0.5171
+    },
+    "legend_ancient": {
+      "games": 266161,
+      "winrate": 0.4966
+    },
+    "pro": {
+      "games": 8,
+      "winrate": 0.625
+    }
+  },
+  "20": {
+    "crusader_archon": {
+      "games": 131317,
+      "winrate": 0.5275
+    },
+    "divine_immortal": {
+      "games": 26194,
+      "winrate": 0.5054
+    },
+    "herald_guardian": {
+      "games": 32567,
+      "winrate": 0.533
+    },
+    "legend_ancient": {
+      "games": 147894,
+      "winrate": 0.5194
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 0.0
+    }
+  },
+  "21": {
+    "crusader_archon": {
+      "games": 215970,
+      "winrate": 0.4817
+    },
+    "divine_immortal": {
+      "games": 73796,
+      "winrate": 0.4896
+    },
+    "herald_guardian": {
+      "games": 56524,
+      "winrate": 0.4874
+    },
+    "legend_ancient": {
+      "games": 267791,
+      "winrate": 0.4842
+    },
+    "pro": {
+      "games": 35,
+      "winrate": 0.4286
+    }
+  },
+  "22": {
+    "crusader_archon": {
+      "games": 185604,
+      "winrate": 0.5041
+    },
+    "divine_immortal": {
+      "games": 44719,
+      "winrate": 0.4903
+    },
+    "herald_guardian": {
+      "games": 47852,
+      "winrate": 0.5016
+    },
+    "legend_ancient": {
+      "games": 208465,
+      "winrate": 0.5015
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 0.0
+    }
+  },
+  "23": {
+    "crusader_archon": {
+      "games": 63598,
+      "winrate": 0.4827
+    },
+    "divine_immortal": {
+      "games": 17209,
+      "winrate": 0.4929
+    },
+    "herald_guardian": {
+      "games": 16802,
+      "winrate": 0.483
+    },
+    "legend_ancient": {
+      "games": 77690,
+      "winrate": 0.4953
+    },
+    "pro": {
+      "games": 2,
+      "winrate": 0.5
+    }
+  },
+  "25": {
+    "crusader_archon": {
+      "games": 190583,
+      "winrate": 0.4691
+    },
+    "divine_immortal": {
+      "games": 46111,
+      "winrate": 0.4725
+    },
+    "herald_guardian": {
+      "games": 53530,
+      "winrate": 0.459
+    },
+    "legend_ancient": {
+      "games": 210677,
+      "winrate": 0.4722
+    },
+    "pro": {
+      "games": 6,
+      "winrate": 0.3333
+    }
+  },
+  "26": {
+    "crusader_archon": {
+      "games": 349428,
+      "winrate": 0.4873
+    },
+    "divine_immortal": {
+      "games": 86048,
+      "winrate": 0.4873
+    },
+    "herald_guardian": {
+      "games": 81475,
+      "winrate": 0.4913
+    },
+    "legend_ancient": {
+      "games": 407263,
+      "winrate": 0.4838
+    },
+    "pro": {
+      "games": 9,
+      "winrate": 0.4444
+    }
+  },
+  "27": {
+    "crusader_archon": {
+      "games": 230024,
+      "winrate": 0.5175
+    },
+    "divine_immortal": {
+      "games": 43448,
+      "winrate": 0.5116
+    },
+    "herald_guardian": {
+      "games": 61788,
+      "winrate": 0.5219
+    },
+    "legend_ancient": {
+      "games": 233240,
+      "winrate": 0.517
+    },
+    "pro": {
+      "games": 5,
+      "winrate": 0.8
+    }
+  },
+  "28": {
+    "crusader_archon": {
+      "games": 93708,
+      "winrate": 0.4969
+    },
+    "divine_immortal": {
+      "games": 20005,
+      "winrate": 0.4753
+    },
+    "herald_guardian": {
+      "games": 25328,
+      "winrate": 0.5114
+    },
+    "legend_ancient": {
+      "games": 96008,
+      "winrate": 0.4869
+    },
+    "pro": {
+      "games": 7,
+      "winrate": 0.0
+    }
+  },
+  "29": {
+    "crusader_archon": {
+      "games": 150759,
+      "winrate": 0.4995
+    },
+    "divine_immortal": {
+      "games": 41989,
+      "winrate": 0.4773
+    },
+    "herald_guardian": {
+      "games": 31332,
+      "winrate": 0.5015
+    },
+    "legend_ancient": {
+      "games": 190396,
+      "winrate": 0.4868
+    },
+    "pro": {
+      "games": 8,
+      "winrate": 0.75
+    }
+  },
+  "3": {
+    "crusader_archon": {
+      "games": 34866,
+      "winrate": 0.4794
+    },
+    "divine_immortal": {
+      "games": 11021,
+      "winrate": 0.5088
+    },
+    "herald_guardian": {
+      "games": 9903,
+      "winrate": 0.468
+    },
+    "legend_ancient": {
+      "games": 37592,
+      "winrate": 0.4978
+    },
+    "pro": {
+      "games": 2,
+      "winrate": 0.0
+    }
+  },
+  "30": {
+    "crusader_archon": {
+      "games": 263939,
+      "winrate": 0.5271
+    },
+    "divine_immortal": {
+      "games": 60222,
+      "winrate": 0.5076
+    },
+    "herald_guardian": {
+      "games": 62217,
+      "winrate": 0.5293
+    },
+    "legend_ancient": {
+      "games": 285852,
+      "winrate": 0.5193
+    },
+    "pro": {
+      "games": 31,
+      "winrate": 0.5161
+    }
+  },
+  "31": {
+    "crusader_archon": {
+      "games": 138231,
+      "winrate": 0.527
+    },
+    "divine_immortal": {
+      "games": 48366,
+      "winrate": 0.5166
+    },
+    "herald_guardian": {
+      "games": 33716,
+      "winrate": 0.5216
+    },
+    "legend_ancient": {
+      "games": 183402,
+      "winrate": 0.5259
+    },
+    "pro": {
+      "games": 14,
+      "winrate": 0.4286
+    }
+  },
+  "32": {
+    "crusader_archon": {
+      "games": 93603,
+      "winrate": 0.5319
+    },
+    "divine_immortal": {
+      "games": 17318,
+      "winrate": 0.5192
+    },
+    "herald_guardian": {
+      "games": 27769,
+      "winrate": 0.5195
+    },
+    "legend_ancient": {
+      "games": 93235,
+      "winrate": 0.5324
+    },
+    "pro": {
+      "games": 3,
+      "winrate": 0.6667
+    }
+  },
+  "33": {
+    "crusader_archon": {
+      "games": 56919,
+      "winrate": 0.4917
+    },
+    "divine_immortal": {
+      "games": 23048,
+      "winrate": 0.5588
+    },
+    "herald_guardian": {
+      "games": 14627,
+      "winrate": 0.484
+    },
+    "legend_ancient": {
+      "games": 66099,
+      "winrate": 0.5198
+    },
+    "pro": {
+      "games": 17,
+      "winrate": 0.5882
+    }
+  },
+  "34": {
+    "crusader_archon": {
+      "games": 75249,
+      "winrate": 0.4624
+    },
+    "divine_immortal": {
+      "games": 23193,
+      "winrate": 0.4972
+    },
+    "herald_guardian": {
+      "games": 18713,
+      "winrate": 0.4479
+    },
+    "legend_ancient": {
+      "games": 85687,
+      "winrate": 0.4785
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 0.0
+    }
+  },
+  "35": {
+    "crusader_archon": {
+      "games": 314344,
+      "winrate": 0.4999
+    },
+    "divine_immortal": {
+      "games": 38448,
+      "winrate": 0.4706
+    },
+    "herald_guardian": {
+      "games": 86900,
+      "winrate": 0.513
+    },
+    "legend_ancient": {
+      "games": 287580,
+      "winrate": 0.488
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "36": {
+    "crusader_archon": {
+      "games": 208433,
+      "winrate": 0.513
+    },
+    "divine_immortal": {
+      "games": 54816,
+      "winrate": 0.4919
+    },
+    "herald_guardian": {
+      "games": 52732,
+      "winrate": 0.5267
+    },
+    "legend_ancient": {
+      "games": 238216,
+      "winrate": 0.5033
+    },
+    "pro": {
+      "games": 14,
+      "winrate": 0.3571
+    }
+  },
+  "37": {
+    "crusader_archon": {
+      "games": 91617,
+      "winrate": 0.5063
+    },
+    "divine_immortal": {
+      "games": 17546,
+      "winrate": 0.483
+    },
+    "herald_guardian": {
+      "games": 22394,
+      "winrate": 0.5126
+    },
+    "legend_ancient": {
+      "games": 92225,
+      "winrate": 0.4936
+    },
+    "pro": {
+      "games": 4,
+      "winrate": 0.75
+    }
+  },
+  "38": {
+    "crusader_archon": {
+      "games": 29819,
+      "winrate": 0.4505
+    },
+    "divine_immortal": {
+      "games": 8617,
+      "winrate": 0.4827
+    },
+    "herald_guardian": {
+      "games": 8168,
+      "winrate": 0.4568
+    },
+    "legend_ancient": {
+      "games": 29022,
+      "winrate": 0.4515
+    },
+    "pro": {
+      "games": 11,
+      "winrate": 0.4545
+    }
+  },
+  "39": {
+    "crusader_archon": {
+      "games": 111742,
+      "winrate": 0.4748
+    },
+    "divine_immortal": {
+      "games": 33481,
+      "winrate": 0.4713
+    },
+    "herald_guardian": {
+      "games": 23903,
+      "winrate": 0.479
+    },
+    "legend_ancient": {
+      "games": 147286,
+      "winrate": 0.4718
+    },
+    "pro": {
+      "games": 3,
+      "winrate": 0.6667
+    }
+  },
+  "4": {
+    "crusader_archon": {
+      "games": 61268,
+      "winrate": 0.5162
+    },
+    "divine_immortal": {
+      "games": 8907,
+      "winrate": 0.5124
+    },
+    "herald_guardian": {
+      "games": 25719,
+      "winrate": 0.5083
+    },
+    "legend_ancient": {
+      "games": 49145,
+      "winrate": 0.5232
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 1.0
+    }
+  },
+  "40": {
+    "crusader_archon": {
+      "games": 113433,
+      "winrate": 0.4889
+    },
+    "divine_immortal": {
+      "games": 19143,
+      "winrate": 0.4795
+    },
+    "herald_guardian": {
+      "games": 29408,
+      "winrate": 0.489
+    },
+    "legend_ancient": {
+      "games": 112123,
+      "winrate": 0.4865
+    },
+    "pro": {
+      "games": 4,
+      "winrate": 1.0
+    }
+  },
+  "41": {
+    "crusader_archon": {
+      "games": 115839,
+      "winrate": 0.4783
+    },
+    "divine_immortal": {
+      "games": 21682,
+      "winrate": 0.4908
+    },
+    "herald_guardian": {
+      "games": 30036,
+      "winrate": 0.4886
+    },
+    "legend_ancient": {
+      "games": 117694,
+      "winrate": 0.4848
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "42": {
+    "crusader_archon": {
+      "games": 198116,
+      "winrate": 0.5586
+    },
+    "divine_immortal": {
+      "games": 34815,
+      "winrate": 0.5268
+    },
+    "herald_guardian": {
+      "games": 45814,
+      "winrate": 0.5605
+    },
+    "legend_ancient": {
+      "games": 217823,
+      "winrate": 0.5463
+    },
+    "pro": {
+      "games": 2,
+      "winrate": 0.0
+    }
+  },
+  "43": {
+    "crusader_archon": {
+      "games": 68700,
+      "winrate": 0.4798
+    },
+    "divine_immortal": {
+      "games": 20388,
+      "winrate": 0.4917
+    },
+    "herald_guardian": {
+      "games": 22044,
+      "winrate": 0.4726
+    },
+    "legend_ancient": {
+      "games": 75703,
+      "winrate": 0.4884
+    },
+    "pro": {
+      "games": 5,
+      "winrate": 1.0
+    }
+  },
+  "44": {
+    "crusader_archon": {
+      "games": 223164,
+      "winrate": 0.5142
+    },
+    "divine_immortal": {
+      "games": 26196,
+      "winrate": 0.4968
+    },
+    "herald_guardian": {
+      "games": 70749,
+      "winrate": 0.5176
+    },
+    "legend_ancient": {
+      "games": 180417,
+      "winrate": 0.5027
+    },
+    "pro": {
+      "games": 4,
+      "winrate": 0.5
+    }
+  },
+  "45": {
+    "crusader_archon": {
+      "games": 62174,
+      "winrate": 0.495
+    },
+    "divine_immortal": {
+      "games": 16768,
+      "winrate": 0.5242
+    },
+    "herald_guardian": {
+      "games": 17598,
+      "winrate": 0.474
+    },
+    "legend_ancient": {
+      "games": 71086,
+      "winrate": 0.5145
+    },
+    "pro": {
+      "games": 3,
+      "winrate": 0.6667
+    }
+  },
+  "46": {
+    "crusader_archon": {
+      "games": 73536,
+      "winrate": 0.4545
+    },
+    "divine_immortal": {
+      "games": 17330,
+      "winrate": 0.4656
+    },
+    "herald_guardian": {
+      "games": 20743,
+      "winrate": 0.4533
+    },
+    "legend_ancient": {
+      "games": 71826,
+      "winrate": 0.4583
+    },
+    "pro": {
+      "games": 2,
+      "winrate": 1.0
+    }
+  },
+  "47": {
+    "crusader_archon": {
+      "games": 123524,
+      "winrate": 0.4841
+    },
+    "divine_immortal": {
+      "games": 21980,
+      "winrate": 0.4914
+    },
+    "herald_guardian": {
+      "games": 45816,
+      "winrate": 0.4819
+    },
+    "legend_ancient": {
+      "games": 108666,
+      "winrate": 0.4892
+    },
+    "pro": {
+      "games": 6,
+      "winrate": 0.5
+    }
+  },
+  "48": {
+    "crusader_archon": {
+      "games": 149003,
+      "winrate": 0.5087
+    },
+    "divine_immortal": {
+      "games": 58720,
+      "winrate": 0.498
+    },
+    "herald_guardian": {
+      "games": 37313,
+      "winrate": 0.5167
+    },
+    "legend_ancient": {
+      "games": 191985,
+      "winrate": 0.5042
+    },
+    "pro": {
+      "games": 5,
+      "winrate": 0.6
+    }
+  },
+  "49": {
+    "crusader_archon": {
+      "games": 171241,
+      "winrate": 0.5292
+    },
+    "divine_immortal": {
+      "games": 76378,
+      "winrate": 0.5235
+    },
+    "herald_guardian": {
+      "games": 33934,
+      "winrate": 0.5265
+    },
+    "legend_ancient": {
+      "games": 247178,
+      "winrate": 0.5283
+    },
+    "pro": {
+      "games": 25,
+      "winrate": 0.6
+    }
+  },
+  "5": {
+    "crusader_archon": {
+      "games": 227989,
+      "winrate": 0.5227
+    },
+    "divine_immortal": {
+      "games": 50499,
+      "winrate": 0.4951
+    },
+    "herald_guardian": {
+      "games": 62215,
+      "winrate": 0.5284
+    },
+    "legend_ancient": {
+      "games": 236863,
+      "winrate": 0.5115
+    },
+    "pro": {
+      "games": 5,
+      "winrate": 0.6
+    }
+  },
+  "50": {
+    "crusader_archon": {
+      "games": 77704,
+      "winrate": 0.5072
+    },
+    "divine_immortal": {
+      "games": 22765,
+      "winrate": 0.5209
+    },
+    "herald_guardian": {
+      "games": 18529,
+      "winrate": 0.4884
+    },
+    "legend_ancient": {
+      "games": 84143,
+      "winrate": 0.5142
+    },
+    "pro": {
+      "games": 26,
+      "winrate": 0.5
+    }
+  },
+  "51": {
+    "crusader_archon": {
+      "games": 31243,
+      "winrate": 0.4757
+    },
+    "divine_immortal": {
+      "games": 11858,
+      "winrate": 0.4869
+    },
+    "herald_guardian": {
+      "games": 7636,
+      "winrate": 0.4845
+    },
+    "legend_ancient": {
+      "games": 39418,
+      "winrate": 0.4768
+    },
+    "pro": {
+      "games": 10,
+      "winrate": 0.4
+    }
+  },
+  "52": {
+    "crusader_archon": {
+      "games": 29411,
+      "winrate": 0.5038
+    },
+    "divine_immortal": {
+      "games": 12951,
+      "winrate": 0.5305
+    },
+    "herald_guardian": {
+      "games": 8156,
+      "winrate": 0.5007
+    },
+    "legend_ancient": {
+      "games": 35905,
+      "winrate": 0.5192
+    },
+    "pro": {
+      "games": 4,
+      "winrate": 0.75
+    }
+  },
+  "53": {
+    "crusader_archon": {
+      "games": 128086,
+      "winrate": 0.4277
+    },
+    "divine_immortal": {
+      "games": 31779,
+      "winrate": 0.4471
+    },
+    "herald_guardian": {
+      "games": 35318,
+      "winrate": 0.4518
+    },
+    "legend_ancient": {
+      "games": 129089,
+      "winrate": 0.4266
+    },
+    "pro": {
+      "games": 20,
+      "winrate": 0.25
+    }
+  },
+  "54": {
+    "crusader_archon": {
+      "games": 168954,
+      "winrate": 0.5111
+    },
+    "divine_immortal": {
+      "games": 56382,
+      "winrate": 0.5132
+    },
+    "herald_guardian": {
+      "games": 34197,
+      "winrate": 0.495
+    },
+    "legend_ancient": {
+      "games": 229062,
+      "winrate": 0.5172
+    },
+    "pro": {
+      "games": 6,
+      "winrate": 0.5
+    }
+  },
+  "55": {
+    "crusader_archon": {
+      "games": 41073,
+      "winrate": 0.4843
+    },
+    "divine_immortal": {
+      "games": 25436,
+      "winrate": 0.5094
+    },
+    "herald_guardian": {
+      "games": 9156,
+      "winrate": 0.4886
+    },
+    "legend_ancient": {
+      "games": 60374,
+      "winrate": 0.4973
+    },
+    "pro": {
+      "games": 3,
+      "winrate": 0.3333
+    }
+  },
+  "56": {
+    "crusader_archon": {
+      "games": 69443,
+      "winrate": 0.4938
+    },
+    "divine_immortal": {
+      "games": 14175,
+      "winrate": 0.507
+    },
+    "herald_guardian": {
+      "games": 26759,
+      "winrate": 0.4919
+    },
+    "legend_ancient": {
+      "games": 61816,
+      "winrate": 0.5067
+    },
+    "pro": {
+      "games": 6,
+      "winrate": 0.6667
+    }
+  },
+  "57": {
+    "crusader_archon": {
+      "games": 30278,
+      "winrate": 0.504
+    },
+    "divine_immortal": {
+      "games": 8683,
+      "winrate": 0.5317
+    },
+    "herald_guardian": {
+      "games": 8130,
+      "winrate": 0.4902
+    },
+    "legend_ancient": {
+      "games": 32807,
+      "winrate": 0.5182
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "58": {
+    "crusader_archon": {
+      "games": 34651,
+      "winrate": 0.4752
+    },
+    "divine_immortal": {
+      "games": 9250,
+      "winrate": 0.4766
+    },
+    "herald_guardian": {
+      "games": 14321,
+      "winrate": 0.4746
+    },
+    "legend_ancient": {
+      "games": 31572,
+      "winrate": 0.484
+    },
+    "pro": {
+      "games": 2,
+      "winrate": 0.0
+    }
+  },
+  "59": {
+    "crusader_archon": {
+      "games": 59378,
+      "winrate": 0.4483
+    },
+    "divine_immortal": {
+      "games": 15496,
+      "winrate": 0.4651
+    },
+    "herald_guardian": {
+      "games": 24982,
+      "winrate": 0.4537
+    },
+    "legend_ancient": {
+      "games": 54815,
+      "winrate": 0.4601
+    },
+    "pro": {
+      "games": 2,
+      "winrate": 0.5
+    }
+  },
+  "6": {
+    "crusader_archon": {
+      "games": 206841,
+      "winrate": 0.4671
+    },
+    "divine_immortal": {
+      "games": 38741,
+      "winrate": 0.4485
+    },
+    "herald_guardian": {
+      "games": 57041,
+      "winrate": 0.471
+    },
+    "legend_ancient": {
+      "games": 212283,
+      "winrate": 0.4557
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 0.0
+    }
+  },
+  "60": {
+    "crusader_archon": {
+      "games": 82290,
+      "winrate": 0.5078
+    },
+    "divine_immortal": {
+      "games": 39083,
+      "winrate": 0.5323
+    },
+    "herald_guardian": {
+      "games": 16136,
+      "winrate": 0.4931
+    },
+    "legend_ancient": {
+      "games": 128524,
+      "winrate": 0.5249
+    },
+    "pro": {
+      "games": 5,
+      "winrate": 0.8
+    }
+  },
+  "61": {
+    "crusader_archon": {
+      "games": 36600,
+      "winrate": 0.4984
+    },
+    "divine_immortal": {
+      "games": 5434,
+      "winrate": 0.5127
+    },
+    "herald_guardian": {
+      "games": 13385,
+      "winrate": 0.4979
+    },
+    "legend_ancient": {
+      "games": 26466,
+      "winrate": 0.4939
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 0.0
+    }
+  },
+  "62": {
+    "crusader_archon": {
+      "games": 80983,
+      "winrate": 0.5047
+    },
+    "divine_immortal": {
+      "games": 37025,
+      "winrate": 0.5485
+    },
+    "herald_guardian": {
+      "games": 23166,
+      "winrate": 0.5011
+    },
+    "legend_ancient": {
+      "games": 96327,
+      "winrate": 0.5284
+    },
+    "pro": {
+      "games": 9,
+      "winrate": 0.6667
+    }
+  },
+  "63": {
+    "crusader_archon": {
+      "games": 80390,
+      "winrate": 0.4748
+    },
+    "divine_immortal": {
+      "games": 16971,
+      "winrate": 0.472
+    },
+    "herald_guardian": {
+      "games": 27830,
+      "winrate": 0.4732
+    },
+    "legend_ancient": {
+      "games": 77404,
+      "winrate": 0.4752
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 0.0
+    }
+  },
+  "64": {
+    "crusader_archon": {
+      "games": 116643,
+      "winrate": 0.4922
+    },
+    "divine_immortal": {
+      "games": 21203,
+      "winrate": 0.4637
+    },
+    "herald_guardian": {
+      "games": 28916,
+      "winrate": 0.5014
+    },
+    "legend_ancient": {
+      "games": 124861,
+      "winrate": 0.4778
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "65": {
+    "crusader_archon": {
+      "games": 13871,
+      "winrate": 0.4386
+    },
+    "divine_immortal": {
+      "games": 4321,
+      "winrate": 0.4684
+    },
+    "herald_guardian": {
+      "games": 3752,
+      "winrate": 0.444
+    },
+    "legend_ancient": {
+      "games": 14670,
+      "winrate": 0.4443
+    },
+    "pro": {
+      "games": 4,
+      "winrate": 0.75
+    }
+  },
+  "66": {
+    "crusader_archon": {
+      "games": 6728,
+      "winrate": 0.431
+    },
+    "divine_immortal": {
+      "games": 2026,
+      "winrate": 0.4837
+    },
+    "herald_guardian": {
+      "games": 1986,
+      "winrate": 0.4486
+    },
+    "legend_ancient": {
+      "games": 6593,
+      "winrate": 0.4528
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "67": {
+    "crusader_archon": {
+      "games": 141241,
+      "winrate": 0.5315
+    },
+    "divine_immortal": {
+      "games": 27114,
+      "winrate": 0.5243
+    },
+    "herald_guardian": {
+      "games": 33220,
+      "winrate": 0.5359
+    },
+    "legend_ancient": {
+      "games": 143590,
+      "winrate": 0.5295
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "68": {
+    "crusader_archon": {
+      "games": 109957,
+      "winrate": 0.5192
+    },
+    "divine_immortal": {
+      "games": 22992,
+      "winrate": 0.4934
+    },
+    "herald_guardian": {
+      "games": 25482,
+      "winrate": 0.5176
+    },
+    "legend_ancient": {
+      "games": 124420,
+      "winrate": 0.51
+    },
+    "pro": {
+      "games": 2,
+      "winrate": 0.5
+    }
+  },
+  "69": {
+    "crusader_archon": {
+      "games": 63568,
+      "winrate": 0.4676
+    },
+    "divine_immortal": {
+      "games": 33954,
+      "winrate": 0.5037
+    },
+    "herald_guardian": {
+      "games": 13126,
+      "winrate": 0.4725
+    },
+    "legend_ancient": {
+      "games": 97247,
+      "winrate": 0.4838
+    },
+    "pro": {
+      "games": 16,
+      "winrate": 0.375
+    }
+  },
+  "7": {
+    "crusader_archon": {
+      "games": 215532,
+      "winrate": 0.5003
+    },
+    "divine_immortal": {
+      "games": 69702,
+      "winrate": 0.5077
+    },
+    "herald_guardian": {
+      "games": 53455,
+      "winrate": 0.4989
+    },
+    "legend_ancient": {
+      "games": 271268,
+      "winrate": 0.509
+    },
+    "pro": {
+      "games": 19,
+      "winrate": 0.5789
+    }
+  },
+  "70": {
+    "crusader_archon": {
+      "games": 94622,
+      "winrate": 0.4835
+    },
+    "divine_immortal": {
+      "games": 31451,
+      "winrate": 0.5007
+    },
+    "herald_guardian": {
+      "games": 25656,
+      "winrate": 0.458
+    },
+    "legend_ancient": {
+      "games": 118490,
+      "winrate": 0.4971
+    },
+    "pro": {
+      "games": 6,
+      "winrate": 0.3333
+    }
+  },
+  "71": {
+    "crusader_archon": {
+      "games": 233359,
+      "winrate": 0.5195
+    },
+    "divine_immortal": {
+      "games": 67638,
+      "winrate": 0.5239
+    },
+    "herald_guardian": {
+      "games": 58715,
+      "winrate": 0.5199
+    },
+    "legend_ancient": {
+      "games": 274909,
+      "winrate": 0.5216
+    },
+    "pro": {
+      "games": 9,
+      "winrate": 0.5556
+    }
+  },
+  "72": {
+    "crusader_archon": {
+      "games": 55316,
+      "winrate": 0.4674
+    },
+    "divine_immortal": {
+      "games": 20232,
+      "winrate": 0.4658
+    },
+    "herald_guardian": {
+      "games": 10901,
+      "winrate": 0.4614
+    },
+    "legend_ancient": {
+      "games": 78311,
+      "winrate": 0.4732
+    },
+    "pro": {
+      "games": 9,
+      "winrate": 0.1111
+    }
+  },
+  "73": {
+    "crusader_archon": {
+      "games": 45078,
+      "winrate": 0.4758
+    },
+    "divine_immortal": {
+      "games": 8117,
+      "winrate": 0.4571
+    },
+    "herald_guardian": {
+      "games": 11465,
+      "winrate": 0.4887
+    },
+    "legend_ancient": {
+      "games": 44951,
+      "winrate": 0.4608
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 0.0
+    }
+  },
+  "74": {
+    "crusader_archon": {
+      "games": 225426,
+      "winrate": 0.5053
+    },
+    "divine_immortal": {
+      "games": 82559,
+      "winrate": 0.5198
+    },
+    "herald_guardian": {
+      "games": 44551,
+      "winrate": 0.4941
+    },
+    "legend_ancient": {
+      "games": 311353,
+      "winrate": 0.5105
+    },
+    "pro": {
+      "games": 7,
+      "winrate": 0.5714
+    }
+  },
+  "75": {
+    "crusader_archon": {
+      "games": 152648,
+      "winrate": 0.5093
+    },
+    "divine_immortal": {
+      "games": 31155,
+      "winrate": 0.4939
+    },
+    "herald_guardian": {
+      "games": 34461,
+      "winrate": 0.5209
+    },
+    "legend_ancient": {
+      "games": 164802,
+      "winrate": 0.4995
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 1.0
+    }
+  },
+  "76": {
+    "crusader_archon": {
+      "games": 154602,
+      "winrate": 0.5236
+    },
+    "divine_immortal": {
+      "games": 63816,
+      "winrate": 0.5362
+    },
+    "herald_guardian": {
+      "games": 33023,
+      "winrate": 0.4941
+    },
+    "legend_ancient": {
+      "games": 222269,
+      "winrate": 0.5403
+    },
+    "pro": {
+      "games": 15,
+      "winrate": 0.6
+    }
+  },
+  "77": {
+    "crusader_archon": {
+      "games": 17706,
+      "winrate": 0.474
+    },
+    "divine_immortal": {
+      "games": 6936,
+      "winrate": 0.5235
+    },
+    "herald_guardian": {
+      "games": 5023,
+      "winrate": 0.4718
+    },
+    "legend_ancient": {
+      "games": 19691,
+      "winrate": 0.4894
+    },
+    "pro": {
+      "games": 10,
+      "winrate": 0.6
+    }
+  },
+  "78": {
+    "crusader_archon": {
+      "games": 23399,
+      "winrate": 0.5029
+    },
+    "divine_immortal": {
+      "games": 14862,
+      "winrate": 0.5149
+    },
+    "herald_guardian": {
+      "games": 5528,
+      "winrate": 0.5083
+    },
+    "legend_ancient": {
+      "games": 33933,
+      "winrate": 0.5114
+    },
+    "pro": {
+      "games": 12,
+      "winrate": 0.6667
+    }
+  },
+  "79": {
+    "crusader_archon": {
+      "games": 25408,
+      "winrate": 0.4308
+    },
+    "divine_immortal": {
+      "games": 9644,
+      "winrate": 0.4714
+    },
+    "herald_guardian": {
+      "games": 6782,
+      "winrate": 0.3921
+    },
+    "legend_ancient": {
+      "games": 32748,
+      "winrate": 0.4499
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 0.0
+    }
+  },
+  "8": {
+    "crusader_archon": {
+      "games": 258237,
+      "winrate": 0.5226
+    },
+    "divine_immortal": {
+      "games": 66361,
+      "winrate": 0.5274
+    },
+    "herald_guardian": {
+      "games": 63281,
+      "winrate": 0.5179
+    },
+    "legend_ancient": {
+      "games": 304363,
+      "winrate": 0.5291
+    },
+    "pro": {
+      "games": 7,
+      "winrate": 0.5714
+    }
+  },
+  "80": {
+    "crusader_archon": {
+      "games": 41407,
+      "winrate": 0.4911
+    },
+    "divine_immortal": {
+      "games": 12031,
+      "winrate": 0.503
+    },
+    "herald_guardian": {
+      "games": 10249,
+      "winrate": 0.4899
+    },
+    "legend_ancient": {
+      "games": 42088,
+      "winrate": 0.4931
+    },
+    "pro": {
+      "games": 10,
+      "winrate": 0.6
+    }
+  },
+  "81": {
+    "crusader_archon": {
+      "games": 72880,
+      "winrate": 0.5165
+    },
+    "divine_immortal": {
+      "games": 8217,
+      "winrate": 0.5054
+    },
+    "herald_guardian": {
+      "games": 24606,
+      "winrate": 0.5243
+    },
+    "legend_ancient": {
+      "games": 52650,
+      "winrate": 0.508
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "82": {
+    "crusader_archon": {
+      "games": 30411,
+      "winrate": 0.5285
+    },
+    "divine_immortal": {
+      "games": 7653,
+      "winrate": 0.56
+    },
+    "herald_guardian": {
+      "games": 10414,
+      "winrate": 0.5283
+    },
+    "legend_ancient": {
+      "games": 28936,
+      "winrate": 0.5399
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "83": {
+    "crusader_archon": {
+      "games": 28790,
+      "winrate": 0.4581
+    },
+    "divine_immortal": {
+      "games": 4872,
+      "winrate": 0.4694
+    },
+    "herald_guardian": {
+      "games": 8463,
+      "winrate": 0.454
+    },
+    "legend_ancient": {
+      "games": 25323,
+      "winrate": 0.4518
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "84": {
+    "crusader_archon": {
+      "games": 272114,
+      "winrate": 0.5071
+    },
+    "divine_immortal": {
+      "games": 43772,
+      "winrate": 0.488
+    },
+    "herald_guardian": {
+      "games": 69594,
+      "winrate": 0.5194
+    },
+    "legend_ancient": {
+      "games": 263541,
+      "winrate": 0.4976
+    },
+    "pro": {
+      "games": 1,
+      "winrate": 0.0
+    }
+  },
+  "85": {
+    "crusader_archon": {
+      "games": 159192,
+      "winrate": 0.5037
+    },
+    "divine_immortal": {
+      "games": 37422,
+      "winrate": 0.4882
+    },
+    "herald_guardian": {
+      "games": 37733,
+      "winrate": 0.4955
+    },
+    "legend_ancient": {
+      "games": 170720,
+      "winrate": 0.496
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "86": {
+    "crusader_archon": {
+      "games": 229065,
+      "winrate": 0.4909
+    },
+    "divine_immortal": {
+      "games": 104468,
+      "winrate": 0.4955
+    },
+    "herald_guardian": {
+      "games": 41260,
+      "winrate": 0.4889
+    },
+    "legend_ancient": {
+      "games": 369509,
+      "winrate": 0.4966
+    },
+    "pro": {
+      "games": 18,
+      "winrate": 0.2778
+    }
+  },
+  "87": {
+    "crusader_archon": {
+      "games": 94965,
+      "winrate": 0.5027
+    },
+    "divine_immortal": {
+      "games": 44060,
+      "winrate": 0.5107
+    },
+    "herald_guardian": {
+      "games": 17330,
+      "winrate": 0.4891
+    },
+    "legend_ancient": {
+      "games": 144350,
+      "winrate": 0.5058
+    },
+    "pro": {
+      "games": 8,
+      "winrate": 0.5
+    }
+  },
+  "88": {
+    "crusader_archon": {
+      "games": 120607,
+      "winrate": 0.5245
+    },
+    "divine_immortal": {
+      "games": 50521,
+      "winrate": 0.5362
+    },
+    "herald_guardian": {
+      "games": 24119,
+      "winrate": 0.525
+    },
+    "legend_ancient": {
+      "games": 178156,
+      "winrate": 0.5259
+    },
+    "pro": {
+      "games": 7,
+      "winrate": 0.4286
+    }
+  },
+  "89": {
+    "crusader_archon": {
+      "games": 24362,
+      "winrate": 0.4883
+    },
+    "divine_immortal": {
+      "games": 3239,
+      "winrate": 0.4866
+    },
+    "herald_guardian": {
+      "games": 9841,
+      "winrate": 0.4913
+    },
+    "legend_ancient": {
+      "games": 16278,
+      "winrate": 0.4833
+    },
+    "pro": {
+      "games": 5,
+      "winrate": 0.6
+    }
+  },
+  "9": {
+    "crusader_archon": {
+      "games": 126088,
+      "winrate": 0.517
+    },
+    "divine_immortal": {
+      "games": 49344,
+      "winrate": 0.5087
+    },
+    "herald_guardian": {
+      "games": 25468,
+      "winrate": 0.5116
+    },
+    "legend_ancient": {
+      "games": 177279,
+      "winrate": 0.5161
+    },
+    "pro": {
+      "games": 13,
+      "winrate": 0.3846
+    }
+  },
+  "90": {
+    "crusader_archon": {
+      "games": 59279,
+      "winrate": 0.4833
+    },
+    "divine_immortal": {
+      "games": 17464,
+      "winrate": 0.5153
+    },
+    "herald_guardian": {
+      "games": 18108,
+      "winrate": 0.4684
+    },
+    "legend_ancient": {
+      "games": 60256,
+      "winrate": 0.5
+    },
+    "pro": {
+      "games": 9,
+      "winrate": 0.6667
+    }
+  },
+  "91": {
+    "crusader_archon": {
+      "games": 53373,
+      "winrate": 0.4921
+    },
+    "divine_immortal": {
+      "games": 21590,
+      "winrate": 0.5147
+    },
+    "herald_guardian": {
+      "games": 12752,
+      "winrate": 0.4794
+    },
+    "legend_ancient": {
+      "games": 64604,
+      "winrate": 0.4992
+    },
+    "pro": {
+      "games": 7,
+      "winrate": 0.7143
+    }
+  },
+  "92": {
+    "crusader_archon": {
+      "games": 21738,
+      "winrate": 0.5155
+    },
+    "divine_immortal": {
+      "games": 8795,
+      "winrate": 0.5585
+    },
+    "herald_guardian": {
+      "games": 5986,
+      "winrate": 0.4963
+    },
+    "legend_ancient": {
+      "games": 24033,
+      "winrate": 0.5441
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "93": {
+    "crusader_archon": {
+      "games": 170530,
+      "winrate": 0.4986
+    },
+    "divine_immortal": {
+      "games": 67592,
+      "winrate": 0.5028
+    },
+    "herald_guardian": {
+      "games": 36740,
+      "winrate": 0.5266
+    },
+    "legend_ancient": {
+      "games": 236945,
+      "winrate": 0.4919
+    },
+    "pro": {
+      "games": 17,
+      "winrate": 0.5882
+    }
+  },
+  "94": {
+    "crusader_archon": {
+      "games": 41130,
+      "winrate": 0.4956
+    },
+    "divine_immortal": {
+      "games": 6443,
+      "winrate": 0.4666
+    },
+    "herald_guardian": {
+      "games": 10922,
+      "winrate": 0.5038
+    },
+    "legend_ancient": {
+      "games": 39809,
+      "winrate": 0.4892
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "95": {
+    "crusader_archon": {
+      "games": 45623,
+      "winrate": 0.5225
+    },
+    "divine_immortal": {
+      "games": 7760,
+      "winrate": 0.5189
+    },
+    "herald_guardian": {
+      "games": 17933,
+      "winrate": 0.528
+    },
+    "legend_ancient": {
+      "games": 36563,
+      "winrate": 0.5107
+    },
+    "pro": {
+      "games": 0,
+      "winrate": 0.5
+    }
+  },
+  "96": {
+    "crusader_archon": {
+      "games": 72949,
+      "winrate": 0.4999
+    },
+    "divine_immortal": {
+      "games": 16919,
+      "winrate": 0.4817
+    },
+    "herald_guardian": {
+      "games": 14916,
+      "winrate": 0.5139
+    },
+    "legend_ancient": {
+      "games": 87933,
+      "winrate": 0.4935
+    },
+    "pro": {
+      "games": 2,
+      "winrate": 1.0
+    }
+  },
+  "97": {
+    "crusader_archon": {
+      "games": 127624,
+      "winrate": 0.4836
+    },
+    "divine_immortal": {
+      "games": 57252,
+      "winrate": 0.4991
+    },
+    "herald_guardian": {
+      "games": 18396,
+      "winrate": 0.4851
+    },
+    "legend_ancient": {
+      "games": 219672,
+      "winrate": 0.4931
+    },
+    "pro": {
+      "games": 3,
+      "winrate": 0.0
+    }
+  },
+  "98": {
+    "crusader_archon": {
+      "games": 77864,
+      "winrate": 0.4521
+    },
+    "divine_immortal": {
+      "games": 35991,
+      "winrate": 0.4529
+    },
+    "herald_guardian": {
+      "games": 17141,
+      "winrate": 0.4494
+    },
+    "legend_ancient": {
+      "games": 107724,
+      "winrate": 0.4571
+    },
+    "pro": {
+      "games": 18,
+      "winrate": 0.5
+    }
+  },
+  "99": {
+    "crusader_archon": {
+      "games": 113750,
+      "winrate": 0.4921
+    },
+    "divine_immortal": {
+      "games": 9855,
+      "winrate": 0.4487
+    },
+    "herald_guardian": {
+      "games": 42536,
+      "winrate": 0.5233
+    },
+    "legend_ancient": {
+      "games": 72015,
+      "winrate": 0.4647
+    },
+    "pro": {
+      "games": 2,
+      "winrate": 0.5
+    }
+  }
+}

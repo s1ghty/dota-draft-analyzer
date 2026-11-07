@@ -32,6 +32,21 @@ function getSynergyGames(synergyMatrix, a, b) {
   return typeof cell === "object" ? cell.games : null; // null = old-format data, sample size unknown
 }
 
+// Bracket toggle (hero_baseline + role stats only -- matchup/synergy don't
+// have per-bracket data yet). bracket "all"/falsy -> heroBaseline.json's
+// existing bare-number value, unchanged (this is what makes "All" reproduce
+// today's numbers exactly). Any other bracket key reads hero_baseline_
+// brackets.json instead; missing data there (e.g. a bracket the pipeline
+// hasn't refreshed yet) falls back to neutral 0.5, same as "no data at all"
+// everywhere else in this file.
+function getHeroBaseline(heroBaseline, heroBaselineBrackets, heroId, bracket) {
+  if (!bracket || bracket === "all") {
+    return heroBaseline[heroId] !== undefined ? heroBaseline[heroId] : 0.5;
+  }
+  const entry = heroBaselineBrackets && heroBaselineBrackets[heroId] && heroBaselineBrackets[heroId][bracket];
+  return entry ? entry.winrate : 0.5;
+}
+
 // Does a curated, wiki-sourced counters_enemy relationship exist for
 // candidate vs enemy, in either direction it could be filed under
 // (hero_specific_counters.json's third data layer)? Mirrors app.js's
@@ -100,11 +115,11 @@ function pickOrderPriority(pickOrderIndex, totalPicks) {
 // §3.3a broken into named components so the UI can say *why* a hero is the
 // biggest threat (baseline strength / enabled by synergy / uncountered).
 function baseThreatBreakdown(enemyId, ctx, weights) {
-  const { enemyTeamIds, yourTeamIds, heroBaseline, synergyMatrix, matchupMatrix, pickOrderIndex, totalPicks } = ctx;
+  const { enemyTeamIds, yourTeamIds, heroBaseline, heroBaselineBrackets, bracket, synergyMatrix, matchupMatrix, pickOrderIndex, totalPicks } = ctx;
   const restOfTheirTeam = enemyTeamIds.filter((h) => h !== enemyId);
 
   const w = weights.base_threat;
-  const baseline = w.hero_baseline * (heroBaseline[enemyId] !== undefined ? heroBaseline[enemyId] : 0.5);
+  const baseline = w.hero_baseline * getHeroBaseline(heroBaseline, heroBaselineBrackets, enemyId, bracket);
   const enabledBySynergy = w.synergy_with_their_team * avgSynergyWithRest(synergyMatrix, enemyId, restOfTheirTeam);
   // negative when your picks already favor you against this enemy (spec §3.3a)
   const alreadyCountered = w.countered_by_your_team * -avgMatchupAgainst(matchupMatrix, yourTeamIds, enemyId);
@@ -160,8 +175,20 @@ function computeThreatWeights(ctx, heroThreatProfiles, weights) {
 
 // §3.4. Returns null when the hero is filtered out for near-zero pickrate at
 // this role -- caller must exclude these from the candidate list entirely.
-function roleFit(candidateId, role, roleStatsMap, pickrateFloor, maxPickrateAtRole) {
-  const stats = roleStatsMap[candidateId] && roleStatsMap[candidateId][role];
+// bracket "all"/falsy/"pro" -> the base (unfiltered) winrate/pickrate,
+// unchanged -- "pro" has no per-position role-stats source (Pro is
+// hero_baseline-only, see getHeroBaseline), so it falls back to "All" here
+// rather than silently reading nothing. Any bracket group reads
+// base.byBracket[bracket]; missing data there (not enough recent games at
+// that hero+position+bracket to have a row at all) is treated the same as
+// §3.4's existing near-zero-pickrate exclusion -- not enough signal to
+// trust a role-fit claim, not "fall back and pretend we know."
+function roleFit(candidateId, role, roleStatsMap, pickrateFloor, maxPickrateAtRole, bracket) {
+  const base = roleStatsMap[candidateId] && roleStatsMap[candidateId][role];
+  if (!base) return null;
+  const stats = (bracket && bracket !== "all" && bracket !== "pro")
+    ? (base.byBracket && base.byBracket[bracket]) || null
+    : base;
   if (!stats || stats.pickrate < pickrateFloor) return null;
 
   const winrateComponent = Math.max(-1, Math.min(1, (stats.winrate - 0.5) * 2));
@@ -261,7 +288,8 @@ function scoreCandidate(candidateId, ctx, threatWeights, data) {
     ctx.role,
     data.heroRoleStats,
     data.weights.role_fit_pickrate_floor,
-    ctx.maxPickrateAtRole
+    ctx.maxPickrateAtRole,
+    ctx.bracket
   );
   if (roleFitVal === null) return null; // excluded, not just penalized (§3.4)
 
@@ -274,7 +302,7 @@ function scoreCandidate(candidateId, ctx, threatWeights, data) {
     data.weights.kit_counter_bonus
   );
   const synergyScoreVal = synergyScore(candidateId, ctx.yourTeamIds, data.synergyMatrix);
-  const heroBaselineVal = data.heroBaseline[candidateId] !== undefined ? data.heroBaseline[candidateId] : 0.5;
+  const heroBaselineVal = getHeroBaseline(data.heroBaseline, data.heroBaselineBrackets, candidateId, ctx.bracket);
   const counteredByEnemyVal = avgMatchupAgainst(data.matchupMatrix, ctx.enemyTeamIds, candidateId);
   const playerAffinityVal = playerHeroAffinity(
     candidateId,
@@ -359,13 +387,21 @@ function rankCandidates(ctx, data) {
   const threatCtx = {
     ...ctx,
     heroBaseline: data.heroBaseline,
+    heroBaselineBrackets: data.heroBaselineBrackets,
     synergyMatrix: data.synergyMatrix,
     matchupMatrix: data.matchupMatrix,
   };
   const threat = computeThreatWeights(threatCtx, heroThreatProfiles, data.weights);
 
+  // bracket-aware: a bracket's pickrate values live on a different scale
+  // than "All" (e.g. Divine/Immortal has far fewer total games than All),
+  // so the max has to come from the same bracket roleFit's pickrateComponent
+  // will actually compare against, not from "All"'s scale.
+  const useBracket = ctx.bracket && ctx.bracket !== "all" && ctx.bracket !== "pro";
   const maxPickrateAtRole = allHeroIds.reduce((max, hid) => {
-    const stats = data.heroRoleStats[hid] && data.heroRoleStats[hid][ctx.role];
+    const base = data.heroRoleStats[hid] && data.heroRoleStats[hid][ctx.role];
+    if (!base) return max;
+    const stats = useBracket ? (base.byBracket && base.byBracket[ctx.bracket]) : base;
     return stats ? Math.max(max, stats.pickrate) : max;
   }, 0);
 
@@ -405,6 +441,7 @@ const api = {
   getMatchupGames,
   getSynergy,
   getSynergyGames,
+  getHeroBaseline,
   hasKitCounter,
   counterScore,
   synergyScore,

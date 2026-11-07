@@ -240,4 +240,24 @@ const hasDisable = noCompBiasRanked.find((c) => c.heroId === "HasDisable");
 const noDisable = noCompBiasRanked.find((c) => c.heroId === "NoDisable");
 assert.strictEqual(hasDisable.finalScore, noDisable.finalScore, "composition must have zero effect on scoring -- identical candidates should score identically regardless of tags");
 
+// --- bracket toggle: getHeroBaseline / roleFit. "All" (bracket omitted,
+// null, or "all") must read heroBaseline.json's existing bare-number value
+// unchanged -- that's what makes "All" reproduce today's numbers exactly.
+const bracketHeroBaseline = { X: 0.55 };
+const bracketHeroBaselineBrackets = { X: { divine_immortal: { winrate: 0.48, games: 500 } } };
+assert.strictEqual(Scoring.getHeroBaseline(bracketHeroBaseline, bracketHeroBaselineBrackets, "X", undefined), 0.55, "bracket omitted -> the plain heroBaseline.json value, unchanged");
+assert.strictEqual(Scoring.getHeroBaseline(bracketHeroBaseline, bracketHeroBaselineBrackets, "X", "all"), 0.55, "bracket 'all' -> same plain value");
+assert.strictEqual(Scoring.getHeroBaseline(bracketHeroBaseline, bracketHeroBaselineBrackets, "X", "divine_immortal"), 0.48, "a real bracket reads from heroBaselineBrackets instead");
+assert.strictEqual(Scoring.getHeroBaseline(bracketHeroBaseline, bracketHeroBaselineBrackets, "X", "herald_guardian"), 0.5, "a bracket with no data for this hero -> neutral 0.5, not a crash");
+assert.strictEqual(Scoring.getHeroBaseline(bracketHeroBaseline, bracketHeroBaselineBrackets, "Y", "divine_immortal"), 0.5, "a hero missing from heroBaselineBrackets entirely -> neutral 0.5");
+
+const bracketRoleStats = {
+  X: { "1": { winrate: 0.55, pickrate: 0.2, byBracket: { divine_immortal: { winrate: 0.4, pickrate: 0.01 } } } },
+};
+assert.strictEqual(Scoring.roleFit("X", "1", bracketRoleStats, 0.001, 0.2, undefined), Scoring.roleFit("X", "1", bracketRoleStats, 0.001, 0.2, "all"), "bracket omitted and bracket 'all' must agree");
+assert.strictEqual(Scoring.roleFit("X", "1", bracketRoleStats, 0.001, 0.2, "all"), Scoring.roleFit("X", "1", bracketRoleStats, 0.001, 0.2), "'all' must reproduce the pre-bracket-toggle (no 6th arg) result exactly");
+assert.strictEqual(Scoring.roleFit("X", "1", bracketRoleStats, 0.001, 0.2, "pro"), Scoring.roleFit("X", "1", bracketRoleStats, 0.001, 0.2, "all"), "'pro' has no role-stats source -- falls back to 'All', per spec (Pro view is hero_baseline-only)");
+assert.notStrictEqual(Scoring.roleFit("X", "1", bracketRoleStats, 0.001, 0.2, "divine_immortal"), Scoring.roleFit("X", "1", bracketRoleStats, 0.001, 0.2, "all"), "a real bracket with its own data should score differently than All");
+assert.strictEqual(Scoring.roleFit("X", "1", bracketRoleStats, 0.001, 0.2, "herald_guardian"), null, "no byBracket entry for this bracket -- excluded, same treatment as near-zero pickrate (not a silent fallback to All)");
+
 console.log("all scoring tests passed");

@@ -37,6 +37,17 @@
       <button class="mode-btn" data-mode="enemy">Enemy Team</button>
       <button class="mode-btn" data-mode="banned">Ban</button>
     </div>
+    <div id="bracket-selector">
+      <span class="label">Bracket:</span>
+      <select id="bracket-select" title="Which rank bracket hero_baseline and role fit are computed against. Doesn't affect counter/synergy matchups.">
+        <option value="all">All</option>
+        <option value="herald_guardian">Herald&ndash;Guardian</option>
+        <option value="crusader_archon">Crusader&ndash;Archon</option>
+        <option value="legend_ancient">Legend&ndash;Ancient</option>
+        <option value="divine_immortal">Divine&ndash;Immortal</option>
+        <option value="pro">Pro</option>
+      </select>
+    </div>
     <input id="search" type="search" placeholder="Search heroes..." autocomplete="off" />
     <button id="reset-btn" title="Clear Your Team, Enemy Team, and Bans">Reset</button>
     <button id="comp-toggle-btn" class="icon-btn" title="Show/hide the Team Composition panel (display-only, doesn't affect scoring)" aria-pressed="false">&#9776;</button>
