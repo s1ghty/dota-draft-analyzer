@@ -220,26 +220,6 @@ function teamComposition(teamIds, heroes) {
   }));
 }
 
-// Category keys with zero coverage on the team right now.
-function compositionGaps(teamIds, heroes) {
-  return teamComposition(teamIds, heroes)
-    .filter((c) => !c.present)
-    .map((c) => c.key);
-}
-
-// 0..1: fraction of the team's *current* gaps this candidate would fill.
-// No gaps (team covers everything already, or has no picks yet) -> 0, so
-// this never distorts scoring before there's an actual hole to point at.
-function compositionFit(candidateId, gapKeys, heroes) {
-  if (!gapKeys || gapKeys.length === 0) return 0;
-  const hero = heroes[candidateId];
-  if (!hero) return 0;
-  const filled = COMPOSITION_CATEGORIES.filter(
-    (cat) => gapKeys.includes(cat.key) && heroHasCategory(hero, cat)
-  ).length;
-  return filled / gapKeys.length;
-}
-
 // Every §3.5 component is centered at a neutral value and expressed as "how
 // far from neutral" before it reaches here: counter_score/counteredByEnemy
 // are already win-rate deltas (neutral 0), synergy_score/hero_baseline are
@@ -263,15 +243,13 @@ function finalScore(parts, weights) {
   const baselineNorm = normalizeFromNeutral(parts.heroBaseline, 0.5);
   const counteredByNorm = normalizeFromNeutral(parts.counteredByEnemy, 0);
   const playerAffinityVal = parts.playerAffinity || 0; // already 0..1-shaped
-  const compositionFitVal = parts.compositionFit || 0; // already 0..1-shaped
   return (
     w.counter_score * counterNorm +
     w.synergy_score * synergyNorm +
     w.role_fit * roleFitNorm +
     w.hero_baseline * baselineNorm +
     -w.countered_by_enemy_penalty * counteredByNorm +
-    (w.player_affinity || 0) * playerAffinityVal +
-    (w.composition_fit || 0) * compositionFitVal
+    (w.player_affinity || 0) * playerAffinityVal
   );
 }
 
@@ -304,7 +282,6 @@ function scoreCandidate(candidateId, ctx, threatWeights, data) {
     data.weights.player_affinity_games_floor,
     data.weights.player_affinity_games_cap
   );
-  const compositionFitVal = compositionFit(candidateId, ctx.compositionGaps, data.heroes);
 
   const final = finalScore(
     {
@@ -314,7 +291,6 @@ function scoreCandidate(candidateId, ctx, threatWeights, data) {
       heroBaseline: heroBaselineVal,
       counteredByEnemy: counteredByEnemyVal,
       playerAffinity: playerAffinityVal,
-      compositionFit: compositionFitVal,
     },
     data.weights
   );
@@ -361,7 +337,6 @@ function scoreCandidate(candidateId, ctx, threatWeights, data) {
     heroBaseline: heroBaselineVal,
     counteredByEnemy: counteredByEnemyVal,
     playerAffinity: playerAffinityVal,
-    compositionFit: compositionFitVal,
     playerHeroStat: (data.playerHeroStats && data.playerHeroStats[candidateId]) || null,
     bestCounter,
     bestSynergy,
@@ -394,13 +369,10 @@ function rankCandidates(ctx, data) {
     return stats ? Math.max(max, stats.pickrate) : max;
   }, 0);
 
-  // computed once per call, not per-candidate -- only depends on Your Team.
-  const gapKeys = compositionGaps(ctx.yourTeamIds, data.heroes);
-
   const scored = [];
   for (const hid of allHeroIds) {
     if (excluded.has(hid)) continue;
-    const result = scoreCandidate(hid, { ...ctx, maxPickrateAtRole, compositionGaps: gapKeys }, threat.normalized, data);
+    const result = scoreCandidate(hid, { ...ctx, maxPickrateAtRole }, threat.normalized, data);
     if (result) scored.push(result);
   }
 
@@ -447,8 +419,6 @@ const api = {
   COMPOSITION_CATEGORIES,
   heroHasCategory,
   teamComposition,
-  compositionGaps,
-  compositionFit,
   normalizeFromNeutral,
   finalScore,
   scoreCandidate,

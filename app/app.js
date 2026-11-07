@@ -92,6 +92,25 @@ const BUILD_PHASES = [
   ["late_game_items", "Late"],
 ];
 
+// display-only settings toggle, persisted per-browser -- off by default
+// since the Team Composition panel doesn't feed into scoring, it's extra
+// screen real estate someone has to opt into.
+const SHOW_COMPOSITION_KEY = "dota-draft-analyzer:show-composition";
+function loadShowComposition() {
+  try {
+    return localStorage.getItem(SHOW_COMPOSITION_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+function saveShowComposition(val) {
+  try {
+    localStorage.setItem(SHOW_COMPOSITION_KEY, val ? "1" : "0");
+  } catch {
+    // ignore -- worst case it just resets to default next load
+  }
+}
+
 const state = {
   role: "1",
   addMode: "yours",
@@ -101,6 +120,7 @@ const state = {
   pickOrder: [], // hero ids, in the order they were picked (yours + enemy only)
   myHeroId: null, // which Your Team hero the Suggested Build panel targets; null = most recent pick
   search: "",
+  showComposition: loadShowComposition(),
 };
 
 let data = null; // filled in by loadData()
@@ -357,11 +377,11 @@ function renderChips(listName, containerId, countId) {
 
 // Team composition table: what each side has/lacks across the categories
 // Scoring.COMPOSITION_CATEGORIES tracks (disable, initiation, save/heal,
-// push/wave clear, magic/physical damage, pick-off). A gap on Your Team is
-// also what Scoring.compositionFit rewards candidates for filling -- see
-// weights.json's final_score.composition_fit.
+// push/wave clear, magic/physical damage, pick-off). Display-only -- it
+// does not feed into scoring (removed 2026-11, see CLAUDE.md/commit log).
 function renderComposition() {
   const el = document.getElementById("comp-table");
+  if (!state.showComposition) return;
   if (state.yourTeam.length === 0 && state.enemyTeam.length === 0) {
     el.className = "empty";
     el.textContent = "Add heroes to either team to see composition.";
@@ -487,7 +507,6 @@ function candidateBreakdownHtml(c) {
     ["Role fit", c.roleFit.toFixed(2), w.role_fit],
     ["Baseline win rate", `${Math.round(c.heroBaseline * 100)}%`, w.hero_baseline],
     ["Countered by enemy", `${c.counteredByEnemy >= 0 ? "+" : ""}${Math.round(c.counteredByEnemy * 100)}%`, -w.countered_by_enemy_penalty],
-    ["Fills team gap", `${Math.round(c.compositionFit * 100)}%`, w.composition_fit || 0],
     ["You play this hero", `${Math.round(c.playerAffinity * 100)}%`, w.player_affinity || 0],
   ];
   const componentHtml = componentRows
@@ -820,7 +839,19 @@ function clearProfile() {
   renderAll();
 }
 
+function applyCompositionVisibility() {
+  document.getElementById("comp-box").classList.toggle("hidden", !state.showComposition);
+  document.getElementById("comp-toggle-btn").setAttribute("aria-pressed", String(state.showComposition));
+}
+
 function wireControls() {
+  document.getElementById("comp-toggle-btn").addEventListener("click", () => {
+    state.showComposition = !state.showComposition;
+    saveShowComposition(state.showComposition);
+    applyCompositionVisibility();
+    renderComposition();
+  });
+
   document.getElementById("help-btn").addEventListener("click", openHelp);
   document.getElementById("help-close").addEventListener("click", closeHelp);
   document.getElementById("help-overlay").addEventListener("click", (e) => {
@@ -956,6 +987,7 @@ function renderMeta() {
 
 async function main() {
   wireControls();
+  applyCompositionVisibility();
   try {
     await loadData();
   } catch (err) {

@@ -141,7 +141,6 @@ const breakdownCtx = {
   bannedIds: [],
   pickOrderIndexByHero: {},
   maxPickrateAtRole: 0.1,
-  compositionGaps: [],
 };
 const breakdownResult = Scoring.scoreCandidate("X", breakdownCtx, { E1: 1 }, breakdownData);
 assert.deepStrictEqual(
@@ -187,17 +186,14 @@ assert.strictEqual(Scoring.playerHeroAffinity("X", playerHeroStats, 20, 40), 1, 
 assert.strictEqual(Scoring.playerHeroAffinity("Z", playerHeroStats, 20, 100), 0, "a hero with no entry at all (never played) is 0");
 assert.strictEqual(Scoring.playerHeroAffinity("X", null, 20, 100), 0, "missing playerHeroStats entirely (the default, unconfigured state) must be 0, not throw");
 
-// --- team composition: gaps and the gap-fill bonus. 7 categories total
-// (disable, initiation, save_heal, push_waveclear, magic_damage,
-// physical_damage, pick_off) -- Push and Wave Clear deliberately collapse
-// into one, see scoring.js's COMPOSITION_CATEGORIES comment.
+// --- team composition: display-only (Scoring.teamComposition), does NOT
+// feed into scoring -- 7 categories total (disable, initiation, save_heal,
+// push_waveclear, magic_damage, physical_damage, pick_off); Push and Wave
+// Clear deliberately collapse into one, see scoring.js's
+// COMPOSITION_CATEGORIES comment.
 const compHeroes = {
   Disabler: { tags: ["disable-heavy"], threat_profile: [] },
   Initiator: { tags: ["lockdown-combo"], threat_profile: [] },
-  Healer: { tags: ["healing-heavy"], threat_profile: [] },
-  Pusher: { tags: [], threat_profile: ["split-pusher"] },
-  MagicNuker: { tags: ["magic-burst"], threat_profile: [] },
-  Plain: { tags: [], threat_profile: [] },
 };
 
 const compositionWithDisabler = Scoring.teamComposition(["Disabler"], compHeroes);
@@ -211,52 +207,37 @@ assert.strictEqual(
   false,
   "no lockdown-combo hero on the team -- initiation should read as absent"
 );
+assert.strictEqual(Scoring.teamComposition([], compHeroes).every((c) => !c.present), true, "an empty team covers nothing");
 
-const gapsWithDisabler = Scoring.compositionGaps(["Disabler"], compHeroes);
-assert.ok(!gapsWithDisabler.includes("disable"), "disable is covered, shouldn't be a gap");
-assert.strictEqual(gapsWithDisabler.length, 6, "the other 6 categories should all still be gaps");
-
-assert.strictEqual(Scoring.compositionGaps([], compHeroes).length, 7, "an empty team has all 7 categories as gaps");
-assert.strictEqual(Scoring.compositionFit("Initiator", [], compHeroes), 0, "no gaps (empty gap list) -> 0, never distorts scoring before there's a real hole");
-
-const fitInitiator = Scoring.compositionFit("Initiator", gapsWithDisabler, compHeroes);
-assert.strictEqual(fitInitiator, 1 / 6, "fills exactly 1 of the 6 current gaps (initiation)");
-assert.strictEqual(Scoring.compositionFit("Plain", gapsWithDisabler, compHeroes), 0, "a hero with none of the gap tags fills nothing");
-
-// Two candidates identical in every scored dimension except one fills a real
-// gap on an otherwise-disable-less team -- it should rank above the other
-// purely from the composition_fit bonus (SPEC extension, not in SPEC.md
-// originally -- see weights.json's final_score.composition_fit).
-const compScoreHeroes = {
+// Confirms composition has no scoring effect at all: two candidates
+// identical in every dimension except one has a disable tag and the team
+// has none -- must tie exactly, not have one outrank the other.
+const noCompBiasHeroes = {
   T1: { tags: [], threat_profile: [] },
-  GapFiller: { tags: ["disable-heavy"], threat_profile: [] },
-  NoGapFill: { tags: [], threat_profile: [] },
+  HasDisable: { tags: ["disable-heavy"], threat_profile: [] },
+  NoDisable: { tags: [], threat_profile: [] },
 };
-const compMatchupMatrix = {};
-const compSynergyMatrix = {};
-const compHeroBaseline = { T1: 0.5, GapFiller: 0.5, NoGapFill: 0.5 };
-const compHeroRoleStats = {
-  GapFiller: { "1": { winrate: 0.5, pickrate: 0.1 } },
-  NoGapFill: { "1": { winrate: 0.5, pickrate: 0.1 } },
-};
-const compData = {
-  heroes: compScoreHeroes,
-  matchupMatrix: compMatchupMatrix,
-  synergyMatrix: compSynergyMatrix,
-  heroBaseline: compHeroBaseline,
-  heroRoleStats: compHeroRoleStats,
+const noCompBiasData = {
+  heroes: noCompBiasHeroes,
+  matchupMatrix: {},
+  synergyMatrix: {},
+  heroBaseline: { T1: 0.5, HasDisable: 0.5, NoDisable: 0.5 },
+  heroRoleStats: {
+    HasDisable: { "1": { winrate: 0.5, pickrate: 0.1 } },
+    NoDisable: { "1": { winrate: 0.5, pickrate: 0.1 } },
+  },
   weights,
 };
-const compCtx = {
+const noCompBiasCtx = {
   role: "1",
-  yourTeamIds: ["T1"], // no disable on the team -> "disable" is a gap
+  yourTeamIds: ["T1"],
   enemyTeamIds: [],
   bannedIds: [],
   pickOrderIndexByHero: {},
 };
-const compRanked = Scoring.rankCandidates(compCtx, compData).candidates;
-const gapFillerRank = compRanked.findIndex((c) => c.heroId === "GapFiller");
-const noGapFillRank = compRanked.findIndex((c) => c.heroId === "NoGapFill");
-assert.ok(gapFillerRank < noGapFillRank, "identical candidates except one fills the team's only composition gap -- it should rank higher");
+const noCompBiasRanked = Scoring.rankCandidates(noCompBiasCtx, noCompBiasData).candidates;
+const hasDisable = noCompBiasRanked.find((c) => c.heroId === "HasDisable");
+const noDisable = noCompBiasRanked.find((c) => c.heroId === "NoDisable");
+assert.strictEqual(hasDisable.finalScore, noDisable.finalScore, "composition must have zero effect on scoring -- identical candidates should score identically regardless of tags");
 
 console.log("all scoring tests passed");

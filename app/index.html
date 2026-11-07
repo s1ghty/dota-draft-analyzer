@@ -39,6 +39,7 @@
     </div>
     <input id="search" type="search" placeholder="Search heroes..." autocomplete="off" />
     <button id="reset-btn" title="Clear Your Team, Enemy Team, and Bans">Reset</button>
+    <button id="comp-toggle-btn" class="icon-btn" title="Show/hide the Team Composition panel (display-only, doesn't affect scoring)" aria-pressed="false">&#9776;</button>
     <button id="profile-btn" class="icon-btn" title="Your profile (personal hero-affinity bonus)" aria-haspopup="dialog" aria-controls="profile-overlay">&#128100;</button>
     <button id="help-btn" class="icon-btn" title="Help" aria-haspopup="dialog" aria-controls="help-overlay">?</button>
   </header>
@@ -173,7 +174,7 @@
         <h2>Banned</h2>
         <div class="chip-row" id="banned-chips"></div>
       </div>
-      <div class="team-box" id="comp-box">
+      <div class="team-box hidden" id="comp-box">
         <h2>Team Composition</h2>
         <div id="comp-table"></div>
       </div>

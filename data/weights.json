@@ -5,8 +5,7 @@
     "role_fit": 0.20,
     "hero_baseline": 0.10,
     "countered_by_enemy_penalty": 0.10,
-    "player_affinity": 0.05,
-    "composition_fit": 0.06
+    "player_affinity": 0.05
   },
   "base_threat": {
     "hero_baseline": 0.4,
