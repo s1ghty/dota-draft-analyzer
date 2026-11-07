@@ -77,8 +77,8 @@
     "mid_game_items": [
       "Blink Dagger",
       "Phase Boots",
-      "Staff of Wizardry",
       "Ogre Axe",
+      "Staff of Wizardry",
       "Mithril Hammer"
     ],
     "start_game_items": [
@@ -623,8 +623,8 @@
       "Iron Branch",
       "Tango",
       "Observer Ward",
-      "Faerie Fire",
-      "Circlet"
+      "Circlet",
+      "Faerie Fire"
     ]
   },
   "121": {
@@ -847,8 +847,8 @@
     "late_game_items": [
       "Skull Basher",
       "Black King Bar",
-      "Assault Cuirass",
       "Hyperstone",
+      "Assault Cuirass",
       "Sange"
     ],
     "mid_game_items": [
@@ -856,7 +856,7 @@
       "Broadsword",
       "Echo Sabre",
       "Mithril Hammer",
-      "Diadem"
+      "Aghanim's Shard"
     ],
     "start_game_items": [
       "Iron Branch",
@@ -907,9 +907,9 @@
     "late_game_items": [
       "Aghanim's Scepter",
       "Shiva's Guard",
-      "Black King Bar",
       "Reaver",
-      "Soul Booster"
+      "Black King Bar",
+      "Heart of Tarrasque"
     ],
     "mid_game_items": [
       "Ogre Axe",
@@ -998,14 +998,14 @@
       "Aghanim's Scepter",
       "Demon Edge",
       "Crystalys",
-      "Blink Dagger",
-      "Daedalus"
+      "Daedalus",
+      "Blink Dagger"
     ],
     "mid_game_items": [
       "Mithril Hammer",
-      "Ogre Axe",
       "Mage Slayer",
       "Desolator",
+      "Ogre Axe",
       "Blade of Alacrity"
     ],
     "start_game_items": [
@@ -1058,13 +1058,13 @@
       "Aghanim's Scepter",
       "Black King Bar",
       "Ultimate Orb",
-      "Soul Booster",
-      "Linken's Sphere"
+      "Linken's Sphere",
+      "Soul Booster"
     ],
     "mid_game_items": [
       "Ogre Axe",
-      "Staff of Wizardry",
       "Kaya",
+      "Staff of Wizardry",
       "Aghanim's Shard",
       "Sange"
     ],
@@ -1089,7 +1089,7 @@
       "Shiva's Guard",
       "Skull Basher",
       "Aghanim's Scepter",
-      "Sange"
+      "Refresher Orb"
     ],
     "mid_game_items": [
       "Ogre Axe",
@@ -1268,8 +1268,8 @@
       "Blink Dagger",
       "Demon Edge",
       "Black King Bar",
-      "Crystalys",
-      "Daedalus"
+      "Consecrated Wraps",
+      "Crystalys"
     ],
     "mid_game_items": [
       "Essence Distiller",
@@ -1537,7 +1537,7 @@
       "Force Staff",
       "Solar Crest",
       "Aeon Disk",
-      "Consecrated Wraps"
+      "Vladmir's Offering"
     ],
     "mid_game_items": [
       "Arcane Boots",
@@ -1618,8 +1618,8 @@
       "Boots of Speed",
       "Drum of Endurance",
       "Tranquil Boots",
-      "Null Talisman",
-      "Helm of Iron Will"
+      "Helm of Iron Will",
+      "Null Talisman"
     ],
     "late_game_items": [
       "Aghanim's Scepter",
@@ -1709,7 +1709,7 @@
       "Boots of Travel",
       "Bracer",
       "Null Talisman",
-      "Talisman of Evasion"
+      "Sacred Relic"
     ],
     "late_game_items": [
       "Heart of Tarrasque",
@@ -1720,15 +1720,15 @@
     ],
     "mid_game_items": [
       "Radiance",
-      "Sacred Relic",
       "Aghanim's Shard",
       "Talisman of Evasion",
+      "Sacred Relic",
       "Boots of Travel"
     ],
     "start_game_items": [
       "Iron Branch",
-      "Circlet",
       "Faerie Fire",
+      "Circlet",
       "Tango",
       "Magic Stick"
     ]
@@ -1862,9 +1862,9 @@
     "late_game_items": [
       "Force Staff",
       "Aghanim's Scepter",
-      "Blink Dagger",
       "Pipe of Insight",
-      "Glimmer Cape"
+      "Glimmer Cape",
+      "Blink Dagger"
     ],
     "mid_game_items": [
       "Arcane Boots",
@@ -2818,8 +2818,8 @@
     "late_game_items": [
       "Black King Bar",
       "Yasha and Kaya",
-      "Refresher Orb",
       "Yasha",
+      "Refresher Orb",
       "Soul Booster"
     ],
     "mid_game_items": [
@@ -3530,7 +3530,7 @@
       "Helm of the Dominator",
       "Soul Ring",
       "Staff of Wizardry",
-      "Ogre Axe"
+      "Bottle"
     ],
     "late_game_items": [
       "Hyperstone",
@@ -3782,8 +3782,8 @@
     "mid_game_items": [
       "Aghanim's Shard",
       "Ogre Axe",
-      "Blade of Alacrity",
       "Platemail",
+      "Blade of Alacrity",
       "Sange"
     ],
     "start_game_items": [
