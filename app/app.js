@@ -468,6 +468,73 @@ function sampleSizeHtml(games) {
   return ` <span class="sample-size" title="This matchup number is backed by ${games} real recorded games in the data -- more games means more confidence in it.">(${games} games on record)</span>`;
 }
 
+// shared by sampleSizeHtml's callers and the candidate breakdown below --
+// "?" instead of a count when the underlying data is the old bare-number
+// shape (no games tracked at all).
+function gamesLabel(games) {
+  return games === null || games === undefined ? "? games" : `${games} game${games === 1 ? "" : "s"}`;
+}
+
+// Per-component score breakdown shown when a candidate row is expanded
+// (click to toggle). Every enemy's counter delta and every ally's synergy
+// winrate, each with its real sample size -- not just the single "best"
+// one the one-line reason above already shows.
+function candidateBreakdownHtml(c) {
+  const w = data.weights.final_score;
+  const componentRows = [
+    ["Counter", `${c.counterScore >= 0 ? "+" : ""}${Math.round(c.counterScore * 100)}%`, w.counter_score],
+    ["Synergy", `${Math.round(c.synergyScore * 100)}%`, w.synergy_score],
+    ["Role fit", c.roleFit.toFixed(2), w.role_fit],
+    ["Baseline win rate", `${Math.round(c.heroBaseline * 100)}%`, w.hero_baseline],
+    ["Countered by enemy", `${c.counteredByEnemy >= 0 ? "+" : ""}${Math.round(c.counteredByEnemy * 100)}%`, -w.countered_by_enemy_penalty],
+    ["Fills team gap", `${Math.round(c.compositionFit * 100)}%`, w.composition_fit || 0],
+    ["You play this hero", `${Math.round(c.playerAffinity * 100)}%`, w.player_affinity || 0],
+  ];
+  const componentHtml = componentRows
+    .map(([label, val, weight]) => `
+      <div class="detail-row">
+        <span>${label}</span>
+        <span>${val} <span class="detail-weight">(weight ${Math.round(weight * 100)}%)</span></span>
+      </div>`)
+    .join("");
+
+  const counterHtml = c.counterBreakdown.length
+    ? c.counterBreakdown
+        .map((e) => `
+          <div class="detail-row">
+            <span>vs ${heroName(e.heroId)}</span>
+            <span>${e.delta >= 0 ? "+" : ""}${Math.round(e.delta * 100)}% <span class="detail-weight">(${gamesLabel(e.games)})</span></span>
+          </div>`)
+        .join("")
+    : `<div class="detail-row detail-empty">No enemies drafted yet.</div>`;
+
+  const synergyHtml = c.synergyBreakdown.length
+    ? c.synergyBreakdown
+        .map((a) => `
+          <div class="detail-row">
+            <span>with ${heroName(a.heroId)}</span>
+            <span>${Math.round(a.winrate * 100)}% <span class="detail-weight">(${gamesLabel(a.games)})</span></span>
+          </div>`)
+        .join("")
+    : `<div class="detail-row detail-empty">No teammates drafted yet.</div>`;
+
+  return `
+    <div class="candidate-detail">
+      <div class="detail-section">
+        <div class="detail-title">Score components</div>
+        ${componentHtml}
+      </div>
+      <div class="detail-section">
+        <div class="detail-title">Counter, vs each enemy</div>
+        ${counterHtml}
+      </div>
+      <div class="detail-section">
+        <div class="detail-title">Synergy, with each ally</div>
+        ${synergyHtml}
+      </div>
+    </div>`;
+}
+
 // shared item-pill renderer: icon when items.json has a matching entry,
 // text-only pill otherwise (item_counters.json sometimes names a category
 // like "Armor items (Vanguard/Solar Crest)" rather than a real item).
@@ -671,7 +738,9 @@ function renderCandidates(candidates, threat) {
         <div class="reason">${reason}</div>
         <div class="score-bar"><div class="score-bar-fill" style="width:${barPct}%"></div></div>
         ${noteHtml}
+        ${candidateBreakdownHtml(c)}
       </div>`;
+    li.addEventListener("click", () => li.classList.toggle("expanded"));
     list.appendChild(li);
   });
 }

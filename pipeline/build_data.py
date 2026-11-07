@@ -377,8 +377,12 @@ def build_synergy_matrix():
         raw_wr = wins / games
         # same small-sample shrinkage as matchup_matrix, toward the neutral 0.5 midpoint
         shrunk_wr = round(0.5 + (raw_wr - 0.5) * games / (games + SHRINKAGE_K), 4)
-        matrix.setdefault(a, {})[b] = shrunk_wr
-        matrix.setdefault(b, {})[a] = shrunk_wr
+        # {winrate, games} -- mirrors matchup_matrix.json's {delta, games} shape
+        # (scoring.js's getSynergy/getSynergyGames read either this or the old
+        # bare-number shape, same backward-compat pattern as getMatchup).
+        cell = {"winrate": shrunk_wr, "games": games}
+        matrix.setdefault(a, {})[b] = cell
+        matrix.setdefault(b, {})[a] = cell
     return matrix
 
 

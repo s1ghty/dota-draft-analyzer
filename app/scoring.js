@@ -19,7 +19,17 @@ function getMatchupGames(matchupMatrix, a, b) {
 
 function getSynergy(synergyMatrix, a, b) {
   const row = synergyMatrix[a];
-  return row && row[b] !== undefined ? row[b] : 0.5; // neutral: no data = coinflip
+  const cell = row && row[b] !== undefined ? row[b] : 0.5; // neutral: no data = coinflip
+  // synergy_matrix.json entries are either a bare shrunk-winrate number (old
+  // pipeline output, still committed) or {winrate, games} (new) -- same
+  // backward-compat shape as matchup_matrix.json's getMatchup/getMatchupGames.
+  return typeof cell === "object" ? cell.winrate : cell;
+}
+
+function getSynergyGames(synergyMatrix, a, b) {
+  const row = synergyMatrix[a];
+  const cell = row && row[b] !== undefined ? row[b] : 0;
+  return typeof cell === "object" ? cell.games : null; // null = old-format data, sample size unknown
 }
 
 // Does a curated, wiki-sourced counters_enemy relationship exist for
@@ -320,8 +330,27 @@ function scoreCandidate(candidateId, ctx, threatWeights, data) {
   }, null);
   const bestSynergy = ctx.yourTeamIds.reduce((best, t) => {
     const v = getSynergy(data.synergyMatrix, candidateId, t);
-    return !best || v > best.value ? { heroId: t, value: v } : best;
+    if (!best || v > best.value) {
+      return { heroId: t, value: v, games: getSynergyGames(data.synergyMatrix, candidateId, t) };
+    }
+    return best;
   }, null);
+
+  // full per-enemy/per-ally breakdown (not just the "best" one above) for
+  // the UI's expandable score-breakdown view, each with its real sample
+  // size where known -- a thin matchup/synergy sample should read
+  // differently from a well-supported one, not just as a bare number.
+  const counterBreakdown = ctx.enemyTeamIds.map((e) => ({
+    heroId: e,
+    delta: getMatchup(data.matchupMatrix, candidateId, e),
+    games: getMatchupGames(data.matchupMatrix, candidateId, e),
+    threatWeight: threatWeights[e] || 0,
+  }));
+  const synergyBreakdown = ctx.yourTeamIds.map((t) => ({
+    heroId: t,
+    winrate: getSynergy(data.synergyMatrix, candidateId, t),
+    games: getSynergyGames(data.synergyMatrix, candidateId, t),
+  }));
 
   return {
     heroId: candidateId,
@@ -336,6 +365,8 @@ function scoreCandidate(candidateId, ctx, threatWeights, data) {
     playerHeroStat: (data.playerHeroStats && data.playerHeroStats[candidateId]) || null,
     bestCounter,
     bestSynergy,
+    counterBreakdown,
+    synergyBreakdown,
   };
 }
 
@@ -401,6 +432,7 @@ const api = {
   getMatchup,
   getMatchupGames,
   getSynergy,
+  getSynergyGames,
   hasKitCounter,
   counterScore,
   synergyScore,

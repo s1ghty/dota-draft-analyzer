@@ -112,6 +112,49 @@ assert.strictEqual(Scoring.getMatchup(mixedMatrix, "A", "C"), 0.08, "getMatchup 
 assert.strictEqual(Scoring.getMatchupGames(mixedMatrix, "A", "B"), null, "old bare-number shape has no known sample size");
 assert.strictEqual(Scoring.getMatchupGames(mixedMatrix, "A", "C"), 40, "getMatchupGames should read games from new shape");
 
+// --- synergy_matrix.json cells: same old-bare-number vs new-{winrate,games}
+// split as matchup_matrix.json (getSynergyGames only knows the sample size
+// for the new shape -- the pipeline never tracked synergy games at all
+// until now, so existing committed data is bare numbers).
+const mixedSynergy = { A: { B: 0.55, C: { winrate: 0.6, games: 25 } } };
+assert.strictEqual(Scoring.getSynergy(mixedSynergy, "A", "B"), 0.55, "getSynergy should read old bare-number shape");
+assert.strictEqual(Scoring.getSynergy(mixedSynergy, "A", "C"), 0.6, "getSynergy should read new {winrate,games} shape");
+assert.strictEqual(Scoring.getSynergyGames(mixedSynergy, "A", "B"), null, "old bare-number shape has no known sample size");
+assert.strictEqual(Scoring.getSynergyGames(mixedSynergy, "A", "C"), 25, "getSynergyGames should read games from new shape");
+assert.strictEqual(Scoring.getSynergy(mixedSynergy, "A", "Z"), 0.5, "no data for a pair -> neutral 0.5 (coinflip), not a crash");
+
+// --- scoreCandidate's full per-component breakdown (feature: click a
+// candidate to expand per-enemy counter / per-ally synergy, each with its
+// games-played sample size).
+const breakdownData = {
+  heroes: { X: { tags: [], threat_profile: [] }, E1: {}, T1: {} },
+  matchupMatrix: { X: { E1: { delta: 0.1, games: 50 } } },
+  synergyMatrix: { X: { T1: { winrate: 0.58, games: 30 } } },
+  heroBaseline: { X: 0.5 },
+  heroRoleStats: { X: { "1": { winrate: 0.5, pickrate: 0.1 } } },
+  weights,
+};
+const breakdownCtx = {
+  role: "1",
+  yourTeamIds: ["T1"],
+  enemyTeamIds: ["E1"],
+  bannedIds: [],
+  pickOrderIndexByHero: {},
+  maxPickrateAtRole: 0.1,
+  compositionGaps: [],
+};
+const breakdownResult = Scoring.scoreCandidate("X", breakdownCtx, { E1: 1 }, breakdownData);
+assert.deepStrictEqual(
+  breakdownResult.counterBreakdown,
+  [{ heroId: "E1", delta: 0.1, games: 50, threatWeight: 1 }],
+  "counterBreakdown should list every enemy with its real delta and games"
+);
+assert.deepStrictEqual(
+  breakdownResult.synergyBreakdown,
+  [{ heroId: "T1", winrate: 0.58, games: 30 }],
+  "synergyBreakdown should list every ally with its real winrate and games"
+);
+
 // --- §3.5 normalization: components must be on a comparable scale before
 // weighting, so a big counter_score edge isn't swamped by a role_fit value
 // that natively swings much closer to +-1 than a shrunk matchup delta does.
