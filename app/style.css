@@ -254,6 +254,14 @@ kbd {
   overflow: hidden;
 }
 
+#data-footer {
+  flex: 0 0 auto;
+  padding: 3px 22px 6px;
+  font-size: 0.72em;
+  color: var(--text-dimmer);
+  text-align: right;
+}
+
 #hero-grid {
   flex: 1 1 auto;
   min-width: 0;

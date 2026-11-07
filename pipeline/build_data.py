@@ -578,6 +578,22 @@ def main():
     else:
         print("DOTA_ACCOUNT_ID not set -- skipping player_hero_stats.json (optional personal-affinity feature)")
 
+    # last thing written: the app's "data freshness" footer reads this
+    # instead of a hardcoded date/patch string in the HTML, so it's always
+    # accurate as of whenever this script last actually ran.
+    try:
+        patch = get_current_patch()
+        meta = {
+            "last_refreshed": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d"),
+            "patch_name": patch["name"] if patch else None,
+        }
+        path = os.path.join(DATA_DIR, "meta.json")
+        with open(path, "w") as f:
+            json.dump(meta, f, indent=2, sort_keys=True)
+        print(f"wrote {path} ({meta['last_refreshed']}, patch {meta['patch_name']})")
+    except (urllib.error.URLError, TimeoutError) as e:
+        print(f"  meta.json FAILED to fetch current patch ({e}) -- leaving unset")
+
     print("done")
 
 

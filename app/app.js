@@ -27,6 +27,9 @@ const DATA_FILES = {
 // for anyone who hasn't configured that -- must not break the app.
 const OPTIONAL_DATA_FILES = {
   playerHeroStats: "../data/player_hero_stats.json",
+  // written by the pipeline's last step (build_data.py) -- missing/404 just
+  // means the pipeline hasn't been re-run since meta.json was added.
+  meta: "../data/meta.json",
 };
 
 // ---- personal profile (live, per-browser override of playerHeroStats) ----
@@ -867,6 +870,21 @@ function wireControls() {
   });
 }
 
+// static for the whole session (meta.json is written once per pipeline run,
+// not per draft-state change) -- rendered once here rather than from
+// renderAll(). Missing/empty meta.json (pipeline hasn't been re-run since
+// this was added) just leaves the footer blank, not broken.
+function renderMeta() {
+  const el = document.getElementById("data-footer");
+  const meta = data.meta;
+  if (!meta || !meta.last_refreshed) {
+    el.textContent = "";
+    return;
+  }
+  const patchPart = meta.patch_name ? ` &middot; patch ${meta.patch_name}` : "";
+  el.innerHTML = `Data last refreshed ${meta.last_refreshed}${patchPart}`;
+}
+
 async function main() {
   wireControls();
   try {
@@ -877,6 +895,7 @@ async function main() {
     return;
   }
   renderAll();
+  renderMeta();
 }
 
 main();
